@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace 'com.android.exemple.planapp'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.android.exemple.planapp"
-        minSdk 24
-        targetSdk 32
+        minSdk 26
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -84,6 +84,15 @@ dependencies {
     def accompanist_version = '0.11.0'
     implementation "com.google.accompanist:accompanist-coil:$accompanist_version"
     implementation "com.google.accompanist:accompanist-flowlayout:$accompanist_version"
+
+    implementation "androidx.compose.material3:material3:1.0.1"
+    implementation "androidx.compose.material3:material3-window-size-class:1.0.1"
+
+    def compose_version = '1.1.0-beta01'
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
+
+    implementation 'androidx.compose.material3:material3'
+    implementation "androidx.navigation:navigation-compose:{latest_version}"
 }
 
 kapt {

@@ -6,13 +6,16 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.android.exemple.planapp.components.Screen
+import com.android.exemple.planapp.ui.screen.DetailCreateScreen
+import com.android.exemple.planapp.ui.screen.DetailScreen
+import com.android.exemple.planapp.ui.screen.InitScreen
+import com.android.exemple.planapp.ui.screen.MainCreateScreen
+import com.android.exemple.planapp.ui.screen.PropertyCreateScreen
+import com.android.exemple.planapp.ui.screen.PropertyScreen
 import com.android.exemple.planapp.ui.theme.PlanAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,15 +35,28 @@ class MainActivity : ComponentActivity() {
                         composable(route = "home") {
                             InitScreen(navController = navController)
                         }
+                        composable(route = "mainCreate") {
+                            MainCreateScreen(navController = navController)
+                        }
                         composable(
                             route = "detail"
                         ) {
                             DetailScreen(navController = navController)
                         }
                         composable(
-                            route = "create"
+                            route = "detailCreate"
                         ) {
-                            CreateScreen()
+                            DetailCreateScreen(navController = navController)
+                        }
+                        composable(
+                            route = "property"
+                        ) {
+                            PropertyScreen(navController = navController)
+                        }
+                        composable(
+                            route = "propertyCreate"
+                        ) {
+                            PropertyCreateScreen(navController = navController)
                         }
                     }
                 }

@@ -1,4 +1,4 @@
-package com.android.exemple.planapp.components
+package com.android.exemple.planapp.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -10,18 +10,23 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import com.android.exemple.planapp.MainViewModel
 import com.android.exemple.planapp.db.entities.Plan
 
 @Composable
 fun PlanRow(
     plan: Plan,
+    viewModel: MainViewModel = hiltViewModel(),
     onClickRow: (Plan) -> Unit,
-    onClickDelete: (Plan) -> Unit,
+    onClickEdit: (Plan) -> Unit,
+    navController: NavController
 ) {
     Card(
         modifier = Modifier
@@ -38,9 +43,12 @@ fun PlanRow(
             Text(text = plan.title)
             Spacer(modifier = Modifier.weight(1f))
             IconButton(
-                onClick = { onClickDelete(plan) }
+                onClick = {
+                    navController.navigate("mainCreate")
+                    viewModel.setEditingPlan(plan)
+                }
             ) {
-                Icon(imageVector = Icons.Default.Delete, contentDescription = "削除")
+                Icon(imageVector = Icons.Default.Edit, contentDescription = "編集")
             }
         }
     }
