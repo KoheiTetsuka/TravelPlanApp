@@ -1,0 +1,21 @@
+package com.android.exemple.planapp.db.dao
+
+import androidx.room.*
+import com.android.exemple.planapp.db.entities.Detail
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+interface DetailDao {
+
+    @Query("SELECT * FROM 'detail'")
+    fun getAll(): Flow<MutableList<Detail>>
+
+    @Insert
+    suspend fun insertDetail(detail: Detail)
+
+    @Update
+    suspend fun updateDetail(detail: Detail)
+
+    @Delete
+    suspend fun deleteDetail(detail: Detail)
+}
