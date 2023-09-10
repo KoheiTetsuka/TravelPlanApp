@@ -10,6 +10,9 @@ interface PlanDao {
     @Query("SELECT * FROM 'plan'")
     fun getAll(): Flow<MutableList<Plan>>
 
+    @Query("SELECT * FROM 'plan' where id=:planId limit 1")
+    fun getById(planId: Int): Flow<Plan>
+
     @Insert
     suspend fun insertPlan(plan: Plan)
 

@@ -3,6 +3,7 @@ package com.android.exemple.planapp.db.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.time.LocalDate
 import java.time.LocalTime
 
 @Entity(tableName = "detail")
@@ -14,6 +15,9 @@ data class Detail(
 
     @ColumnInfo(name = "title")
     val title: String,
+
+    @ColumnInfo(name = "date")
+    val date: LocalDate?,
 
     @ColumnInfo(name = "start_time")
     var startTime: LocalTime?,
@@ -30,5 +34,6 @@ data class Detail(
     @ColumnInfo(name = "memo")
     val memo: String,
 
-//    val planId: Int,
+    @ColumnInfo(name = "plan_id")
+    val planId: Int,
 )

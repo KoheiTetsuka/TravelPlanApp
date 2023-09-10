@@ -7,8 +7,11 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface DetailDao {
 
-    @Query("SELECT * FROM 'detail'")
+    @Query("SELECT * FROM 'detail' ORDER BY start_time ASC")
     fun getAll(): Flow<MutableList<Detail>>
+
+    @Query("SELECT * FROM 'detail' where id=:planId ORDER BY start_time ASC")
+    fun getById(planId: Int): Flow<Detail>
 
     @Insert
     suspend fun insertDetail(detail: Detail)

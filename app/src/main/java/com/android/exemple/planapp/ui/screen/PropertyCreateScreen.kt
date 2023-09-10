@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.android.exemple.planapp.PropertyViewModel
+import com.android.exemple.planapp.ui.components.BottomBar
 
 @Composable
 fun PropertyCreateScreen(
@@ -50,6 +51,9 @@ fun PropertyCreateScreen(
                 }
             )
         },
+        bottomBar = {
+            BottomBar(navController = navController)
+        }
     ) {
         Column {
             Text(

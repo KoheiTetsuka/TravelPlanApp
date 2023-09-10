@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -22,6 +23,8 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Timer
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -38,11 +41,13 @@ import java.time.LocalTime
 
 @Composable
 fun DetailCreateScreen(
+    navController: NavController,
     viewModel: DetailViewModel = hiltViewModel(),
-    navController: NavController
+    planId: Int
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -57,7 +62,6 @@ fun DetailCreateScreen(
                 actions = {
                     IconButton(onClick = {
                         viewModel.createDetail()
-                        navController.popBackStack()
                     }) {
                         Icon(Icons.Filled.Add, null)
                     }
@@ -82,8 +86,55 @@ fun DetailCreateScreen(
                 onValueChange = {
                     viewModel.event(DetailViewModel.Event.TitleChanged(it))
                 },
-                label = { Text("例:成田空港から沖縄へ出発") }
+                label = { Text("例:成田空港から沖縄へ出発") },
+                singleLine = true,
+                isError = uiState.titleErrorMessage.isNotEmpty(),
+                trailingIcon = {
+                    if (uiState.titleErrorMessage.isEmpty()) return@OutlinedTextField
+                    Icon(Icons.Filled.Error, "error", tint = MaterialTheme.colors.error)
+                },
             )
+            if (uiState.titleErrorMessage.isNotEmpty()) {
+                Text(
+                    text = "タイトルの入力は必須です。",
+                    color = MaterialTheme.colors.error
+                )
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(1f)
+                    .background(
+                        color = Color(0xffcccccc)
+                    ),
+                text = "日付",
+            )
+            Row(
+                modifier = Modifier
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                OutlinedTextField(
+                    modifier = Modifier.weight(1f),
+                    value = uiState.date?.toString() ?: "",
+                    onValueChange = {
+
+                    },
+                )
+                Spacer(modifier = Modifier.width(15.dp))
+                IconButton(
+                    modifier = Modifier.width(30.dp),
+                    onClick = {
+                        showDatePicker(
+                            context,
+                            onDecideDate = { date ->
+                                viewModel.event(DetailViewModel.Event.DateChanged(date))
+                            },
+                        )
+                    }) {
+                    Icon(imageVector = Icons.Default.DateRange, contentDescription = "開始日")
+                }
+            }
             Spacer(modifier = Modifier.height(10.dp))
             Text(
                 modifier = Modifier
@@ -103,7 +154,12 @@ fun DetailCreateScreen(
                     value = uiState.startTime?.toString() ?: "",
                     onValueChange = {
 
-                    }
+                    },
+                    isError = uiState.timeErrorMessage.isNotEmpty(),
+                    trailingIcon = {
+                        if (uiState.timeErrorMessage.isEmpty()) return@OutlinedTextField
+                        Icon(Icons.Filled.Error, "error", tint = MaterialTheme.colors.error)
+                    },
                 )
                 Spacer(modifier = Modifier.width(15.dp))
                 IconButton(
@@ -138,7 +194,12 @@ fun DetailCreateScreen(
                     value = uiState.endTime?.toString() ?: "",
                     onValueChange = {
 
-                    }
+                    },
+                    isError = uiState.timeErrorMessage.isNotEmpty(),
+                    trailingIcon = {
+                        if (uiState.timeErrorMessage.isEmpty()) return@OutlinedTextField
+                        Icon(Icons.Filled.Error, "error", tint = MaterialTheme.colors.error)
+                    },
                 )
                 Spacer(modifier = Modifier.width(15.dp))
                 IconButton(
@@ -153,6 +214,12 @@ fun DetailCreateScreen(
                     }) {
                     Icon(imageVector = Icons.Default.Timer, contentDescription = "終了時間")
                 }
+            }
+            if (uiState.timeErrorMessage.isNotEmpty()) {
+                androidx.compose.material3.Text(
+                    text = "終了時間は開始時間より後の時間を入力してください。",
+                    color = MaterialTheme.colors.error
+                )
             }
             Spacer(modifier = Modifier.height(10.dp))
             Text(
@@ -216,7 +283,6 @@ fun DetailCreateScreen(
     }
 }
 
-
 fun showTimePicker(
     context: Context,
     onDecideTime: (LocalTime) -> Unit,
@@ -227,7 +293,7 @@ fun showTimePicker(
 
     TimePickerDialog(
         context,
-        { _: TimePicker, pickedHour: Int, pickedMinute: Int, ->
+        { _: TimePicker, pickedHour: Int, pickedMinute: Int ->
             onDecideTime(
                 LocalTime.of(pickedHour, pickedMinute)
             )

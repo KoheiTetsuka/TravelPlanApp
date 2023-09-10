@@ -4,10 +4,18 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.Checkbox
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,7 +27,7 @@ fun PropertyRow(
     property: Property,
     onClickDelete: (Property) -> Unit
 ) {
-    var checkedState by remember { mutableStateOf(true) }
+    var checkedState by remember { mutableStateOf(false) }
     Card(
         modifier = Modifier
             .fillMaxWidth()

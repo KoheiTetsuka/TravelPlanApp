@@ -7,13 +7,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.android.exemple.planapp.ui.screen.DetailCreateScreen
 import com.android.exemple.planapp.ui.screen.DetailScreen
+import com.android.exemple.planapp.ui.screen.EditScreen
 import com.android.exemple.planapp.ui.screen.InitScreen
-import com.android.exemple.planapp.ui.screen.MainCreateScreen
+import com.android.exemple.planapp.ui.screen.PlanCreateScreen
 import com.android.exemple.planapp.ui.screen.PropertyCreateScreen
 import com.android.exemple.planapp.ui.screen.PropertyScreen
 import com.android.exemple.planapp.ui.theme.PlanAppTheme
@@ -35,18 +39,45 @@ class MainActivity : ComponentActivity() {
                         composable(route = "home") {
                             InitScreen(navController = navController)
                         }
-                        composable(route = "mainCreate") {
-                            MainCreateScreen(navController = navController)
+                        composable(route = "planCreate") {
+                            PlanCreateScreen(navController = navController)
                         }
                         composable(
-                            route = "detail"
-                        ) {
-                            DetailScreen(navController = navController)
+                            route = "detail/{planId}",
+                            arguments = listOf(navArgument("planId") { type = NavType.IntType })
+                        ) { backStackEntry ->
+                            val viewModel = hiltViewModel<DetailViewModel>()
+                            val planId = backStackEntry.arguments?.getInt("planId") ?: 0
+                            viewModel.setId(planId)
+                            DetailScreen(
+                                navController = navController,
+                                viewModel = viewModel,
+                                planId = planId
+                            )
                         }
                         composable(
-                            route = "detailCreate"
-                        ) {
-                            DetailCreateScreen(navController = navController)
+                            route = "detailCreate/{planId}",
+                            arguments = listOf(navArgument("planId") { type = NavType.IntType })
+                        ) { backStackEntry ->
+                            val viewModel = hiltViewModel<DetailViewModel>()
+                            val planId = backStackEntry.arguments?.getInt("planId") ?: 0
+                            DetailCreateScreen(
+                                navController = navController,
+                                viewModel = viewModel,
+                                planId = planId
+                            )
+                        }
+                        composable(
+                            route = "edit/{planId}",
+                            arguments = listOf(navArgument("planId") { type = NavType.IntType })
+                        ) { backStackEntry ->
+                            val viewModel = hiltViewModel<EditViewModel>()
+                            val planId = backStackEntry.arguments?.getInt("planId") ?: 0
+                            EditScreen(
+                                navController = navController,
+                                viewModel = viewModel,
+                                planId = planId
+                            )
                         }
                         composable(
                             route = "property"

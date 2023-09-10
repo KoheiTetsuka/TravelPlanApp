@@ -12,23 +12,24 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.android.exemple.planapp.MainViewModel
+import com.android.exemple.planapp.PlanViewModel
 import com.android.exemple.planapp.ui.components.BottomBar
 import com.android.exemple.planapp.ui.components.PlanList
 
 @Composable
 fun InitScreen(
-    viewModel: MainViewModel = hiltViewModel(),
+    viewModel: PlanViewModel = hiltViewModel(),
     navController: NavController
 ) {
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text(text = "旅行プラン") }
+            TopAppBar(
+                title = { Text(text = "旅行プラン") }
             )
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { navController.navigate("mainCreate") }
+                onClick = { navController.navigate("planCreate") }
             ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "新規作成")
             }
@@ -41,14 +42,7 @@ fun InitScreen(
         PlanList(
             plans = plans,
             navController = navController,
-            onClickRow = {
-//                viewModel.setEditingPlan(it)
-//                viewModel.isShowDialog = true
-                navController.navigate("detail")
-            },
-            onClickEdit = {
-
-            },
+            viewModel = viewModel
         )
     }
 }

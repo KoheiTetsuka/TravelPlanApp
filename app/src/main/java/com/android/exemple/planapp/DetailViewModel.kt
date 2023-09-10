@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject
 
@@ -17,6 +18,12 @@ import javax.inject.Inject
 class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : ViewModel() {
 
     val details = detailDao.getAll().distinctUntilChanged()
+    private var planId = -1
+    fun setId(planId: Int) {
+        this.planId = planId
+    }
+
+
 
     data class UiState(
         val title: String = "",
@@ -25,6 +32,9 @@ class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : Vi
         val memo: String = "",
         val startTime: LocalTime? = null,
         val endTime: LocalTime? = null,
+        val date: LocalDate? = null,
+        val titleErrorMessage: String = "",
+        val timeErrorMessage: String = "",
     )
 
     sealed class Event {
@@ -34,6 +44,7 @@ class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : Vi
         data class MemoChanged(val memo: String) : Event()
         data class StartTimeChanged(val startTime: LocalTime) : Event()
         data class EndTimeChanged(val endTime: LocalTime) : Event()
+        data class DateChanged(val date: LocalDate) : Event()
     }
 
     private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState())
@@ -77,12 +88,32 @@ class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : Vi
                         it.copy(endTime = event.endTime)
                     }
                 }
+
+                is Event.DateChanged -> {
+                    _uiState.update {
+                        it.copy(date = event.date)
+                    }
+                }
             }
         }
     }
 
     fun createDetail() {
         viewModelScope.launch {
+            if (_uiState.value.title.isEmpty()) {
+                _uiState.update {
+                    it.copy(titleErrorMessage = "タイトルは必須です。")
+                }
+                return@launch
+            }
+
+            if (!checkTimeValidate()) {
+                _uiState.update {
+                    it.copy(timeErrorMessage = "終了時間は開始時間より後の時刻を入力してください。")
+                }
+                return@launch
+            }
+
             val newDetail = Detail(
                 title = _uiState.value.title,
                 cost = _uiState.value.cost,
@@ -90,15 +121,29 @@ class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : Vi
                 memo = _uiState.value.memo,
                 startTime = _uiState.value.startTime,
                 endTime = _uiState.value.endTime,
+                date = _uiState.value.date,
+                planId = planId
             )
 
             detailDao.insertDetail(newDetail)
         }
     }
 
+
     fun deleteDetail(detail: Detail) {
         viewModelScope.launch {
             detailDao.deleteDetail(detail)
         }
+    }
+
+    /**
+     * 開始時間と終了時間を比較する。
+     * 終了時間より開始時間が遅かったらエラー
+     */
+    private fun checkTimeValidate(): Boolean {
+        val startTime = _uiState.value.startTime
+        val endTime = _uiState.value.endTime
+
+        return startTime?.isBefore(endTime) != false
     }
 }

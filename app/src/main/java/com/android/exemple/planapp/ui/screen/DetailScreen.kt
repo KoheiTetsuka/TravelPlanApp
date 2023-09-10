@@ -25,8 +25,9 @@ import com.android.exemple.planapp.ui.components.DetailList
 
 @Composable
 fun DetailScreen(
-    detailViewModel: DetailViewModel = hiltViewModel(),
-    navController: NavController
+    viewModel: DetailViewModel = hiltViewModel(),
+    navController: NavController,
+    planId: Int
 ) {
     Scaffold(
         topBar = {
@@ -43,7 +44,7 @@ fun DetailScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { navController.navigate("detailCreate") }
+                onClick = { navController.navigate("detailCreate/${planId}") }
             ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "新規作成")
             }
@@ -61,15 +62,11 @@ fun DetailScreen(
                     ),
                 text = "予定一覧",
             )
-            val details by detailViewModel.details.collectAsState(initial = emptyList())
+            val details by viewModel.details.collectAsState(initial = emptyList())
             DetailList(
                 details = details,
-                onClickRow = {
-
-                },
-                onClickDelete = {
-
-                }
+                navController = navController,
+                viewModel = viewModel
             )
         }
     }

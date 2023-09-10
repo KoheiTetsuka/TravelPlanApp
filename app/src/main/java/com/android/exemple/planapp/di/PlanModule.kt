@@ -2,7 +2,7 @@ package com.android.exemple.planapp.di
 
 import android.content.Context
 import androidx.room.Room
-import com.android.exemple.planapp.db.AppDatabase
+import com.android.exemple.planapp.db.PlanDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,14 +11,14 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-object Module {
+object PlanModule {
     @Provides
     fun provideDatabase(
         @ApplicationContext context: Context
-    ) = Room.databaseBuilder(context, AppDatabase::class.java, "plan_database").build()
+    ) = Room.databaseBuilder(context, PlanDatabase::class.java, "plan_database").build()
 
     @Provides
     fun provideDao(
-        db: AppDatabase
+        db: PlanDatabase
     ) = db.planDao()
 }

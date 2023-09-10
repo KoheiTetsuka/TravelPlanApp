@@ -9,6 +9,6 @@ import com.android.exemple.planapp.db.entities.Plan
 
 @Database(entities = [Plan::class], exportSchema = false, version = 1,)
 @TypeConverters(DateConverter::class)
-abstract class AppDatabase : RoomDatabase() {
+abstract class PlanDatabase : RoomDatabase() {
     abstract fun planDao(): PlanDao
 }

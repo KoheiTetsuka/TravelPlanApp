@@ -26,7 +26,6 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -35,23 +34,22 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.android.exemple.planapp.MainViewModel
+import com.android.exemple.planapp.PlanViewModel
 import com.android.exemple.planapp.ui.components.BottomBar
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Date
+import java.util.Locale
 
 @Composable
-fun MainCreateScreen(
-    viewModel: MainViewModel = hiltViewModel(),
+fun PlanCreateScreen(
+    viewModel: PlanViewModel = hiltViewModel(),
     navController: NavController,
 ) {
-    DisposableEffect(Unit) {
-        onDispose {
-            viewModel.resetProperties()
-        }
-    }
+
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
+    val dateFormat = DateTimeFormatter.ofPattern("yyyy年MM月dd日 (E)", Locale.JAPAN)
 
     var hasError: Boolean = uiState.titleErrorMessage.isNotEmpty()
 
@@ -96,11 +94,11 @@ fun MainCreateScreen(
                     .padding(start = 5.dp, end = 5.dp),
                 value = uiState.title,
                 onValueChange = {
-                    viewModel.event(MainViewModel.Event.TitleChanged(it))
+                    viewModel.event(PlanViewModel.Event.TitleChanged(it))
                 },
-                isError = uiState.titleErrorMessage.isNotEmpty(),
                 label = { Text("例：沖縄旅行") },
                 singleLine = true,
+                isError = uiState.titleErrorMessage.isNotEmpty(),
                 trailingIcon = {
                     if (uiState.titleErrorMessage.isEmpty()) return@OutlinedTextField
                     Icon(Icons.Filled.Error, "error", tint = MaterialTheme.colors.error)
@@ -127,7 +125,7 @@ fun MainCreateScreen(
                     .padding(start = 5.dp, end = 5.dp),
                 value = uiState.description,
                 onValueChange = {
-                    viewModel.event(MainViewModel.Event.DescriptionChanged(it))
+                    viewModel.event(PlanViewModel.Event.DescriptionChanged(it))
                 },
                 label = { Text("例：卒業旅行") }
             )
@@ -151,6 +149,11 @@ fun MainCreateScreen(
                     onValueChange = {
 
                     },
+                    isError = uiState.dateErrorMessage.isNotEmpty(),
+                    trailingIcon = {
+                        if (uiState.dateErrorMessage.isEmpty()) return@OutlinedTextField
+                        Icon(Icons.Filled.Error, "error", tint = MaterialTheme.colors.error)
+                    },
                 )
                 Spacer(modifier = Modifier.width(15.dp))
                 IconButton(
@@ -159,7 +162,7 @@ fun MainCreateScreen(
                         showDatePicker(
                             context,
                             onDecideDate = { date ->
-                                viewModel.event(MainViewModel.Event.StartDateChanged(date))
+                                viewModel.event(PlanViewModel.Event.StartDateChanged(date))
                             }
                         )
                     }) {
@@ -185,22 +188,33 @@ fun MainCreateScreen(
                         .weight(1f),
                     value = uiState.endDate?.toString() ?: "",
                     onValueChange = {
-//                            viewModel.event(MainViewModel.Event.EndDateChanged(it))
-                    }
+
+                    },
+                    isError = uiState.dateErrorMessage.isNotEmpty(),
+                    trailingIcon = {
+                        if (uiState.dateErrorMessage.isEmpty()) return@OutlinedTextField
+                        Icon(Icons.Filled.Error, "error", tint = MaterialTheme.colors.error)
+                    },
                 )
-                Spacer(modifier = Modifier.width(15.dp))
+                Spacer(modifier = Modifier.width(20.dp))
                 IconButton(
                     modifier = Modifier.width(30.dp),
                     onClick = {
                         showDatePicker(
                             context,
                             onDecideDate = { date ->
-                                viewModel.event(MainViewModel.Event.EndDateChanged(date))
+                                viewModel.event(PlanViewModel.Event.EndDateChanged(date))
                             }
                         )
                     }) {
                     Icon(imageVector = Icons.Default.DateRange, contentDescription = "終了日")
                 }
+            }
+            if (uiState.dateErrorMessage.isNotEmpty()) {
+                Text(
+                    text = "終了日は開始日より後の日付を入力してください。",
+                    color = MaterialTheme.colors.error
+                )
             }
         }
     }
