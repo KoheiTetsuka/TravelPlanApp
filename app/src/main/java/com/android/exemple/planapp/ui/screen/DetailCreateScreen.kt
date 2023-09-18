@@ -36,7 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.android.exemple.planapp.DetailViewModel
+import com.android.exemple.planapp.ui.viewModel.DetailViewModel
 import java.time.LocalTime
 
 @Composable
@@ -47,6 +47,7 @@ fun DetailCreateScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
+    viewModel.event(DetailViewModel.Event.CreateInit(planId = planId))
 
     Scaffold(
         topBar = {

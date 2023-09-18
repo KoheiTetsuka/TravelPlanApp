@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.android.exemple.planapp.PlanViewModel
+import com.android.exemple.planapp.ui.viewModel.PlanViewModel
 import com.android.exemple.planapp.db.entities.Plan
 import java.time.format.DateTimeFormatter
 import java.util.Locale

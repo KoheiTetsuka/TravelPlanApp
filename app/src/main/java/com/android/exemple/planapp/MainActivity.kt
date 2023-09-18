@@ -21,6 +21,8 @@ import com.android.exemple.planapp.ui.screen.PlanCreateScreen
 import com.android.exemple.planapp.ui.screen.PropertyCreateScreen
 import com.android.exemple.planapp.ui.screen.PropertyScreen
 import com.android.exemple.planapp.ui.theme.PlanAppTheme
+import com.android.exemple.planapp.ui.viewModel.DetailViewModel
+import com.android.exemple.planapp.ui.viewModel.EditViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -48,7 +50,6 @@ class MainActivity : ComponentActivity() {
                         ) { backStackEntry ->
                             val viewModel = hiltViewModel<DetailViewModel>()
                             val planId = backStackEntry.arguments?.getInt("planId") ?: 0
-                            viewModel.setId(planId)
                             DetailScreen(
                                 navController = navController,
                                 viewModel = viewModel,

@@ -19,9 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.android.exemple.planapp.DetailViewModel
 import com.android.exemple.planapp.ui.components.BottomBar
 import com.android.exemple.planapp.ui.components.DetailList
+import com.android.exemple.planapp.ui.viewModel.DetailViewModel
 
 @Composable
 fun DetailScreen(
@@ -29,6 +29,9 @@ fun DetailScreen(
     navController: NavController,
     planId: Int
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+    viewModel.event(DetailViewModel.Event.Init(planId = planId))
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -62,12 +65,15 @@ fun DetailScreen(
                     ),
                 text = "予定一覧",
             )
-            val details by viewModel.details.collectAsState(initial = emptyList())
-            DetailList(
-                details = details,
-                navController = navController,
-                viewModel = viewModel
-            )
+            val details = uiState.details
+            if (details != null) {
+                DetailList(
+                    details = details,
+                    navController = navController,
+                    viewModel = viewModel
+                )
+            }
         }
     }
 }
+

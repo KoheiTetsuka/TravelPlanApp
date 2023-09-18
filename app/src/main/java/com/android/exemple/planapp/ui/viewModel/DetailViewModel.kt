@@ -1,4 +1,4 @@
-package com.android.exemple.planapp
+package com.android.exemple.planapp.ui.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,7 +7,7 @@ import com.android.exemple.planapp.db.entities.Detail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -17,14 +17,6 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : ViewModel() {
 
-    val details = detailDao.getAll().distinctUntilChanged()
-    private var planId = -1
-    fun setId(planId: Int) {
-        this.planId = planId
-    }
-
-
-
     data class UiState(
         val title: String = "",
         val cost: String = "",
@@ -33,11 +25,15 @@ class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : Vi
         val startTime: LocalTime? = null,
         val endTime: LocalTime? = null,
         val date: LocalDate? = null,
+        val planId: Int = -1,
         val titleErrorMessage: String = "",
         val timeErrorMessage: String = "",
+        val details: List<Detail>? = null
     )
 
     sealed class Event {
+        data class Init(val planId: Int): Event()
+        data class CreateInit(val planId: Int): Event()
         data class TitleChanged(val title: String) : Event()
         data class CostChanged(val cost: String) : Event()
         data class UrlChanged(val url: String) : Event()
@@ -94,6 +90,24 @@ class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : Vi
                         it.copy(date = event.date)
                     }
                 }
+
+                is Event.Init -> {
+                    val details = detailDao.getById(event.planId).first()
+                    _uiState.update {
+                        it.copy(
+                            details = details,
+                            planId = event.planId
+                        )
+                    }
+                }
+
+                is Event.CreateInit -> {
+                    _uiState.update {
+                        it.copy(
+                            planId = event.planId
+                        )
+                    }
+                }
             }
         }
     }
@@ -122,7 +136,7 @@ class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : Vi
                 startTime = _uiState.value.startTime,
                 endTime = _uiState.value.endTime,
                 date = _uiState.value.date,
-                planId = planId
+                planId = _uiState.value.planId
             )
 
             detailDao.insertDetail(newDetail)

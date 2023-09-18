@@ -1,6 +1,5 @@
-package com.android.exemple.planapp
+package com.android.exemple.planapp.ui.viewModel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.exemple.planapp.db.dao.PlanDao
@@ -67,9 +66,7 @@ class EditViewModel @Inject constructor(private val planDao: PlanDao) : ViewMode
                 }
 
                 is Event.Init -> {
-                    Log.d("planId", event.planId.toString())
                     val plan = planDao.getById(event.planId).first()
-                    Log.d("plan", plan.toString())
                     _uiState.update {
                         it.copy(
                             title = plan.title,

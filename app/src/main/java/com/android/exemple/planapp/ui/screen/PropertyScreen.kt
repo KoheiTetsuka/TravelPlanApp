@@ -19,9 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.android.exemple.planapp.PropertyViewModel
 import com.android.exemple.planapp.ui.components.BottomBar
 import com.android.exemple.planapp.ui.components.PropertyList
+import com.android.exemple.planapp.ui.viewModel.PropertyViewModel
 
 @Composable
 fun PropertyScreen (

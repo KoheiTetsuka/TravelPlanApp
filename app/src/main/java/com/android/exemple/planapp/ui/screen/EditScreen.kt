@@ -33,9 +33,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.android.exemple.planapp.EditViewModel
 import com.android.exemple.planapp.db.entities.Plan
 import com.android.exemple.planapp.ui.components.BottomBar
+import com.android.exemple.planapp.ui.viewModel.EditViewModel
 
 @Composable
 fun EditScreen(

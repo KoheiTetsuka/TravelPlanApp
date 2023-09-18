@@ -21,7 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.android.exemple.planapp.PropertyViewModel
+import com.android.exemple.planapp.ui.viewModel.PropertyViewModel
 import com.android.exemple.planapp.ui.components.BottomBar
 
 @Composable
