@@ -16,8 +16,8 @@ import androidx.navigation.navArgument
 import com.android.exemple.planapp.ui.screen.DetailCreateScreen
 import com.android.exemple.planapp.ui.screen.DetailScreen
 import com.android.exemple.planapp.ui.screen.EditScreen
-import com.android.exemple.planapp.ui.screen.InitScreen
 import com.android.exemple.planapp.ui.screen.PlanCreateScreen
+import com.android.exemple.planapp.ui.screen.PlanScreen
 import com.android.exemple.planapp.ui.screen.PropertyCreateScreen
 import com.android.exemple.planapp.ui.screen.PropertyScreen
 import com.android.exemple.planapp.ui.theme.PlanAppTheme
@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(navController = navController, startDestination = "home") {
                         composable(route = "home") {
-                            InitScreen(navController = navController)
+                            PlanScreen(navController = navController)
                         }
                         composable(route = "planCreate") {
                             PlanCreateScreen(navController = navController)
