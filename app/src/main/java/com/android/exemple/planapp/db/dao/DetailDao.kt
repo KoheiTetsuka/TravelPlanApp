@@ -10,7 +10,7 @@ interface DetailDao {
     @Query("SELECT * FROM 'detail' ORDER BY start_time ASC")
     fun getAll(): Flow<MutableList<Detail>>
 
-    @Query("SELECT * FROM 'detail' where plan_id=:planId ORDER BY start_time ASC")
+    @Query("SELECT * FROM 'detail' where plan_id=:planId ORDER BY date ASC ,start_time ASC")
     fun getById(planId: Int): Flow<MutableList<Detail>>
 
     @Insert
