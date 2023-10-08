@@ -1,6 +1,5 @@
 package com.android.exemple.planapp.ui.viewModel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.exemple.planapp.db.dao.PlanDao
@@ -90,30 +89,13 @@ class PlanViewModel @Inject constructor(private val planDao: PlanDao) : ViewMode
                 startDate = _uiState.value.startDate,
                 endDate = _uiState.value.endDate
             )
-
             planDao.insertPlan(newPlan)
-            Log.d(PlanViewModel::class.simpleName, "success create plan")
         }
     }
 
     fun deletePlan(plan: Plan) {
         viewModelScope.launch {
             planDao.deletePlan(plan)
-        }
-    }
-
-    private var editingPlan: Plan? = null
-    fun setEditingPlan(plan: Plan) {
-        editingPlan = plan
-        viewModelScope.launch {
-            _uiState.update {
-                it.copy(
-                    title = editingPlan!!.title,
-                    description = editingPlan!!.description,
-                    startDate = editingPlan!!.startDate,
-                    endDate = editingPlan!!.endDate,
-                )
-            }
         }
     }
 
@@ -132,11 +114,5 @@ class PlanViewModel @Inject constructor(private val planDao: PlanDao) : ViewMode
         }
 
         return false
-    }
-
-    fun resetProperties() {
-//        editingPlan = null
-//        _uiState.value.title = ""
-//        description = ""
     }
 }

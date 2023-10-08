@@ -80,7 +80,8 @@ fun PlanRow(
                     )
                     Text(
                         text = "〜",
-                        fontSize = 11.sp)
+                        fontSize = 11.sp
+                    )
                     Text(
                         text = dateFormat.format(plan.endDate),
                         fontSize = 11.sp

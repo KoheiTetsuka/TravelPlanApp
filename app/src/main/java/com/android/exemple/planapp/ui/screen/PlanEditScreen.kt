@@ -35,12 +35,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.android.exemple.planapp.db.entities.Plan
 import com.android.exemple.planapp.ui.components.BottomBar
-import com.android.exemple.planapp.ui.viewModel.EditViewModel
+import com.android.exemple.planapp.ui.viewModel.PlanEditViewModel
 
 @Composable
-fun EditScreen(
+fun PlanEditScreen(
     navController: NavController,
-    viewModel: EditViewModel,
+    viewModel: PlanEditViewModel,
     planId: Int
 ) {
     val context = LocalContext.current
@@ -49,7 +49,7 @@ fun EditScreen(
     var launched by rememberSaveable { mutableStateOf(false) }
     if (launched.not()) {
         LaunchedEffect(Unit) {
-            viewModel.event(EditViewModel.Event.Init(planId = planId))
+            viewModel.event(PlanEditViewModel.Event.Init(planId = planId))
             launched = true
         }
     }
@@ -70,7 +70,7 @@ fun EditScreen(
                 actions = {
                     IconButton(onClick = {
                         if (!hasError) {
-//                            viewModel.createPlan()
+                            viewModel.updatePlan(planId)
                         }
                     }) {
                         Icon(Icons.Filled.Add, null)
@@ -97,7 +97,7 @@ fun EditScreen(
                     .padding(start = 5.dp, end = 5.dp),
                 value = uiState.title,
                 onValueChange = {
-                    viewModel.event(EditViewModel.Event.TitleChanged(it))
+                    viewModel.event(PlanEditViewModel.Event.TitleChanged(it))
                 },
                 label = { Text("例：沖縄旅行") },
                 singleLine = true,
@@ -128,7 +128,7 @@ fun EditScreen(
                     .padding(start = 5.dp, end = 5.dp),
                 value = uiState.description,
                 onValueChange = {
-                    viewModel.event(EditViewModel.Event.DescriptionChanged(it))
+                    viewModel.event(PlanEditViewModel.Event.DescriptionChanged(it))
                 },
                 label = { Text("例：卒業旅行") }
             )
@@ -165,7 +165,7 @@ fun EditScreen(
                         showDatePicker(
                             context,
                             onDecideDate = { date ->
-                                viewModel.event(EditViewModel.Event.StartDateChanged(date))
+                                viewModel.event(PlanEditViewModel.Event.StartDateChanged(date))
                             }
                         )
                     }) {
@@ -206,7 +206,7 @@ fun EditScreen(
                         showDatePicker(
                             context,
                             onDecideDate = { date ->
-                                viewModel.event(EditViewModel.Event.EndDateChanged(date))
+                                viewModel.event(PlanEditViewModel.Event.EndDateChanged(date))
                             }
                         )
                     }) {

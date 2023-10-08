@@ -15,14 +15,14 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.android.exemple.planapp.ui.screen.DetailCreateScreen
 import com.android.exemple.planapp.ui.screen.DetailScreen
-import com.android.exemple.planapp.ui.screen.EditScreen
 import com.android.exemple.planapp.ui.screen.PlanCreateScreen
+import com.android.exemple.planapp.ui.screen.PlanEditScreen
 import com.android.exemple.planapp.ui.screen.PlanScreen
 import com.android.exemple.planapp.ui.screen.PropertyCreateScreen
 import com.android.exemple.planapp.ui.screen.PropertyScreen
 import com.android.exemple.planapp.ui.theme.PlanAppTheme
 import com.android.exemple.planapp.ui.viewModel.DetailViewModel
-import com.android.exemple.planapp.ui.viewModel.EditViewModel
+import com.android.exemple.planapp.ui.viewModel.PlanEditViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -72,9 +72,9 @@ class MainActivity : ComponentActivity() {
                             route = "edit/{planId}",
                             arguments = listOf(navArgument("planId") { type = NavType.IntType })
                         ) { backStackEntry ->
-                            val viewModel = hiltViewModel<EditViewModel>()
+                            val viewModel = hiltViewModel<PlanEditViewModel>()
                             val planId = backStackEntry.arguments?.getInt("planId") ?: 0
-                            EditScreen(
+                            PlanEditScreen(
                                 navController = navController,
                                 viewModel = viewModel,
                                 planId = planId
