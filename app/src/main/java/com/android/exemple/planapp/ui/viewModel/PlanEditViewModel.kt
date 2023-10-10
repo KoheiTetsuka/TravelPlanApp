@@ -107,12 +107,6 @@ class PlanEditViewModel @Inject constructor(private val planDao: PlanDao) : View
         }
     }
 
-    fun deletePlan(plan: Plan) {
-        viewModelScope.launch {
-            planDao.deletePlan(plan)
-        }
-    }
-
     /**
      * 開始日と終了日を比較する。
      * 終了日より開始日が遅かったらエラー

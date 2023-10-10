@@ -36,6 +36,8 @@ import androidx.navigation.NavController
 import com.android.exemple.planapp.db.entities.Plan
 import com.android.exemple.planapp.ui.components.BottomBar
 import com.android.exemple.planapp.ui.viewModel.PlanEditViewModel
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 @Composable
 fun PlanEditScreen(
@@ -45,6 +47,7 @@ fun PlanEditScreen(
 ) {
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
+    val dateFormat = DateTimeFormatter.ofPattern("yyyy年MM月dd日 (E)", Locale.JAPAN)
 
     var launched by rememberSaveable { mutableStateOf(false) }
     if (launched.not()) {
@@ -148,7 +151,7 @@ fun PlanEditScreen(
             ) {
                 OutlinedTextField(
                     modifier = Modifier.weight(1f),
-                    value = uiState.startDate?.toString() ?: "",
+                    value = if (uiState.startDate == null) "" else dateFormat.format(uiState.startDate),
                     onValueChange = {
 
                     },
@@ -189,7 +192,7 @@ fun PlanEditScreen(
                 OutlinedTextField(
                     modifier = Modifier
                         .weight(1f),
-                    value = uiState.endDate?.toString() ?: "",
+                    value = if (uiState.endDate == null) "" else dateFormat.format(uiState.endDate),
                     onValueChange = {
 
                     },

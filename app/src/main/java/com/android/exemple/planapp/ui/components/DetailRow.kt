@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.android.exemple.planapp.db.entities.Detail
 import com.android.exemple.planapp.ui.viewModel.DetailViewModel
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 @Composable
 fun DetailRow(
@@ -28,6 +30,7 @@ fun DetailRow(
     navController: NavController,
     viewModel: DetailViewModel
 ) {
+    val dateFormat = DateTimeFormatter.ofPattern("MM月dd日", Locale.JAPAN)
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -41,7 +44,7 @@ fun DetailRow(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = detail.date.toString(),
+                text = if (detail.date == null) "未定" else dateFormat.format(detail.date),
                 fontSize = 15.sp
             )
             Column {

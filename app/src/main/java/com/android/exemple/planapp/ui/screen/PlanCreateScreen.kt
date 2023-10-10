@@ -145,7 +145,7 @@ fun PlanCreateScreen(
             ) {
                 OutlinedTextField(
                     modifier = Modifier.weight(1f),
-                    value = uiState.startDate?.toString() ?: "",
+                    value = if (uiState.startDate == null) "" else dateFormat.format(uiState.startDate),
                     onValueChange = {
 
                     },
@@ -186,7 +186,7 @@ fun PlanCreateScreen(
                 OutlinedTextField(
                     modifier = Modifier
                         .weight(1f),
-                    value = uiState.endDate?.toString() ?: "",
+                    value = if (uiState.endDate == null) "" else dateFormat.format(uiState.endDate),
                     onValueChange = {
 
                     },
