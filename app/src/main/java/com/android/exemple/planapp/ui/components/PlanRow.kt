@@ -91,7 +91,7 @@ fun PlanRow(
             Spacer(modifier = Modifier.weight(1f))
             IconButton(
                 onClick = {
-                    navController.navigate("edit/${plan.id}")
+                    navController.navigate("planEdit/${plan.id}")
                 }
             ) {
                 Icon(imageVector = Icons.Default.Edit, contentDescription = "編集")

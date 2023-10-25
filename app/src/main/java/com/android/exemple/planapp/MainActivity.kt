@@ -14,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.android.exemple.planapp.ui.screen.DetailCreateScreen
+import com.android.exemple.planapp.ui.screen.DetailEditScreen
 import com.android.exemple.planapp.ui.screen.DetailScreen
 import com.android.exemple.planapp.ui.screen.PlanCreateScreen
 import com.android.exemple.planapp.ui.screen.PlanEditScreen
@@ -21,6 +22,7 @@ import com.android.exemple.planapp.ui.screen.PlanScreen
 import com.android.exemple.planapp.ui.screen.PropertyCreateScreen
 import com.android.exemple.planapp.ui.screen.PropertyScreen
 import com.android.exemple.planapp.ui.theme.PlanAppTheme
+import com.android.exemple.planapp.ui.viewModel.DetailEditViewModel
 import com.android.exemple.planapp.ui.viewModel.DetailViewModel
 import com.android.exemple.planapp.ui.viewModel.PlanEditViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,7 +71,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable(
-                            route = "edit/{planId}",
+                            route = "planEdit/{planId}",
                             arguments = listOf(navArgument("planId") { type = NavType.IntType })
                         ) { backStackEntry ->
                             val viewModel = hiltViewModel<PlanEditViewModel>()
@@ -80,6 +82,19 @@ class MainActivity : ComponentActivity() {
                                 planId = planId
                             )
                         }
+                        composable(
+                            route = "detailEdit/{detailId}",
+                            arguments = listOf(navArgument("detailId") { type = NavType.IntType })
+                        ) { backStackEntry ->
+                            val viewModel = hiltViewModel<DetailEditViewModel>()
+                            val detailId = backStackEntry.arguments?.getInt("detailId") ?: 0
+                            DetailEditScreen(
+                                navController = navController,
+                                viewModel = viewModel,
+                                detailId = detailId
+                            )
+                        }
+
                         composable(
                             route = "property"
                         ) {

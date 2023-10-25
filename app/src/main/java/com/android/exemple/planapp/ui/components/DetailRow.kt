@@ -15,6 +15,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -77,6 +78,13 @@ fun DetailRow(
                 )
             }
             Spacer(modifier = Modifier.weight(1f))
+            IconButton(
+                onClick = {
+                    navController.navigate("DetailEdit/${detail.id}")
+                }
+            ) {
+                Icon(imageVector = Icons.Default.Edit, contentDescription = "編集")
+            }
             IconButton(
                 onClick = { viewModel.deleteDetail(detail) }
             ) {

@@ -15,7 +15,7 @@ import java.time.LocalTime
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : ViewModel() {
+class DetailEditViewModel @Inject constructor(private val detailDao: DetailDao) : ViewModel() {
 
     data class UiState(
         val title: String = "",
@@ -25,15 +25,13 @@ class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : Vi
         val startTime: LocalTime? = null,
         val endTime: LocalTime? = null,
         val date: LocalDate? = null,
-        val planId: Int? = null,
         val titleErrorMessage: String = "",
         val timeErrorMessage: String = "",
         val details: List<Detail>? = null
     )
 
     sealed class Event {
-        data class Init(val planId: Int): Event()
-        data class CreateInit(val planId: Int): Event()
+        data class Init(val detailId: Int) : Event()
         data class TitleChanged(val title: String) : Event()
         data class CostChanged(val cost: String) : Event()
         data class UrlChanged(val url: String) : Event()
@@ -50,19 +48,16 @@ class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : Vi
         viewModelScope.launch {
             when (event) {
                 is Event.Init -> {
-                    val details = detailDao.getAllById(event.planId).first()
+                    val detail = detailDao.getById(event.detailId).first()
                     _uiState.update {
                         it.copy(
-                            details = details,
-                            planId = event.planId
-                        )
-                    }
-                }
-
-                is Event.CreateInit -> {
-                    _uiState.update {
-                        it.copy(
-                            planId = event.planId
+                            title = detail.title,
+                            cost = detail.cost,
+                            url = detail.url,
+                            memo = detail.memo,
+                            startTime = detail.startTime,
+                            endTime = detail.endTime,
+                            date = detail.date
                         )
                     }
                 }
@@ -112,54 +107,5 @@ class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : Vi
 
             }
         }
-    }
-
-    fun createDetail() {
-        viewModelScope.launch {
-            if (_uiState.value.title.isEmpty()) {
-                _uiState.update {
-                    it.copy(titleErrorMessage = "タイトルは必須です。")
-                }
-                return@launch
-            }
-
-            if (!checkTimeValidate()) {
-                _uiState.update {
-                    it.copy(timeErrorMessage = "終了時間は開始時間より後の時刻を入力してください。")
-                }
-                return@launch
-            }
-
-            val newDetail = Detail(
-                title = _uiState.value.title,
-                cost = _uiState.value.cost,
-                url = _uiState.value.url,
-                memo = _uiState.value.memo,
-                startTime = _uiState.value.startTime,
-                endTime = _uiState.value.endTime,
-                date = _uiState.value.date,
-                planId = _uiState.value.planId!!
-             )
-
-            detailDao.insertDetail(newDetail)
-        }
-    }
-
-
-    fun deleteDetail(detail: Detail) {
-        viewModelScope.launch {
-            detailDao.deleteDetail(detail)
-        }
-    }
-
-    /**
-     * 開始時間と終了時間を比較する。
-     * 終了時間より開始時間が遅かったらエラー
-     */
-    private fun checkTimeValidate(): Boolean {
-        val startTime = _uiState.value.startTime
-        val endTime = _uiState.value.endTime
-
-        return startTime?.isBefore(endTime) != false
     }
 }

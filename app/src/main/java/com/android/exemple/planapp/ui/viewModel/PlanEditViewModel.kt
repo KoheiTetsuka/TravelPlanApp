@@ -29,7 +29,6 @@ class PlanEditViewModel @Inject constructor(private val planDao: PlanDao) : View
 
     sealed class Event {
         data class Init(val planId: Int) : Event()
-
         data class TitleChanged(val title: String) : Event()
         data class DescriptionChanged(val description: String) : Event()
         data class StartDateChanged(val startDate: LocalDate) : Event()
