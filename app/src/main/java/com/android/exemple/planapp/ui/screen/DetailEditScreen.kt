@@ -67,7 +67,7 @@ fun DetailEditScreen(
                 },
                 actions = {
                     IconButton(onClick = {
-//                        viewModel.createDetail()
+                        viewModel.updateDetail(detailId)
                     }) {
                         Icon(Icons.Filled.Add, null)
                     }

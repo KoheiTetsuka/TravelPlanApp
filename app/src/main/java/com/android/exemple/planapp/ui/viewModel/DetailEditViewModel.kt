@@ -25,6 +25,7 @@ class DetailEditViewModel @Inject constructor(private val detailDao: DetailDao) 
         val startTime: LocalTime? = null,
         val endTime: LocalTime? = null,
         val date: LocalDate? = null,
+        val planId: Int? = null,
         val titleErrorMessage: String = "",
         val timeErrorMessage: String = "",
         val details: List<Detail>? = null
@@ -57,7 +58,8 @@ class DetailEditViewModel @Inject constructor(private val detailDao: DetailDao) 
                             memo = detail.memo,
                             startTime = detail.startTime,
                             endTime = detail.endTime,
-                            date = detail.date
+                            date = detail.date,
+                            planId = detail.planId
                         )
                     }
                 }
@@ -103,9 +105,24 @@ class DetailEditViewModel @Inject constructor(private val detailDao: DetailDao) 
                         it.copy(date = event.date)
                     }
                 }
-
-
             }
+        }
+    }
+    fun updateDetail(detailId: Int) {
+        viewModelScope.launch {
+
+            val newDetail = Detail(
+                id = detailId,
+                title = _uiState.value.title,
+                cost = _uiState.value.cost,
+                url = _uiState.value.url,
+                memo = _uiState.value.memo,
+                startTime = _uiState.value.startTime,
+                endTime = _uiState.value.endTime,
+                date = _uiState.value.date,
+                planId = _uiState.value.planId!!
+            )
+            detailDao.updateDetail(newDetail)
         }
     }
 }
