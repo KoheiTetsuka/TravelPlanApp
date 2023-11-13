@@ -19,7 +19,7 @@ sealed class Item(var dist: String, var icon: ImageVector) {
 }
 
 @Composable
-fun BottomBar(navController: NavController) {
+fun BottomBar(navController: NavController, planId: Int) {
     var selectedItem = remember { mutableStateOf(0) }
     val items = listOf(Item.Plan, Item.Property)
 
@@ -31,7 +31,7 @@ fun BottomBar(navController: NavController) {
                 selected = selectedItem.value == index,
                 onClick = {
                     if (item.dist == "Plan") {
-                        navController.navigate("home")
+                        navController.navigate("detail/${planId}")
                     } else if (item.dist == "Property") {
                         navController.navigate("property")
                     }

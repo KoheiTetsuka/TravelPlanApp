@@ -34,7 +34,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.android.exemple.planapp.ui.components.BottomBar
 import com.android.exemple.planapp.ui.viewModel.PlanViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -74,9 +73,6 @@ fun PlanCreateScreen(
                     }
                 },
             )
-        },
-        bottomBar = {
-            BottomBar(navController = navController)
         }
     ) {
         Column {
@@ -220,7 +216,7 @@ fun PlanCreateScreen(
     }
 }
 
-fun showDatePicker(
+private fun showDatePicker(
     context: Context,
     onDecideDate: (LocalDate) -> Unit,
 ) {

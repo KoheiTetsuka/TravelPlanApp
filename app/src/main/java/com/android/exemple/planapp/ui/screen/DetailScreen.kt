@@ -53,7 +53,7 @@ fun DetailScreen(
             }
         },
         bottomBar = {
-            BottomBar(navController = navController)
+            BottomBar(navController = navController, planId = planId)
         }
     ) {
         Column {

@@ -1,5 +1,8 @@
 package com.android.exemple.planapp.ui.screen
 
+import android.app.DatePickerDialog
+import android.content.Context
+import android.widget.DatePicker
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,9 +37,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.android.exemple.planapp.db.entities.Plan
-import com.android.exemple.planapp.ui.components.BottomBar
 import com.android.exemple.planapp.ui.viewModel.PlanEditViewModel
+import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 @Composable
@@ -80,9 +85,6 @@ fun PlanEditScreen(
                     }
                 },
             )
-        },
-        bottomBar = {
-            BottomBar(navController = navController)
         }
     ) {
         Column {
@@ -224,6 +226,27 @@ fun PlanEditScreen(
             }
         }
     }
+}
+
+private fun showDatePicker(
+    context: Context,
+    onDecideDate: (LocalDate) -> Unit,
+) {
+    val calendar = Calendar.getInstance()
+    val year = calendar.get(Calendar.YEAR)
+    val month = calendar.get(Calendar.MONTH)
+    val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+    calendar.time = Date()
+
+    DatePickerDialog(
+        context,
+        { _: DatePicker, pickedYear: Int, pickedMonth: Int, pickedDay: Int ->
+            onDecideDate(
+                LocalDate.of(pickedYear, pickedMonth, pickedDay)
+            )
+        }, year, month, day
+    ).show()
 }
 
 @Composable

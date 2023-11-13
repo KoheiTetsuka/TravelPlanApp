@@ -1,5 +1,11 @@
 package com.android.exemple.planapp.ui.screen
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
+import android.content.Context
+import android.icu.util.Calendar
+import android.widget.DatePicker
+import android.widget.TimePicker
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -36,6 +42,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.android.exemple.planapp.ui.viewModel.DetailEditViewModel
+import java.time.LocalDate
+import java.time.LocalTime
+import java.util.Date
 
 @Composable
 fun DetailEditScreen(
@@ -287,4 +296,43 @@ fun DetailEditScreen(
             )
         }
     }
+}
+
+private fun showDatePicker(
+    context: Context,
+    onDecideDate: (LocalDate) -> Unit,
+) {
+    val calendar = Calendar.getInstance()
+    val year = calendar.get(Calendar.YEAR)
+    val month = calendar.get(Calendar.MONTH)
+    val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+    calendar.time = Date()
+
+    DatePickerDialog(
+        context,
+        { _: DatePicker, pickedYear: Int, pickedMonth: Int, pickedDay: Int ->
+            onDecideDate(
+                LocalDate.of(pickedYear, pickedMonth, pickedDay)
+            )
+        }, year, month, day
+    ).show()
+}
+
+private fun showTimePicker(
+    context: Context,
+    onDecideTime: (LocalTime) -> Unit,
+) {
+    val calendar = Calendar.getInstance()
+    val hour = calendar.get(Calendar.HOUR_OF_DAY)
+    val minute = calendar.get(Calendar.MINUTE)
+
+    TimePickerDialog(
+        context,
+        { _: TimePicker, pickedHour: Int, pickedMinute: Int ->
+            onDecideTime(
+                LocalTime.of(pickedHour, pickedMinute)
+            )
+        }, hour, minute, false
+    ).show()
 }

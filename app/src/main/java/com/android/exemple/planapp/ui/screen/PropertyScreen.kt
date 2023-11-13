@@ -49,7 +49,8 @@ fun PropertyScreen (
             }
         },
         bottomBar = {
-            BottomBar(navController = navController)
+            // TODO: PlanID編集
+            BottomBar(navController = navController, planId = 1)
         },
     ) {
         Column {
