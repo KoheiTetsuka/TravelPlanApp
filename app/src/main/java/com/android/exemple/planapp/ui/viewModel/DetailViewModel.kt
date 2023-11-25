@@ -61,9 +61,7 @@ class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : Vi
 
                 is Event.CreateInit -> {
                     _uiState.update {
-                        it.copy(
-                            planId = event.planId
-                        )
+                        it.copy(planId = event.planId)
                     }
                 }
 
@@ -108,8 +106,6 @@ class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : Vi
                         it.copy(date = event.date)
                     }
                 }
-
-
             }
         }
     }

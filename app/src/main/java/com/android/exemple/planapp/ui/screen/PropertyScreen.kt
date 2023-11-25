@@ -26,8 +26,13 @@ import com.android.exemple.planapp.ui.viewModel.PropertyViewModel
 @Composable
 fun PropertyScreen (
     viewModel: PropertyViewModel = hiltViewModel(),
-    navController: NavController
+    navController: NavController,
+    planId: Int
 ) {
+
+    val uiState by viewModel.uiState.collectAsState()
+    viewModel.event(PropertyViewModel.Event.Init(planId = planId))
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -43,14 +48,13 @@ fun PropertyScreen (
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { navController.navigate("propertyCreate") }
+                onClick = { navController.navigate("propertyCreate/${planId}") }
             ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "新規作成")
             }
         },
         bottomBar = {
-            // TODO: PlanID編集
-            BottomBar(navController = navController, planId = 1)
+            BottomBar(navController = navController, planId = planId)
         },
     ) {
         Column {
@@ -62,13 +66,13 @@ fun PropertyScreen (
                     ),
                 text = "持ち物一覧",
             )
-            val properties by viewModel.properties.collectAsState(initial = emptyList())
-            PropertyList(
-                properties = properties,
-                onClickDelete = {
-                    viewModel.deleteProperty(it)
-                }
-            )
+            val properties = uiState.properties
+            if (properties != null) {
+                PropertyList(
+                    properties = properties,
+                    viewModel = viewModel
+                )
+            }
         }
 
     }

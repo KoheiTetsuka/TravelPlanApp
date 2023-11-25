@@ -18,16 +18,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.android.exemple.planapp.db.entities.Property
+import com.android.exemple.planapp.ui.viewModel.PropertyViewModel
 
 @Composable
 fun PropertyRow(
     property: Property,
-    onClickDelete: (Property) -> Unit
+    viewModel: PropertyViewModel
 ) {
     var checkedState by remember { mutableStateOf(false) }
+
+    val deleteFlag = property.deleteFlag
+    if (deleteFlag.equals("1")) {
+        checkedState = true
+    }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -43,7 +49,8 @@ fun PropertyRow(
                 checked = checkedState,
                 onCheckedChange = {
                     checkedState = it
-                }
+                    viewModel.softDeleteProperty(property)
+                },
             )
             Text(
                 modifier = Modifier
@@ -53,7 +60,7 @@ fun PropertyRow(
             Spacer(modifier = Modifier.weight(1f))
             IconButton(
                 onClick = {
-                    onClickDelete(property)
+                    viewModel.deleteProperty(property)
                 }
             ) {
                 Icon(imageVector = Icons.Default.Delete, contentDescription = "削除")
@@ -61,13 +68,4 @@ fun PropertyRow(
         }
     }
 
-}
-
-@Preview
-@Composable
-fun PropertyRowPreview() {
-    PropertyRow(
-        property = Property(title = "タイトル"),
-        onClickDelete = {},
-    )
 }

@@ -33,7 +33,7 @@ fun BottomBar(navController: NavController, planId: Int) {
                     if (item.dist == "Plan") {
                         navController.navigate("detail/${planId}")
                     } else if (item.dist == "Property") {
-                        navController.navigate("property")
+                        navController.navigate("property/${planId}")
                     }
                 }
             )

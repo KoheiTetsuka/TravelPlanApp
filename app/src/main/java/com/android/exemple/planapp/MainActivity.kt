@@ -25,6 +25,7 @@ import com.android.exemple.planapp.ui.theme.PlanAppTheme
 import com.android.exemple.planapp.ui.viewModel.DetailEditViewModel
 import com.android.exemple.planapp.ui.viewModel.DetailViewModel
 import com.android.exemple.planapp.ui.viewModel.PlanEditViewModel
+import com.android.exemple.planapp.ui.viewModel.PropertyViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -96,14 +97,28 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable(
-                            route = "property"
-                        ) {
-                            PropertyScreen(navController = navController)
+                            route = "property/{planId}",
+                            arguments = listOf(navArgument("planId") { type = NavType.IntType })
+                        ) { backStackEntry ->
+                            val viewModel = hiltViewModel<PropertyViewModel>()
+                            val planId = backStackEntry.arguments?.getInt("planId") ?: 0
+                            PropertyScreen(
+                                navController = navController,
+                                viewModel = viewModel,
+                                planId = planId
+                            )
                         }
                         composable(
-                            route = "propertyCreate"
-                        ) {
-                            PropertyCreateScreen(navController = navController)
+                            route = "propertyCreate/{planId}",
+                            arguments = listOf(navArgument("planId") { type = NavType.IntType })
+                        ) { backStackEntry ->
+                            val viewModel = hiltViewModel<PropertyViewModel>()
+                            val planId = backStackEntry.arguments?.getInt("planId") ?: 0
+                            PropertyCreateScreen(
+                                navController = navController,
+                                viewModel = viewModel,
+                                planId = planId
+                            )
                         }
                     }
                 }

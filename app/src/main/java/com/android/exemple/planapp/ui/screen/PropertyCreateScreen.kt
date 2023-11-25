@@ -26,9 +26,12 @@ import com.android.exemple.planapp.ui.viewModel.PropertyViewModel
 @Composable
 fun PropertyCreateScreen(
     viewModel: PropertyViewModel = hiltViewModel(),
-    navController: NavController
+    navController: NavController,
+    planId: Int
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    viewModel.event(PropertyViewModel.Event.CreateInit(planId = planId))
+
     Scaffold(
         topBar = {
             TopAppBar(
