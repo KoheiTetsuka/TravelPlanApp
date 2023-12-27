@@ -1,6 +1,5 @@
 package com.android.exemple.planapp.ui.viewModel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.exemple.planapp.db.dao.PropertyDao
@@ -36,7 +35,6 @@ class PropertyEditViewModel @Inject constructor(private val propertyDao: Propert
             when (event) {
                 is Event.Init -> {
                     val property = propertyDao.getAllById(event.id).first()
-                    Log.d("プロパティ", property.toString())
                     _uiState.update {
                         it.copy(
                             title = property.title,
