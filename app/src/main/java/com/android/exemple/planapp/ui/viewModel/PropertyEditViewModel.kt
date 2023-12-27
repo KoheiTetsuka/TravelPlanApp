@@ -19,6 +19,7 @@ class PropertyEditViewModel @Inject constructor(private val propertyDao: Propert
         val title: String = "",
         val planId: Int? = null,
         val deleteFlag: String = "",
+        val titleErrorMessage: String = "",
         val properties: List<Property>? = null
     )
 

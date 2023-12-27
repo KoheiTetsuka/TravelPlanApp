@@ -22,6 +22,7 @@ class PropertyViewModel @Inject constructor(private val propertyDao: PropertyDao
         val title: String = "",
         val planId: Int? = null,
         val deleteFlag: String = "",
+        val titleErrorMessage: String = "",
         val properties: List<Property>? = null
     )
 
@@ -64,6 +65,12 @@ class PropertyViewModel @Inject constructor(private val propertyDao: PropertyDao
 
     fun createProperty() {
         viewModelScope.launch {
+            if (_uiState.value.title.isEmpty()) {
+                _uiState.update {
+                    it.copy(titleErrorMessage = "タイトルは必須です。")
+                }
+                return@launch
+            }
             val newProperty = Property(
                 title = _uiState.value.title,
                 planId = _uiState.value.planId!!

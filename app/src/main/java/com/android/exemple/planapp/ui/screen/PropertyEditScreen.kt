@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -13,6 +14,7 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Error
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -84,10 +86,19 @@ fun PropertyEditScreen(
                 onValueChange = {
                     viewModel.event(PropertyEditViewModel.Event.TitleChanged(it))
                 },
-                label = { Text("例:水筒") }
+                label = { Text("例:水筒") },
+                isError = uiState.titleErrorMessage.isNotEmpty(),
+                trailingIcon = {
+                    if (uiState.titleErrorMessage.isEmpty()) return@OutlinedTextField
+                    Icon(Icons.Filled.Error, "error", tint = MaterialTheme.colors.error)
+                },
             )
+            if (uiState.titleErrorMessage.isNotEmpty()) {
+                Text(
+                    text = "タイトルの入力は必須です。",
+                    color = MaterialTheme.colors.error
+                )
+            }
         }
     }
-
-
 }
