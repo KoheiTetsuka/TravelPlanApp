@@ -50,7 +50,8 @@ fun PlanCreateScreen(
     val uiState by viewModel.uiState.collectAsState()
     val dateFormat = DateTimeFormatter.ofPattern("yyyy年MM月dd日 (E)", Locale.JAPAN)
 
-    var hasError: Boolean = uiState.titleErrorMessage.isNotEmpty()
+    var hasTitleError: Boolean = uiState.titleErrorMessage.isNotEmpty()
+    var hasDateError: Boolean = uiState.dateErrorMessage.isNotEmpty()
 
     Scaffold(
         topBar = {
@@ -65,8 +66,10 @@ fun PlanCreateScreen(
                 },
                 actions = {
                     IconButton(onClick = {
-                        if (!hasError) {
-                            viewModel.createPlan()
+                        if (!hasTitleError && !hasDateError) {
+                            if (viewModel.createPlan()) {
+                                navController.popBackStack()
+                            }
                         }
                     }) {
                         Icon(Icons.Filled.Add, null)
@@ -231,7 +234,7 @@ private fun showDatePicker(
         context,
         { _: DatePicker, pickedYear: Int, pickedMonth: Int, pickedDay: Int ->
             onDecideDate(
-                LocalDate.of(pickedYear, pickedMonth, pickedDay)
+                LocalDate.of(pickedYear, pickedMonth + 1, pickedDay)
             )
         }, year, month, day
     ).show()

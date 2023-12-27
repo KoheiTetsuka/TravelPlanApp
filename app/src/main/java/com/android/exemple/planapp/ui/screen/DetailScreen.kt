@@ -29,7 +29,6 @@ fun DetailScreen(
     navController: NavController,
     planId: Int
 ) {
-    val uiState by viewModel.uiState.collectAsState()
     viewModel.event(DetailViewModel.Event.Init(planId = planId))
 
     Scaffold(
@@ -56,6 +55,7 @@ fun DetailScreen(
             BottomBar(navController = navController, planId = planId)
         }
     ) {
+        val details by viewModel.details.collectAsState(initial = emptyList())
         Column {
             Text(
                 modifier = Modifier
@@ -65,14 +65,12 @@ fun DetailScreen(
                     ),
                 text = "予定一覧",
             )
-            val details = uiState.details
-            if (details != null) {
-                DetailList(
-                    details = details,
-                    navController = navController,
-                    viewModel = viewModel
-                )
-            }
+
+            DetailList(
+                details = details,
+                navController = navController,
+                viewModel = viewModel
+            )
         }
     }
 }

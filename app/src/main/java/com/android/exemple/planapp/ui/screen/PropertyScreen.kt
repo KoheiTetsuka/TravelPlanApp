@@ -70,6 +70,7 @@ fun PropertyScreen (
             if (properties != null) {
                 PropertyList(
                     properties = properties,
+                    navController = navController,
                     viewModel = viewModel
                 )
             }

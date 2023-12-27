@@ -49,9 +49,12 @@ fun DetailCreateScreen(
     viewModel: DetailViewModel = hiltViewModel(),
     planId: Int
 ) {
-    val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
+    val uiState by viewModel.uiState.collectAsState()
     viewModel.event(DetailViewModel.Event.CreateInit(planId = planId))
+
+    var hasTitleError: Boolean = uiState.titleErrorMessage.isNotEmpty()
+    var hasTimeError: Boolean = uiState.timeErrorMessage.isNotEmpty()
 
     Scaffold(
         topBar = {
@@ -66,7 +69,9 @@ fun DetailCreateScreen(
                 },
                 actions = {
                     IconButton(onClick = {
-                        viewModel.createDetail()
+                        if (!hasTitleError && !hasTimeError) {
+                            viewModel.createDetail()
+                        }
                     }) {
                         Icon(Icons.Filled.Add, null)
                     }

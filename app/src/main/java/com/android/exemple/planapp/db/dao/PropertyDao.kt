@@ -10,8 +10,11 @@ interface PropertyDao {
     @Query("SELECT * FROM 'property'")
     fun getAll(): Flow<MutableList<Property>>
 
+    @Query("SELECT * FROM 'property' where id=:propertyId ORDER BY id ASC")
+    fun getAllById(propertyId: Int): Flow<Property>
+
     @Query("SELECT * FROM 'property' where plan_id=:planId ORDER BY id ASC")
-    fun getAllById(planId: Int): Flow<MutableList<Property>>
+    fun getAllByPlanId(planId: Int): Flow<MutableList<Property>>
 
     @Insert
     suspend fun insertProperty(property: Property)

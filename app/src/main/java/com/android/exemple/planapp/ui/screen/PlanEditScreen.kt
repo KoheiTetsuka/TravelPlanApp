@@ -243,7 +243,7 @@ private fun showDatePicker(
         context,
         { _: DatePicker, pickedYear: Int, pickedMonth: Int, pickedDay: Int ->
             onDecideDate(
-                LocalDate.of(pickedYear, pickedMonth, pickedDay)
+                LocalDate.of(pickedYear, pickedMonth + 1, pickedDay)
             )
         }, year, month, day
     ).show()

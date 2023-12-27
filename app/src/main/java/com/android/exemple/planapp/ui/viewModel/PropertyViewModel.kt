@@ -38,7 +38,7 @@ class PropertyViewModel @Inject constructor(private val propertyDao: PropertyDao
         viewModelScope.launch {
             when (event) {
                 is Event.Init -> {
-                    val properties = propertyDao.getAllById(event.planId).first()
+                    val properties = propertyDao.getAllByPlanId(event.planId).first()
                     _uiState.update {
                         it.copy(
                             properties = properties,

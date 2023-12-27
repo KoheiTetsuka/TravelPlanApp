@@ -67,13 +67,13 @@ class PlanEditViewModel @Inject constructor(private val planDao: PlanDao) : View
 
                 is Event.StartDateChanged -> {
                     _uiState.update {
-                        it.copy(startDate = event.startDate)
+                        it.copy(startDate = event.startDate, dateErrorMessage = "")
                     }
                 }
 
                 is Event.EndDateChanged -> {
                     _uiState.update {
-                        it.copy(endDate = event.endDate)
+                        it.copy(endDate = event.endDate, dateErrorMessage = "")
                     }
                 }
             }
@@ -108,18 +108,15 @@ class PlanEditViewModel @Inject constructor(private val planDao: PlanDao) : View
 
     /**
      * 開始日と終了日を比較する。
-     * 終了日より開始日が遅かったらエラー
      */
     private fun checkDateValidate(): Boolean {
         val startDate = _uiState.value.startDate
         val endDate = _uiState.value.endDate
-        val result: Int? = startDate?.compareTo(endDate)
-        if (result != null) {
-            if (result <= 0) {
-                return true
-            }
-        }
 
-        return false
+        // 開始日と終了日が同日でないかつ開始日が終了日より遅かった場合エラー
+        if (startDate?.isEqual(endDate) == false && !startDate.isBefore(endDate)) {
+            return false
+        }
+        return true
     }
 }

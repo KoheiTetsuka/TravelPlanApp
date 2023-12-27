@@ -1,7 +1,6 @@
 package com.android.exemple.planapp.ui.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -44,7 +43,6 @@ fun DetailRow(
     ) {
         Row(
             modifier = Modifier
-                .clickable { navController.navigate("detail/${detail.planId}") }
                 .padding(5.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {

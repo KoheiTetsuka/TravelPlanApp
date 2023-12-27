@@ -11,6 +11,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,13 +20,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.android.exemple.planapp.db.entities.Property
 import com.android.exemple.planapp.ui.viewModel.PropertyViewModel
 
 @Composable
 fun PropertyRow(
     property: Property,
-    viewModel: PropertyViewModel
+    viewModel: PropertyViewModel,
+    navController: NavController
 ) {
     var checkedState by remember { mutableStateOf(false) }
 
@@ -58,6 +61,13 @@ fun PropertyRow(
                 text = property.title
             )
             Spacer(modifier = Modifier.weight(1f))
+            IconButton(
+                onClick = {
+                    navController.navigate("propertyEdit/${property.id}")
+                }
+            ) {
+                Icon(imageVector = Icons.Default.Edit, contentDescription = "編集")
+            }
             IconButton(
                 onClick = {
                     viewModel.deleteProperty(property)

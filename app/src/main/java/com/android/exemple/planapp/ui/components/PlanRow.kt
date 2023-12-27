@@ -75,7 +75,7 @@ fun PlanRow(
                 Spacer(modifier = Modifier.height(10.dp))
                 Row {
                     Text(
-                        text = dateFormat.format(plan.startDate),
+                        text = if (plan.startDate == null) "未定" else dateFormat.format(plan.startDate),
                         fontSize = 11.sp
                     )
                     Text(
@@ -83,7 +83,7 @@ fun PlanRow(
                         fontSize = 11.sp
                     )
                     Text(
-                        text = dateFormat.format(plan.endDate),
+                        text = if (plan.endDate == null) "未定" else dateFormat.format(plan.endDate),
                         fontSize = 11.sp
                     )
                 }

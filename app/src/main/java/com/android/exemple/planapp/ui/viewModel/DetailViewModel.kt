@@ -7,6 +7,7 @@ import com.android.exemple.planapp.db.entities.Detail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -16,6 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : ViewModel() {
+    val details = detailDao.getAll().distinctUntilChanged()
 
     data class UiState(
         val title: String = "",
@@ -67,7 +69,7 @@ class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : Vi
 
                 is Event.TitleChanged -> {
                     _uiState.update {
-                        it.copy(title = event.title)
+                        it.copy(title = event.title , titleErrorMessage = "")
                     }
                 }
 

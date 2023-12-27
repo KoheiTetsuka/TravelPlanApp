@@ -20,11 +20,13 @@ import com.android.exemple.planapp.ui.screen.PlanCreateScreen
 import com.android.exemple.planapp.ui.screen.PlanEditScreen
 import com.android.exemple.planapp.ui.screen.PlanScreen
 import com.android.exemple.planapp.ui.screen.PropertyCreateScreen
+import com.android.exemple.planapp.ui.screen.PropertyEditScreen
 import com.android.exemple.planapp.ui.screen.PropertyScreen
 import com.android.exemple.planapp.ui.theme.PlanAppTheme
 import com.android.exemple.planapp.ui.viewModel.DetailEditViewModel
 import com.android.exemple.planapp.ui.viewModel.DetailViewModel
 import com.android.exemple.planapp.ui.viewModel.PlanEditViewModel
+import com.android.exemple.planapp.ui.viewModel.PropertyEditViewModel
 import com.android.exemple.planapp.ui.viewModel.PropertyViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -118,6 +120,18 @@ class MainActivity : ComponentActivity() {
                                 navController = navController,
                                 viewModel = viewModel,
                                 planId = planId
+                            )
+                        }
+                        composable(
+                            route = "propertyEdit/{propertyId}",
+                            arguments = listOf(navArgument("propertyId") { type = NavType.IntType })
+                        ) { backStackEntry ->
+                            val viewModel = hiltViewModel<PropertyEditViewModel>()
+                            val propertyId = backStackEntry.arguments?.getInt("propertyId") ?: 0
+                            PropertyEditScreen(
+                                navController = navController,
+                                viewModel = viewModel,
+                                propertyId = propertyId
                             )
                         }
                     }

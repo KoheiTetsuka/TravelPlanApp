@@ -15,6 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PlanViewModel @Inject constructor(private val planDao: PlanDao) : ViewModel() {
+
     val plans = planDao.getAll().distinctUntilChanged()
 
     data class UiState(
@@ -55,20 +56,21 @@ class PlanViewModel @Inject constructor(private val planDao: PlanDao) : ViewMode
 
                 is Event.StartDateChanged -> {
                     _uiState.update {
-                        it.copy(startDate = event.startDate)
+                        it.copy(startDate = event.startDate, dateErrorMessage = "")
                     }
                 }
 
                 is Event.EndDateChanged -> {
                     _uiState.update {
-                        it.copy(endDate = event.endDate)
+                        it.copy(endDate = event.endDate, dateErrorMessage = "")
                     }
                 }
             }
         }
     }
 
-    fun createPlan() {
+    fun createPlan(): Boolean {
+        var checkFlag = false
         viewModelScope.launch {
             if (_uiState.value.title.isEmpty()) {
                 _uiState.update {
@@ -76,7 +78,6 @@ class PlanViewModel @Inject constructor(private val planDao: PlanDao) : ViewMode
                 }
                 return@launch
             }
-
             if (!checkDateValidate()) {
                 _uiState.update {
                     it.copy(dateErrorMessage = "終了日は開始日より後の日付を入力してください。")
@@ -90,7 +91,12 @@ class PlanViewModel @Inject constructor(private val planDao: PlanDao) : ViewMode
                 endDate = _uiState.value.endDate
             )
             planDao.insertPlan(newPlan)
+            checkFlag = true
         }
+        if (checkFlag) {
+            return true
+        }
+        return false
     }
 
     fun deletePlan(plan: Plan) {
@@ -101,18 +107,15 @@ class PlanViewModel @Inject constructor(private val planDao: PlanDao) : ViewMode
 
     /**
      * 開始日と終了日を比較する。
-     * 終了日より開始日が遅かったらエラー
      */
     private fun checkDateValidate(): Boolean {
         val startDate = _uiState.value.startDate
         val endDate = _uiState.value.endDate
-        val result: Int? = startDate?.compareTo(endDate)
-        if (result != null) {
-            if (result <= 0) {
-                return true
-            }
-        }
 
-        return false
+        // 開始日と終了日が同日でないかつ開始日が終了日より遅かった場合エラー
+        if (startDate?.isEqual(endDate) == false && !startDate.isBefore(endDate)) {
+            return false
+        }
+        return true
     }
 }
