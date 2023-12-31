@@ -14,8 +14,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
 
 sealed class Item(var dist: String, var icon: ImageVector) {
-    object Plan: Item("Plan", Icons.Filled.Edit)
-    object Property: Item("Property", Icons.Filled.List)
+    object Plan: Item("プラン", Icons.Filled.Edit)
+    object Property: Item("持ち物", Icons.Filled.List)
 }
 
 @Composable
@@ -30,9 +30,9 @@ fun BottomBar(navController: NavController, planId: Int) {
                 label = { Text(item.dist) },
                 selected = selectedItem.value == index,
                 onClick = {
-                    if (item.dist == "Plan") {
+                    if (item.dist == "プラン") {
                         navController.navigate("detail/${planId}")
-                    } else if (item.dist == "Property") {
+                    } else if (item.dist == "持ち物") {
                         navController.navigate("property/${planId}")
                     }
                 }

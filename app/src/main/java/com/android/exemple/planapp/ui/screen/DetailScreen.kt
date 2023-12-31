@@ -17,8 +17,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.android.exemple.planapp.R
 import com.android.exemple.planapp.ui.components.BottomBar
 import com.android.exemple.planapp.ui.components.DetailList
 import com.android.exemple.planapp.ui.viewModel.DetailViewModel
@@ -34,12 +36,12 @@ fun DetailScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "旅行プラン") },
+                title = { Text(text = stringResource(R.string.screen_travel_plan)) },
                 navigationIcon = {
                     IconButton(onClick = {
                         navController.popBackStack()
                     }) {
-                        Icon(Icons.Filled.ArrowBack, null)
+                        Icon(Icons.Filled.ArrowBack, stringResource(R.string.desc_back))
                     }
                 }
             )

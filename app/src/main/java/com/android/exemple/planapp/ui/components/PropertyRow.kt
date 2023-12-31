@@ -19,8 +19,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.android.exemple.planapp.R
 import com.android.exemple.planapp.db.entities.Property
 import com.android.exemple.planapp.ui.viewModel.PropertyViewModel
 
@@ -33,7 +35,7 @@ fun PropertyRow(
     var checkedState by remember { mutableStateOf(false) }
 
     val deleteFlag = property.deleteFlag
-    if (deleteFlag.equals("1")) {
+    if (deleteFlag == stringResource(R.string.delete)) {
         checkedState = true
     }
 
@@ -66,14 +68,14 @@ fun PropertyRow(
                     navController.navigate("propertyEdit/${property.id}")
                 }
             ) {
-                Icon(imageVector = Icons.Default.Edit, contentDescription = "編集")
+                Icon(imageVector = Icons.Default.Edit, contentDescription = stringResource(R.string.desc_edit))
             }
             IconButton(
                 onClick = {
                     viewModel.deleteProperty(property)
                 }
             ) {
-                Icon(imageVector = Icons.Default.Delete, contentDescription = "削除")
+                Icon(imageVector = Icons.Default.Delete, contentDescription = stringResource(R.string.desc_delete))
             }
         }
     }

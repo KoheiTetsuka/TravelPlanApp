@@ -34,10 +34,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.android.exemple.planapp.R
 import com.android.exemple.planapp.ui.viewModel.DetailViewModel
 import java.time.LocalDate
 import java.time.LocalTime
@@ -59,12 +61,12 @@ fun DetailCreateScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "スケジュール作成") },
+                title = { Text(text = stringResource(R.string.screen_detail_create)) },
                 navigationIcon = {
                     IconButton(onClick = {
                         navController.popBackStack()
                     }) {
-                        Icon(Icons.Filled.ArrowBack, null)
+                        Icon(Icons.Filled.ArrowBack, stringResource(R.string.desc_back) )
                     }
                 },
                 actions = {
@@ -73,7 +75,7 @@ fun DetailCreateScreen(
                             viewModel.createDetail()
                         }
                     }) {
-                        Icon(Icons.Filled.Add, null)
+                        Icon(Icons.Filled.Add, stringResource(R.string.desc_create))
                     }
                 }
             )
@@ -86,7 +88,7 @@ fun DetailCreateScreen(
                     .background(
                         color = Color(0xffcccccc)
                     ),
-                text = "タイトル",
+                text = stringResource(R.string.label_title),
             )
             OutlinedTextField(
                 modifier = Modifier
@@ -96,17 +98,17 @@ fun DetailCreateScreen(
                 onValueChange = {
                     viewModel.event(DetailViewModel.Event.TitleChanged(it))
                 },
-                label = { Text("例:成田空港から沖縄へ出発") },
+                label = { Text(stringResource(R.string.label_detail_title)) },
                 singleLine = true,
                 isError = uiState.titleErrorMessage.isNotEmpty(),
                 trailingIcon = {
                     if (uiState.titleErrorMessage.isEmpty()) return@OutlinedTextField
-                    Icon(Icons.Filled.Error, "error", tint = MaterialTheme.colors.error)
+                    Icon(Icons.Filled.Error, stringResource(R.string.desc_error), tint = MaterialTheme.colors.error)
                 },
             )
             if (uiState.titleErrorMessage.isNotEmpty()) {
                 Text(
-                    text = "タイトルの入力は必須です。",
+                    text = stringResource(R.string.error_title),
                     color = MaterialTheme.colors.error
                 )
             }
@@ -117,7 +119,7 @@ fun DetailCreateScreen(
                     .background(
                         color = Color(0xffcccccc)
                     ),
-                text = "日付",
+                text = stringResource(R.string.label_date),
             )
             Row(
                 modifier = Modifier
@@ -126,7 +128,7 @@ fun DetailCreateScreen(
             ) {
                 OutlinedTextField(
                     modifier = Modifier.weight(1f),
-                    value = uiState.date?.toString() ?: "",
+                    value = uiState.date?.toString() ?: stringResource(R.string.empty),
                     onValueChange = {
 
                     },
@@ -142,7 +144,7 @@ fun DetailCreateScreen(
                             },
                         )
                     }) {
-                    Icon(imageVector = Icons.Default.DateRange, contentDescription = "開始日")
+                    Icon(imageVector = Icons.Default.DateRange, contentDescription = stringResource(R.string.desc_start_time))
                 }
             }
             Spacer(modifier = Modifier.height(10.dp))
@@ -152,7 +154,7 @@ fun DetailCreateScreen(
                     .background(
                         color = Color(0xffcccccc)
                     ),
-                text = "開始時間",
+                text = stringResource(R.string.label_start_time),
             )
             Row(
                 modifier = Modifier
@@ -161,14 +163,14 @@ fun DetailCreateScreen(
             ) {
                 OutlinedTextField(
                     modifier = Modifier.weight(1f),
-                    value = uiState.startTime?.toString() ?: "",
+                    value = uiState.startTime?.toString() ?: stringResource(R.string.empty),
                     onValueChange = {
 
                     },
                     isError = uiState.timeErrorMessage.isNotEmpty(),
                     trailingIcon = {
                         if (uiState.timeErrorMessage.isEmpty()) return@OutlinedTextField
-                        Icon(Icons.Filled.Error, "error", tint = MaterialTheme.colors.error)
+                        Icon(Icons.Filled.Error, stringResource(R.string.desc_error), tint = MaterialTheme.colors.error)
                     },
                 )
                 Spacer(modifier = Modifier.width(15.dp))
@@ -182,7 +184,7 @@ fun DetailCreateScreen(
                             }
                         )
                     }) {
-                    Icon(imageVector = Icons.Default.Timer, contentDescription = "開始時間")
+                    Icon(imageVector = Icons.Default.Timer, contentDescription = stringResource(R.string.desc_start_time))
                 }
             }
             Spacer(modifier = Modifier.height(10.dp))
@@ -192,7 +194,7 @@ fun DetailCreateScreen(
                     .background(
                         color = Color(0xffcccccc)
                     ),
-                text = "終了時間",
+                text = stringResource(R.string.label_end_time),
             )
             Row(
                 modifier = Modifier
@@ -201,14 +203,14 @@ fun DetailCreateScreen(
             ) {
                 OutlinedTextField(
                     modifier = Modifier.weight(1f),
-                    value = uiState.endTime?.toString() ?: "",
+                    value = uiState.endTime?.toString() ?: stringResource(R.string.empty),
                     onValueChange = {
 
                     },
                     isError = uiState.timeErrorMessage.isNotEmpty(),
                     trailingIcon = {
                         if (uiState.timeErrorMessage.isEmpty()) return@OutlinedTextField
-                        Icon(Icons.Filled.Error, "error", tint = MaterialTheme.colors.error)
+                        Icon(Icons.Filled.Error, stringResource(R.string.desc_error), tint = MaterialTheme.colors.error)
                     },
                 )
                 Spacer(modifier = Modifier.width(15.dp))
@@ -222,12 +224,12 @@ fun DetailCreateScreen(
                             }
                         )
                     }) {
-                    Icon(imageVector = Icons.Default.Timer, contentDescription = "終了時間")
+                    Icon(imageVector = Icons.Default.Timer, contentDescription = stringResource(R.string.desc_end_time))
                 }
             }
             if (uiState.timeErrorMessage.isNotEmpty()) {
                 androidx.compose.material3.Text(
-                    text = "終了時間は開始時間より後の時間を入力してください。",
+                    text = stringResource(R.string.error_time_validate),
                     color = MaterialTheme.colors.error
                 )
             }
@@ -238,7 +240,7 @@ fun DetailCreateScreen(
                     .background(
                         color = Color(0xffcccccc)
                     ),
-                text = "費用",
+                text = stringResource(R.string.label_cost),
             )
             OutlinedTextField(
                 modifier = Modifier
@@ -248,7 +250,7 @@ fun DetailCreateScreen(
                 onValueChange = {
                     viewModel.event(DetailViewModel.Event.CostChanged(it))
                 },
-                label = { Text("費用") }
+                label = { Text(stringResource(R.string.label_cost)) }
             )
             Spacer(modifier = Modifier.height(10.dp))
             Text(
@@ -257,7 +259,7 @@ fun DetailCreateScreen(
                     .background(
                         color = Color(0xffcccccc)
                     ),
-                text = "URL",
+                text = stringResource(R.string.label_url),
             )
             OutlinedTextField(
                 modifier = Modifier
@@ -267,7 +269,7 @@ fun DetailCreateScreen(
                 onValueChange = {
                     viewModel.event(DetailViewModel.Event.UrlChanged(it))
                 },
-                label = { Text("リンク") }
+                label = { Text(stringResource(R.string.label_link)) }
             )
             Spacer(modifier = Modifier.height(10.dp))
             Text(
@@ -276,7 +278,7 @@ fun DetailCreateScreen(
                     .background(
                         color = Color(0xffcccccc)
                     ),
-                text = "メモ",
+                text = stringResource(R.string.label_memo),
             )
             OutlinedTextField(
                 modifier = Modifier
@@ -287,7 +289,7 @@ fun DetailCreateScreen(
                 onValueChange = {
                     viewModel.event(DetailViewModel.Event.MemoChanged(it))
                 },
-                label = { Text("メモ") }
+                label = { Text(stringResource(R.string.label_memo)) }
             )
         }
     }

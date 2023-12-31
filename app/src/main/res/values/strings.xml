@@ -1,3 +1,53 @@
 <resources>
     <string name="app_name">PlanApp</string>
+
+    <string name="screen_travel_plan">旅行プラン</string>
+    <string name="screen_travel_plan_create">旅行プラン作成</string>
+    <string name="screen_travel_plan_edit">旅行プラン編集</string>
+    <string name="screen_detail_create">スケジュール作成</string>
+    <string name="screen_detail_edit">スケジュール編集</string>
+    <string name="screen_property_title">持ち物</string>
+    <string name="screen_property_create">持ち物リスト作成</string>
+    <string name="screen_property_edit">持ち物リスト編集</string>
+
+    <string name="label_title">タイトル</string>
+    <string name="label_okinawa">例：沖縄旅行</string>
+    <string name="label_detail">詳細情報</string>
+    <string name="label_graduation">例：卒業旅行</string>
+    <string name="label_start_day">開始日</string>
+    <string name="label_end_day">終了日</string>
+    <string name="label_detail_title">例:成田空港から沖縄へ出発</string>
+    <string name="label_date">日付</string>
+    <string name="label_start_time">開始時間</string>
+    <string name="label_end_time">終了時間</string>
+    <string name="label_cost">費用</string>
+    <string name="label_url">URL</string>
+    <string name="label_link">リンク</string>
+    <string name="label_memo">メモ</string>
+    <string name="label_property_title">持ち物一覧</string>
+    <string name="label_bottle">例:水筒</string>
+    <string name="label_property">持ち物</string>
+    <string name="label_pending">未定</string>
+    <string name="label_tilde">〜</string>
+
+    <string name="format_yyyy_mm_dd_e">yyyy年MM月dd日 (E)</string>
+    <string name="format_mm_dd">MM月dd日</string>
+
+    <string name="error_title">タイトルの入力は必須です。</string>
+    <string name="error_date_validate">終了日は開始日より後の日付を入力してください。</string>
+    <string name="error_time_validate">終了時間は開始時間より後の時間を入力してください。</string>
+
+    <string name="desc_create">新規作成</string>
+    <string name="desc_error">エラー</string>
+    <string name="desc_start_day">開始日</string>
+    <string name="desc_end_day">終了日</string>
+    <string name="desc_update">更新</string>
+    <string name="desc_back">戻る</string>
+    <string name="desc_start_time">開始時間</string>
+    <string name="desc_end_time">終了時間</string>
+    <string name="desc_delete">削除</string>
+    <string name="desc_edit">編集</string>
+
+    <string name="empty" />
+    <string name="delete">1</string>
 </resources>

@@ -31,9 +31,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.android.exemple.planapp.R
 import com.android.exemple.planapp.ui.viewModel.PlanViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -45,10 +47,10 @@ fun PlanCreateScreen(
     viewModel: PlanViewModel = hiltViewModel(),
     navController: NavController,
 ) {
-
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
-    val dateFormat = DateTimeFormatter.ofPattern("yyyy年MM月dd日 (E)", Locale.JAPAN)
+    val dateFormat =
+        DateTimeFormatter.ofPattern(stringResource(R.string.format_yyyy_mm_dd_e), Locale.JAPAN)
 
     var hasTitleError: Boolean = uiState.titleErrorMessage.isNotEmpty()
     var hasDateError: Boolean = uiState.dateErrorMessage.isNotEmpty()
@@ -56,12 +58,12 @@ fun PlanCreateScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "新規旅行作成") },
+                title = { Text(text = stringResource(R.string.screen_travel_plan_create)) },
                 navigationIcon = {
                     IconButton(onClick = {
                         navController.popBackStack()
                     }) {
-                        Icon(Icons.Filled.ArrowBack, null)
+                        Icon(Icons.Filled.ArrowBack, stringResource(R.string.desc_back))
                     }
                 },
                 actions = {
@@ -72,7 +74,7 @@ fun PlanCreateScreen(
                             }
                         }
                     }) {
-                        Icon(Icons.Filled.Add, null)
+                        Icon(Icons.Filled.Add, stringResource(R.string.desc_create))
                     }
                 },
             )
@@ -85,7 +87,7 @@ fun PlanCreateScreen(
                     .background(
                         color = Color(0xffcccccc)
                     ),
-                text = "タイトル",
+                text = stringResource(R.string.label_title),
             )
             OutlinedTextField(
                 modifier = Modifier
@@ -95,17 +97,17 @@ fun PlanCreateScreen(
                 onValueChange = {
                     viewModel.event(PlanViewModel.Event.TitleChanged(it))
                 },
-                label = { Text("例：沖縄旅行") },
+                label = { Text(stringResource(R.string.label_okinawa)) },
                 singleLine = true,
                 isError = uiState.titleErrorMessage.isNotEmpty(),
                 trailingIcon = {
                     if (uiState.titleErrorMessage.isEmpty()) return@OutlinedTextField
-                    Icon(Icons.Filled.Error, "error", tint = MaterialTheme.colors.error)
+                    Icon(Icons.Filled.Error, stringResource(R.string.desc_error), tint = MaterialTheme.colors.error)
                 },
             )
             if (uiState.titleErrorMessage.isNotEmpty()) {
                 Text(
-                    text = "タイトルの入力は必須です。",
+                    text = stringResource(R.string.error_title),
                     color = MaterialTheme.colors.error
                 )
             }
@@ -116,7 +118,7 @@ fun PlanCreateScreen(
                     .background(
                         color = Color(0xffcccccc)
                     ),
-                text = "詳細情報",
+                text = stringResource(R.string.label_detail),
             )
             OutlinedTextField(
                 modifier = Modifier
@@ -126,7 +128,7 @@ fun PlanCreateScreen(
                 onValueChange = {
                     viewModel.event(PlanViewModel.Event.DescriptionChanged(it))
                 },
-                label = { Text("例：卒業旅行") }
+                label = { Text(stringResource(R.string.label_graduation)) }
             )
             Spacer(modifier = Modifier.height(20.dp))
             Text(
@@ -135,7 +137,7 @@ fun PlanCreateScreen(
                     .background(
                         color = Color(0xffcccccc)
                     ),
-                text = "開始日",
+                text = stringResource(R.string.label_start_day),
             )
             Row(
                 modifier = Modifier
@@ -144,14 +146,14 @@ fun PlanCreateScreen(
             ) {
                 OutlinedTextField(
                     modifier = Modifier.weight(1f),
-                    value = if (uiState.startDate == null) "" else dateFormat.format(uiState.startDate),
+                    value = if (uiState.startDate == null) stringResource(R.string.empty) else dateFormat.format(uiState.startDate),
                     onValueChange = {
 
                     },
                     isError = uiState.dateErrorMessage.isNotEmpty(),
                     trailingIcon = {
                         if (uiState.dateErrorMessage.isEmpty()) return@OutlinedTextField
-                        Icon(Icons.Filled.Error, "error", tint = MaterialTheme.colors.error)
+                        Icon(Icons.Filled.Error, stringResource(R.string.desc_error), tint = MaterialTheme.colors.error)
                     },
                 )
                 Spacer(modifier = Modifier.width(15.dp))
@@ -165,7 +167,7 @@ fun PlanCreateScreen(
                             }
                         )
                     }) {
-                    Icon(imageVector = Icons.Default.DateRange, contentDescription = "開始日")
+                    Icon(imageVector = Icons.Default.DateRange, contentDescription = stringResource(R.string.desc_error))
                 }
             }
             Spacer(modifier = Modifier.height(20.dp))
@@ -175,7 +177,7 @@ fun PlanCreateScreen(
                     .background(
                         color = Color(0xffcccccc)
                     ),
-                text = "終了日",
+                text = stringResource(R.string.label_end_day),
             )
             Row(
                 modifier = Modifier
@@ -185,14 +187,14 @@ fun PlanCreateScreen(
                 OutlinedTextField(
                     modifier = Modifier
                         .weight(1f),
-                    value = if (uiState.endDate == null) "" else dateFormat.format(uiState.endDate),
+                    value = if (uiState.endDate == null) stringResource(R.string.empty) else dateFormat.format(uiState.endDate),
                     onValueChange = {
 
                     },
                     isError = uiState.dateErrorMessage.isNotEmpty(),
                     trailingIcon = {
                         if (uiState.dateErrorMessage.isEmpty()) return@OutlinedTextField
-                        Icon(Icons.Filled.Error, "error", tint = MaterialTheme.colors.error)
+                        Icon(Icons.Filled.Error, stringResource(R.string.desc_error), tint = MaterialTheme.colors.error)
                     },
                 )
                 Spacer(modifier = Modifier.width(20.dp))
@@ -206,12 +208,12 @@ fun PlanCreateScreen(
                             }
                         )
                     }) {
-                    Icon(imageVector = Icons.Default.DateRange, contentDescription = "終了日")
+                    Icon(imageVector = Icons.Default.DateRange, contentDescription = stringResource(R.string.desc_end_day))
                 }
             }
             if (uiState.dateErrorMessage.isNotEmpty()) {
                 Text(
-                    text = "終了日は開始日より後の日付を入力してください。",
+                    text = stringResource(R.string.error_date_validate),
                     color = MaterialTheme.colors.error
                 )
             }

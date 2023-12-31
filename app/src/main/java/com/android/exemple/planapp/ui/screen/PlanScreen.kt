@@ -10,8 +10,10 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.android.exemple.planapp.R
 import com.android.exemple.planapp.ui.components.PlanList
 import com.android.exemple.planapp.ui.viewModel.PlanViewModel
 
@@ -23,14 +25,14 @@ fun PlanScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "旅行プラン") }
+                title = { Text(text = stringResource(R.string.screen_travel_plan)) }
             )
         },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { navController.navigate("planCreate") }
             ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "新規作成")
+                Icon(imageVector = Icons.Default.Add, contentDescription = stringResource(R.string.desc_create))
             }
         },
     ) {

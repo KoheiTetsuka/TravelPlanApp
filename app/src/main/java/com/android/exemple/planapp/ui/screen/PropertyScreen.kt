@@ -17,8 +17,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.android.exemple.planapp.R
 import com.android.exemple.planapp.ui.components.BottomBar
 import com.android.exemple.planapp.ui.components.PropertyList
 import com.android.exemple.planapp.ui.viewModel.PropertyViewModel
@@ -36,12 +38,12 @@ fun PropertyScreen (
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "持ち物") },
+                title = { Text(text = stringResource(R.string.screen_property_title)) },
                 navigationIcon = {
                     IconButton(onClick = {
                         navController.popBackStack()
                     }) {
-                        Icon(Icons.Filled.ArrowBack, null)
+                        Icon(Icons.Filled.ArrowBack, stringResource(R.string.desc_back))
                     }
                 },
             )
@@ -50,7 +52,7 @@ fun PropertyScreen (
             FloatingActionButton(
                 onClick = { navController.navigate("propertyCreate/${planId}") }
             ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "新規作成")
+                Icon(imageVector = Icons.Default.Add, contentDescription = stringResource(R.string.desc_create))
             }
         },
         bottomBar = {
@@ -64,7 +66,7 @@ fun PropertyScreen (
                     .background(
                         color = Color(0xffcccccc)
                     ),
-                text = "持ち物一覧",
+                text = stringResource(R.string.label_property_title),
             )
             val properties = uiState.properties
             if (properties != null) {

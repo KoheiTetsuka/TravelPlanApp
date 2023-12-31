@@ -20,9 +20,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.android.exemple.planapp.R
 import com.android.exemple.planapp.ui.viewModel.PropertyViewModel
 
 @Composable
@@ -37,19 +39,19 @@ fun PropertyCreateScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "持ち物リスト作成") } ,
+                title = { Text(text = stringResource(R.string.screen_property_create)) } ,
                 navigationIcon = {
                     IconButton(onClick = {
                         navController.popBackStack()
                     }) {
-                        Icon(Icons.Filled.ArrowBack, null)
+                        Icon(Icons.Filled.ArrowBack, stringResource(R.string.desc_back))
                     }
                 },
                 actions = {
                     IconButton(onClick = {
                         viewModel.createProperty()
                     }) {
-                        Icon(Icons.Filled.Add, null)
+                        Icon(Icons.Filled.Add, stringResource(R.string.desc_create))
                     }
                 }
             )
@@ -62,7 +64,7 @@ fun PropertyCreateScreen(
                     .background(
                         color = Color(0xffcccccc)
                     ),
-                text = "持ち物",
+                text = stringResource(R.string.label_property),
             )
             OutlinedTextField(
                 modifier = Modifier
@@ -72,16 +74,16 @@ fun PropertyCreateScreen(
                 onValueChange = {
                     viewModel.event(PropertyViewModel.Event.TitleChanged(it))
                 },
-                label = { Text("例:水筒") },
+                label = { Text(stringResource(R.string.label_bottle)) },
                 isError = uiState.titleErrorMessage.isNotEmpty(),
                 trailingIcon = {
                     if (uiState.titleErrorMessage.isEmpty()) return@OutlinedTextField
-                    Icon(Icons.Filled.Error, "error", tint = MaterialTheme.colors.error)
+                    Icon(Icons.Filled.Error, stringResource(R.string.desc_error), tint = MaterialTheme.colors.error)
                 },
             )
             if (uiState.titleErrorMessage.isNotEmpty()) {
                 Text(
-                    text = "タイトルの入力は必須です。",
+                    text = stringResource(R.string.error_title),
                     color = MaterialTheme.colors.error
                 )
             }

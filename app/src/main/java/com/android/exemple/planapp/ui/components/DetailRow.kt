@@ -19,10 +19,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.android.exemple.planapp.R
 import com.android.exemple.planapp.db.entities.Detail
 import com.android.exemple.planapp.ui.viewModel.DetailViewModel
 import java.time.format.DateTimeFormatter
@@ -34,7 +36,7 @@ fun DetailRow(
     navController: NavController,
     viewModel: DetailViewModel
 ) {
-    val dateFormat = DateTimeFormatter.ofPattern("MM月dd日", Locale.JAPAN)
+    val dateFormat = DateTimeFormatter.ofPattern(stringResource(R.string.format_mm_dd), Locale.JAPAN)
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -49,7 +51,7 @@ fun DetailRow(
             Column {
                 Text(
                     modifier = Modifier.background(Color.Yellow),
-                    text = if (detail.date == null) "未定" else dateFormat.format(detail.date),
+                    text = if (detail.date == null) stringResource(R.string.label_pending) else dateFormat.format(detail.date),
                     fontSize = 12.sp,
                 )
                 Spacer(modifier = Modifier.height(3.dp))
@@ -58,7 +60,7 @@ fun DetailRow(
                     fontSize = 11.sp
                 )
                 Text(
-                    text = "〜",
+                    text = stringResource(R.string.label_tilde),
                     fontSize = 11.sp
                 )
                 Text(
@@ -81,12 +83,12 @@ fun DetailRow(
                     navController.navigate("DetailEdit/${detail.id}")
                 }
             ) {
-                Icon(imageVector = Icons.Default.Edit, contentDescription = "編集")
+                Icon(imageVector = Icons.Default.Edit, contentDescription = stringResource(R.string.desc_edit))
             }
             IconButton(
                 onClick = { viewModel.deleteDetail(detail) }
             ) {
-                Icon(imageVector = Icons.Default.Delete, contentDescription = "削除")
+                Icon(imageVector = Icons.Default.Delete, contentDescription = stringResource(R.string.desc_delete))
             }
         }
     }
