@@ -38,7 +38,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.android.exemple.planapp.R
-import com.android.exemple.planapp.db.entities.Plan
 import com.android.exemple.planapp.ui.viewModel.PlanEditViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -163,9 +162,8 @@ fun PlanEditScreen(
                     value = if (uiState.startDate == null) stringResource(R.string.empty) else dateFormat.format(
                         uiState.startDate
                     ),
-                    onValueChange = {
-
-                    },
+                    onValueChange = {},
+                    readOnly = true,
                     isError = uiState.dateErrorMessage.isNotEmpty(),
                     trailingIcon = {
                         if (uiState.dateErrorMessage.isEmpty()) return@OutlinedTextField
@@ -213,9 +211,8 @@ fun PlanEditScreen(
                     value = if (uiState.endDate == null) stringResource(R.string.empty) else dateFormat.format(
                         uiState.endDate
                     ),
-                    onValueChange = {
-
-                    },
+                    onValueChange = {},
+                    readOnly = true,
                     isError = uiState.dateErrorMessage.isNotEmpty(),
                     trailingIcon = {
                         if (uiState.dateErrorMessage.isEmpty()) return@OutlinedTextField
@@ -272,9 +269,4 @@ private fun showDatePicker(
             )
         }, year, month, day
     ).show()
-}
-
-@Composable
-fun EditBody(plan: Plan) {
-
 }

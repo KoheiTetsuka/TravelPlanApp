@@ -50,7 +50,7 @@ fun DetailScreen(
             FloatingActionButton(
                 onClick = { navController.navigate("detailCreate/${planId}") }
             ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "新規作成")
+                Icon(imageVector = Icons.Default.Add, contentDescription = stringResource(R.string.desc_create))
             }
         },
         bottomBar = {
@@ -65,7 +65,7 @@ fun DetailScreen(
                     .background(
                         color = Color(0xffcccccc)
                     ),
-                text = "予定一覧",
+                text = stringResource(R.string.label_plan_list),
             )
 
             DetailList(

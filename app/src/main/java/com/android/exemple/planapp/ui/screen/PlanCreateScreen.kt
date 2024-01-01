@@ -147,9 +147,8 @@ fun PlanCreateScreen(
                 OutlinedTextField(
                     modifier = Modifier.weight(1f),
                     value = if (uiState.startDate == null) stringResource(R.string.empty) else dateFormat.format(uiState.startDate),
-                    onValueChange = {
-
-                    },
+                    onValueChange = {},
+                    readOnly = true,
                     isError = uiState.dateErrorMessage.isNotEmpty(),
                     trailingIcon = {
                         if (uiState.dateErrorMessage.isEmpty()) return@OutlinedTextField
@@ -188,9 +187,8 @@ fun PlanCreateScreen(
                     modifier = Modifier
                         .weight(1f),
                     value = if (uiState.endDate == null) stringResource(R.string.empty) else dateFormat.format(uiState.endDate),
-                    onValueChange = {
-
-                    },
+                    onValueChange = {},
+                    readOnly = true,
                     isError = uiState.dateErrorMessage.isNotEmpty(),
                     trailingIcon = {
                         if (uiState.dateErrorMessage.isEmpty()) return@OutlinedTextField

@@ -129,9 +129,9 @@ fun DetailCreateScreen(
                 OutlinedTextField(
                     modifier = Modifier.weight(1f),
                     value = uiState.date?.toString() ?: stringResource(R.string.empty),
-                    onValueChange = {
+                    onValueChange = {},
+                    readOnly = true,
 
-                    },
                 )
                 Spacer(modifier = Modifier.width(15.dp))
                 IconButton(
@@ -164,9 +164,8 @@ fun DetailCreateScreen(
                 OutlinedTextField(
                     modifier = Modifier.weight(1f),
                     value = uiState.startTime?.toString() ?: stringResource(R.string.empty),
-                    onValueChange = {
-
-                    },
+                    onValueChange = {},
+                    readOnly = true,
                     isError = uiState.timeErrorMessage.isNotEmpty(),
                     trailingIcon = {
                         if (uiState.timeErrorMessage.isEmpty()) return@OutlinedTextField
@@ -204,9 +203,8 @@ fun DetailCreateScreen(
                 OutlinedTextField(
                     modifier = Modifier.weight(1f),
                     value = uiState.endTime?.toString() ?: stringResource(R.string.empty),
-                    onValueChange = {
-
-                    },
+                    onValueChange = {},
+                    readOnly = true,
                     isError = uiState.timeErrorMessage.isNotEmpty(),
                     trailingIcon = {
                         if (uiState.timeErrorMessage.isEmpty()) return@OutlinedTextField
@@ -310,7 +308,7 @@ private fun showDatePicker(
         context,
         { _: DatePicker, pickedYear: Int, pickedMonth: Int, pickedDay: Int ->
             onDecideDate(
-                LocalDate.of(pickedYear, pickedMonth, pickedDay)
+                LocalDate.of(pickedYear, pickedMonth + 1, pickedDay)
             )
         }, year, month, day
     ).show()
