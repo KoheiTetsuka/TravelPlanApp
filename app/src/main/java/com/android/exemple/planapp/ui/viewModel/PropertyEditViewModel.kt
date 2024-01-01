@@ -53,4 +53,23 @@ class PropertyEditViewModel @Inject constructor(private val propertyDao: Propert
             }
         }
     }
+
+    fun updatePlan(propertyId: Int) {
+        viewModelScope.launch {
+            if (_uiState.value.title.isEmpty()) {
+                _uiState.update {
+                    it.copy(titleErrorMessage = "タイトルは必須です。")
+                }
+                return@launch
+            }
+
+            val newProperty = Property(
+                id = propertyId,
+                title = _uiState.value.title,
+                planId = _uiState.value.planId!!,
+                deleteFlag = _uiState.value.deleteFlag
+            )
+            propertyDao.updateProperty(newProperty)
+        }
+    }
 }

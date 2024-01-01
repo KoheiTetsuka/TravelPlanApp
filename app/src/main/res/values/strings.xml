@@ -49,6 +49,6 @@
     <string name="desc_edit">編集</string>
 
     <string name="empty" />
-    <string name="delete">1</string>
+    <string name="deleteFlag">1</string>
     <string name="label_plan_list">予定一覧</string>
 </resources>

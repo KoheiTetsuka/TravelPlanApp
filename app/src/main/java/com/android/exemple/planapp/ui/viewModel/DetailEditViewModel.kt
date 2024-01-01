@@ -110,6 +110,19 @@ class DetailEditViewModel @Inject constructor(private val detailDao: DetailDao) 
     }
     fun updateDetail(detailId: Int) {
         viewModelScope.launch {
+            if (_uiState.value.title.isEmpty()) {
+                _uiState.update {
+                    it.copy(titleErrorMessage = "タイトルは必須です。")
+                }
+                return@launch
+            }
+
+            if (!checkTimeValidate()) {
+                _uiState.update {
+                    it.copy(timeErrorMessage = "終了時間は開始時間より後の時刻を入力してください。")
+                }
+                return@launch
+            }
 
             val newDetail = Detail(
                 id = detailId,
@@ -124,5 +137,16 @@ class DetailEditViewModel @Inject constructor(private val detailDao: DetailDao) 
             )
             detailDao.updateDetail(newDetail)
         }
+    }
+
+    /**
+     * 開始時間と終了時間を比較する。
+     * 終了時間より開始時間が遅かったらエラー
+     */
+    private fun checkTimeValidate(): Boolean {
+        val startTime = _uiState.value.startTime
+        val endTime = _uiState.value.endTime
+
+        return startTime?.isBefore(endTime) != false
     }
 }
