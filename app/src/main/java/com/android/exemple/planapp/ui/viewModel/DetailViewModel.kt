@@ -17,6 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : ViewModel() {
+
     val details = detailDao.getAll().distinctUntilChanged()
 
     data class UiState(

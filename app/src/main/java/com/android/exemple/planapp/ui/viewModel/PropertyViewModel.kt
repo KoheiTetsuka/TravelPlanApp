@@ -16,8 +16,6 @@ import javax.inject.Inject
 @HiltViewModel
 class PropertyViewModel @Inject constructor(private val propertyDao: PropertyDao): ViewModel() {
 
-    val properties = propertyDao.getAll().distinctUntilChanged()
-
     data class UiState(
         val title: String = "",
         val planId: Int? = null,
@@ -39,13 +37,14 @@ class PropertyViewModel @Inject constructor(private val propertyDao: PropertyDao
         viewModelScope.launch {
             when (event) {
                 is Event.Init -> {
-                    val properties = propertyDao.getAllByPlanId(event.planId).first()
+                    val properties = propertyDao.getAllByPlanId(event.planId).distinctUntilChanged().first()
                     _uiState.update {
                         it.copy(
                             properties = properties,
                             planId = event.planId,
                         )
                     }
+
                 }
 
                 is Event.CreateInit -> {

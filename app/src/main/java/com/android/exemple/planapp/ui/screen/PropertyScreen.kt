@@ -31,7 +31,6 @@ fun PropertyScreen (
     navController: NavController,
     planId: Int
 ) {
-
     val uiState by viewModel.uiState.collectAsState()
     viewModel.event(PropertyViewModel.Event.Init(planId = planId))
 

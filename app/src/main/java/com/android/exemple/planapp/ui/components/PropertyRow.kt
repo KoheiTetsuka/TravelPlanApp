@@ -55,6 +55,7 @@ fun PropertyRow(
                 onCheckedChange = {
                     checkedState = it
                     viewModel.softDeleteProperty(property)
+                    viewModel.event(PropertyViewModel.Event.Init(planId = property.planId))
                 },
             )
             Text(
