@@ -36,7 +36,7 @@ fun DetailScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(R.string.screen_travel_plan)) },
+                title = { Text(text = stringResource(R.string.screen_detail_plan)) },
                 navigationIcon = {
                     IconButton(onClick = {
                         navController.popBackStack()

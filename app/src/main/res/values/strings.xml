@@ -4,6 +4,7 @@
     <string name="screen_travel_plan">旅行プラン</string>
     <string name="screen_travel_plan_create">旅行プラン作成</string>
     <string name="screen_travel_plan_edit">旅行プラン編集</string>
+    <string name="screen_detail_plan">スケジュール</string>
     <string name="screen_detail_create">スケジュール作成</string>
     <string name="screen_detail_edit">スケジュール編集</string>
     <string name="screen_property_title">持ち物</string>

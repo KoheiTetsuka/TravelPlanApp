@@ -226,7 +226,7 @@ fun DetailCreateScreen(
                 }
             }
             if (uiState.timeErrorMessage.isNotEmpty()) {
-                androidx.compose.material3.Text(
+                Text(
                     text = stringResource(R.string.error_time_validate),
                     color = MaterialTheme.colors.error
                 )
