@@ -52,4 +52,5 @@
     <string name="empty" />
     <string name="deleteFlag">1</string>
     <string name="label_plan_list">予定一覧</string>
+    <string name="label_required">※必須</string>
 </resources>

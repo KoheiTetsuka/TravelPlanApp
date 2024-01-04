@@ -2,6 +2,7 @@ package com.android.exemple.planapp.ui.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
@@ -51,7 +52,7 @@ fun PropertyEditScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(R.string.screen_property_edit)) } ,
+                title = { Text(text = stringResource(R.string.screen_property_edit)) },
                 navigationIcon = {
                     IconButton(onClick = {
                         navController.popBackStack()
@@ -71,14 +72,24 @@ fun PropertyEditScreen(
         }
     ) {
         Column {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth(1f)
-                    .background(
-                        color = Color(0xffcccccc)
-                    ),
-                text = stringResource(R.string.label_property),
-            )
+            Row {
+                Text(
+                    modifier = Modifier
+                        .background(
+                            color = Color(0xffcccccc)
+                        ),
+                    text = stringResource(R.string.label_property),
+                )
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth(1f)
+                        .background(
+                            color = Color(0xffcccccc)
+                        ),
+                    text = stringResource(R.string.label_required),
+                    color = Color.Red
+                )
+            }
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth(1f)
@@ -91,7 +102,11 @@ fun PropertyEditScreen(
                 isError = uiState.titleErrorMessage.isNotEmpty(),
                 trailingIcon = {
                     if (uiState.titleErrorMessage.isEmpty()) return@OutlinedTextField
-                    Icon(Icons.Filled.Error, stringResource(R.string.desc_error), tint = MaterialTheme.colors.error)
+                    Icon(
+                        Icons.Filled.Error,
+                        stringResource(R.string.desc_error),
+                        tint = MaterialTheme.colors.error
+                    )
                 },
             )
             if (uiState.titleErrorMessage.isNotEmpty()) {

@@ -87,14 +87,24 @@ fun DetailEditScreen(
         },
     ) {
         Column {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth(1f)
-                    .background(
-                        color = Color(0xffcccccc)
-                    ),
-                text = stringResource(R.string.label_title),
-            )
+            Row {
+                Text(
+                    modifier = Modifier
+                        .background(
+                            color = Color(0xffcccccc)
+                        ),
+                    text = stringResource(R.string.label_title),
+                )
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth(1f)
+                        .background(
+                            color = Color(0xffcccccc)
+                        ),
+                    text = stringResource(R.string.label_required),
+                    color = Color.Red
+                )
+            }
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth(1f)
@@ -108,7 +118,11 @@ fun DetailEditScreen(
                 isError = uiState.titleErrorMessage.isNotEmpty(),
                 trailingIcon = {
                     if (uiState.titleErrorMessage.isEmpty()) return@OutlinedTextField
-                    Icon(Icons.Filled.Error, stringResource(R.string.desc_error), tint = MaterialTheme.colors.error)
+                    Icon(
+                        Icons.Filled.Error,
+                        stringResource(R.string.desc_error),
+                        tint = MaterialTheme.colors.error
+                    )
                 },
             )
             if (uiState.titleErrorMessage.isNotEmpty()) {
@@ -149,7 +163,10 @@ fun DetailEditScreen(
                             },
                         )
                     }) {
-                    Icon(imageVector = Icons.Default.DateRange, contentDescription = stringResource(R.string.desc_start_day))
+                    Icon(
+                        imageVector = Icons.Default.DateRange,
+                        contentDescription = stringResource(R.string.desc_start_day)
+                    )
                 }
             }
             Spacer(modifier = Modifier.height(10.dp))
@@ -174,7 +191,11 @@ fun DetailEditScreen(
                     isError = uiState.timeErrorMessage.isNotEmpty(),
                     trailingIcon = {
                         if (uiState.timeErrorMessage.isEmpty()) return@OutlinedTextField
-                        Icon(Icons.Filled.Error, stringResource(R.string.desc_error), tint = MaterialTheme.colors.error)
+                        Icon(
+                            Icons.Filled.Error,
+                            stringResource(R.string.desc_error),
+                            tint = MaterialTheme.colors.error
+                        )
                     },
                 )
                 Spacer(modifier = Modifier.width(15.dp))
@@ -188,7 +209,10 @@ fun DetailEditScreen(
                             }
                         )
                     }) {
-                    Icon(imageVector = Icons.Default.Timer, contentDescription = stringResource(R.string.desc_start_time))
+                    Icon(
+                        imageVector = Icons.Default.Timer,
+                        contentDescription = stringResource(R.string.desc_start_time)
+                    )
                 }
             }
             Spacer(modifier = Modifier.height(10.dp))
@@ -213,7 +237,11 @@ fun DetailEditScreen(
                     isError = uiState.timeErrorMessage.isNotEmpty(),
                     trailingIcon = {
                         if (uiState.timeErrorMessage.isEmpty()) return@OutlinedTextField
-                        Icon(Icons.Filled.Error, stringResource(R.string.desc_error), tint = MaterialTheme.colors.error)
+                        Icon(
+                            Icons.Filled.Error,
+                            stringResource(R.string.desc_error),
+                            tint = MaterialTheme.colors.error
+                        )
                     },
                 )
                 Spacer(modifier = Modifier.width(15.dp))
@@ -227,7 +255,10 @@ fun DetailEditScreen(
                             }
                         )
                     }) {
-                    Icon(imageVector = Icons.Default.Timer, contentDescription = stringResource(R.string.desc_end_time))
+                    Icon(
+                        imageVector = Icons.Default.Timer,
+                        contentDescription = stringResource(R.string.desc_end_time)
+                    )
                 }
             }
             if (uiState.timeErrorMessage.isNotEmpty()) {

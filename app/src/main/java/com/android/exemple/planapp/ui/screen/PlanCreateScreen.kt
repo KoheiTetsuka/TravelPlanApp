@@ -18,13 +18,13 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Error
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -81,14 +81,24 @@ fun PlanCreateScreen(
         }
     ) {
         Column {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth(1f)
-                    .background(
-                        color = Color(0xffcccccc)
-                    ),
-                text = stringResource(R.string.label_title),
-            )
+            Row {
+                Text(
+                    modifier = Modifier
+                        .background(
+                            color = Color(0xffcccccc)
+                        ),
+                    text = stringResource(R.string.label_title),
+                )
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth(1f)
+                        .background(
+                            color = Color(0xffcccccc)
+                        ),
+                    text = stringResource(R.string.label_required),
+                    color = Color.Red
+                )
+            }
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth(1f)
@@ -102,7 +112,11 @@ fun PlanCreateScreen(
                 isError = uiState.titleErrorMessage.isNotEmpty(),
                 trailingIcon = {
                     if (uiState.titleErrorMessage.isEmpty()) return@OutlinedTextField
-                    Icon(Icons.Filled.Error, stringResource(R.string.desc_error), tint = MaterialTheme.colors.error)
+                    Icon(
+                        Icons.Filled.Error,
+                        stringResource(R.string.desc_error),
+                        tint = MaterialTheme.colors.error
+                    )
                 },
             )
             if (uiState.titleErrorMessage.isNotEmpty()) {
@@ -146,13 +160,19 @@ fun PlanCreateScreen(
             ) {
                 OutlinedTextField(
                     modifier = Modifier.weight(1f),
-                    value = if (uiState.startDate == null) stringResource(R.string.empty) else dateFormat.format(uiState.startDate),
+                    value = if (uiState.startDate == null) stringResource(R.string.empty) else dateFormat.format(
+                        uiState.startDate
+                    ),
                     onValueChange = {},
                     readOnly = true,
                     isError = uiState.dateErrorMessage.isNotEmpty(),
                     trailingIcon = {
                         if (uiState.dateErrorMessage.isEmpty()) return@OutlinedTextField
-                        Icon(Icons.Filled.Error, stringResource(R.string.desc_error), tint = MaterialTheme.colors.error)
+                        Icon(
+                            Icons.Filled.Error,
+                            stringResource(R.string.desc_error),
+                            tint = MaterialTheme.colors.error
+                        )
                     },
                 )
                 Spacer(modifier = Modifier.width(15.dp))
@@ -166,7 +186,10 @@ fun PlanCreateScreen(
                             }
                         )
                     }) {
-                    Icon(imageVector = Icons.Default.DateRange, contentDescription = stringResource(R.string.desc_error))
+                    Icon(
+                        imageVector = Icons.Default.DateRange,
+                        contentDescription = stringResource(R.string.desc_error)
+                    )
                 }
             }
             Spacer(modifier = Modifier.height(20.dp))
@@ -186,13 +209,19 @@ fun PlanCreateScreen(
                 OutlinedTextField(
                     modifier = Modifier
                         .weight(1f),
-                    value = if (uiState.endDate == null) stringResource(R.string.empty) else dateFormat.format(uiState.endDate),
+                    value = if (uiState.endDate == null) stringResource(R.string.empty) else dateFormat.format(
+                        uiState.endDate
+                    ),
                     onValueChange = {},
                     readOnly = true,
                     isError = uiState.dateErrorMessage.isNotEmpty(),
                     trailingIcon = {
                         if (uiState.dateErrorMessage.isEmpty()) return@OutlinedTextField
-                        Icon(Icons.Filled.Error, stringResource(R.string.desc_error), tint = MaterialTheme.colors.error)
+                        Icon(
+                            Icons.Filled.Error,
+                            stringResource(R.string.desc_error),
+                            tint = MaterialTheme.colors.error
+                        )
                     },
                 )
                 Spacer(modifier = Modifier.width(20.dp))
@@ -206,7 +235,10 @@ fun PlanCreateScreen(
                             }
                         )
                     }) {
-                    Icon(imageVector = Icons.Default.DateRange, contentDescription = stringResource(R.string.desc_end_day))
+                    Icon(
+                        imageVector = Icons.Default.DateRange,
+                        contentDescription = stringResource(R.string.desc_end_day)
+                    )
                 }
             }
             if (uiState.dateErrorMessage.isNotEmpty()) {
