@@ -114,9 +114,6 @@ class PlanEditViewModel @Inject constructor(private val planDao: PlanDao) : View
         val endDate = _uiState.value.endDate
 
         // 開始日と終了日が同日でないかつ開始日が終了日より遅かった場合エラー
-        if (startDate?.isEqual(endDate) == false && !startDate.isBefore(endDate)) {
-            return false
-        }
-        return true
+        return !(startDate?.isEqual(endDate) == false && !startDate.isBefore(endDate))
     }
 }

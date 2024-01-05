@@ -35,8 +35,8 @@ class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : Vi
     )
 
     sealed class Event {
-        data class Init(val planId: Int): Event()
-        data class CreateInit(val planId: Int): Event()
+        data class Init(val planId: Int) : Event()
+        data class CreateInit(val planId: Int) : Event()
         data class TitleChanged(val title: String) : Event()
         data class CostChanged(val cost: String) : Event()
         data class UrlChanged(val url: String) : Event()
@@ -70,7 +70,7 @@ class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : Vi
 
                 is Event.TitleChanged -> {
                     _uiState.update {
-                        it.copy(title = event.title , titleErrorMessage = "")
+                        it.copy(title = event.title, titleErrorMessage = "")
                     }
                 }
 
@@ -138,7 +138,7 @@ class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : Vi
                 endTime = _uiState.value.endTime,
                 date = _uiState.value.date,
                 planId = _uiState.value.planId!!
-             )
+            )
 
             detailDao.insertDetail(newDetail)
         }
@@ -159,6 +159,7 @@ class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : Vi
         val startTime = _uiState.value.startTime
         val endTime = _uiState.value.endTime
 
-        return startTime?.isBefore(endTime) != false
+        // 開始時間と終了時間が同時刻でないかつ開始時間が終了時間より遅かった場合エラー
+        return !(startTime?.equals(endTime) == false && !startTime.isBefore(endTime))
     }
 }

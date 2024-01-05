@@ -108,6 +108,7 @@ class DetailEditViewModel @Inject constructor(private val detailDao: DetailDao) 
             }
         }
     }
+
     fun updateDetail(detailId: Int) {
         viewModelScope.launch {
             if (_uiState.value.title.isEmpty()) {
@@ -147,6 +148,7 @@ class DetailEditViewModel @Inject constructor(private val detailDao: DetailDao) 
         val startTime = _uiState.value.startTime
         val endTime = _uiState.value.endTime
 
-        return startTime?.isBefore(endTime) != false
+        // 開始時間と終了時間が同時刻でないかつ開始時間が終了時間より遅かった場合エラー
+        return !(startTime?.equals(endTime) == false && !startTime.isBefore(endTime))
     }
 }
