@@ -37,6 +37,8 @@ fun PropertyCreateScreen(
     val uiState by viewModel.uiState.collectAsState()
     viewModel.event(PropertyViewModel.Event.CreateInit(planId = planId))
 
+    var hasTitleError: Boolean = uiState.titleErrorMessage.isNotEmpty()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -50,7 +52,9 @@ fun PropertyCreateScreen(
                 },
                 actions = {
                     IconButton(onClick = {
-                        viewModel.createProperty()
+                        if (!hasTitleError) {
+                            viewModel.createProperty()
+                        }
                     }) {
                         Icon(Icons.Filled.Add, stringResource(R.string.desc_create))
                     }

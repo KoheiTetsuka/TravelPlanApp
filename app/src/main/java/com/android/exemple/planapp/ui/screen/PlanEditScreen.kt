@@ -38,7 +38,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.android.exemple.planapp.R
-import com.android.exemple.planapp.ui.viewModel.PlanEditViewModel
+import com.android.exemple.planapp.ui.viewModel.PlanViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
@@ -48,7 +48,7 @@ import java.util.Locale
 @Composable
 fun PlanEditScreen(
     navController: NavController,
-    viewModel: PlanEditViewModel,
+    viewModel: PlanViewModel,
     planId: Int
 ) {
     val context = LocalContext.current
@@ -59,7 +59,7 @@ fun PlanEditScreen(
     var launched by rememberSaveable { mutableStateOf(false) }
     if (launched.not()) {
         LaunchedEffect(Unit) {
-            viewModel.event(PlanEditViewModel.Event.Init(planId = planId))
+            viewModel.event(PlanViewModel.Event.EditInit(planId = planId))
             launched = true
         }
     }
@@ -114,7 +114,7 @@ fun PlanEditScreen(
                     .padding(start = 5.dp, end = 5.dp),
                 value = uiState.title,
                 onValueChange = {
-                    viewModel.event(PlanEditViewModel.Event.TitleChanged(it))
+                    viewModel.event(PlanViewModel.Event.TitleChanged(it))
                 },
                 label = { Text(stringResource(R.string.label_okinawa)) },
                 singleLine = true,
@@ -149,7 +149,7 @@ fun PlanEditScreen(
                     .padding(start = 5.dp, end = 5.dp),
                 value = uiState.description,
                 onValueChange = {
-                    viewModel.event(PlanEditViewModel.Event.DescriptionChanged(it))
+                    viewModel.event(PlanViewModel.Event.DescriptionChanged(it))
                 },
                 label = { Text(stringResource(R.string.label_graduation)) }
             )
@@ -191,7 +191,7 @@ fun PlanEditScreen(
                         showDatePicker(
                             context,
                             onDecideDate = { date ->
-                                viewModel.event(PlanEditViewModel.Event.StartDateChanged(date))
+                                viewModel.event(PlanViewModel.Event.StartDateChanged(date))
                             }
                         )
                     }) {
@@ -240,7 +240,7 @@ fun PlanEditScreen(
                         showDatePicker(
                             context,
                             onDecideDate = { date ->
-                                viewModel.event(PlanEditViewModel.Event.EndDateChanged(date))
+                                viewModel.event(PlanViewModel.Event.EndDateChanged(date))
                             }
                         )
                     }) {

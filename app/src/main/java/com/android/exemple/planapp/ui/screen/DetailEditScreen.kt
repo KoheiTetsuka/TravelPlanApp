@@ -43,7 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.android.exemple.planapp.R
-import com.android.exemple.planapp.ui.viewModel.DetailEditViewModel
+import com.android.exemple.planapp.ui.viewModel.DetailViewModel
 import java.time.LocalDate
 import java.time.LocalTime
 import java.util.Date
@@ -51,7 +51,7 @@ import java.util.Date
 @Composable
 fun DetailEditScreen(
     navController: NavController,
-    viewModel: DetailEditViewModel = hiltViewModel(),
+    viewModel: DetailViewModel = hiltViewModel(),
     detailId: Int
 ) {
 
@@ -61,7 +61,7 @@ fun DetailEditScreen(
     var launched by rememberSaveable { mutableStateOf(false) }
     if (launched.not()) {
         LaunchedEffect(Unit) {
-            viewModel.event(DetailEditViewModel.Event.Init(detailId = detailId))
+            viewModel.event(DetailViewModel.Event.EditInit(detailId = detailId))
             launched = true
         }
     }
@@ -111,7 +111,7 @@ fun DetailEditScreen(
                     .padding(start = 5.dp, end = 5.dp),
                 value = uiState.title,
                 onValueChange = {
-                    viewModel.event(DetailEditViewModel.Event.TitleChanged(it))
+                    viewModel.event(DetailViewModel.Event.TitleChanged(it))
                 },
                 label = { Text(stringResource(R.string.label_detail_title)) },
                 singleLine = true,
@@ -148,9 +148,7 @@ fun DetailEditScreen(
                 OutlinedTextField(
                     modifier = Modifier.weight(1f),
                     value = uiState.date?.toString() ?: stringResource(R.string.empty),
-                    onValueChange = {
-
-                    },
+                    onValueChange = {},
                 )
                 Spacer(modifier = Modifier.width(15.dp))
                 IconButton(
@@ -159,7 +157,7 @@ fun DetailEditScreen(
                         showDatePicker(
                             context,
                             onDecideDate = { date ->
-                                viewModel.event(DetailEditViewModel.Event.DateChanged(date))
+                                viewModel.event(DetailViewModel.Event.DateChanged(date))
                             },
                         )
                     }) {
@@ -205,7 +203,7 @@ fun DetailEditScreen(
                         showTimePicker(
                             context,
                             onDecideTime = { time ->
-                                viewModel.event(DetailEditViewModel.Event.StartTimeChanged(time))
+                                viewModel.event(DetailViewModel.Event.StartTimeChanged(time))
                             }
                         )
                     }) {
@@ -251,7 +249,7 @@ fun DetailEditScreen(
                         showTimePicker(
                             context,
                             onDecideTime = { time ->
-                                viewModel.event(DetailEditViewModel.Event.EndTimeChanged(time))
+                                viewModel.event(DetailViewModel.Event.EndTimeChanged(time))
                             }
                         )
                     }) {
@@ -282,7 +280,7 @@ fun DetailEditScreen(
                     .padding(start = 5.dp, end = 5.dp),
                 value = uiState.cost,
                 onValueChange = {
-                    viewModel.event(DetailEditViewModel.Event.CostChanged(it))
+                    viewModel.event(DetailViewModel.Event.CostChanged(it))
                 },
                 label = { Text(stringResource(R.string.label_cost)) }
             )
@@ -301,7 +299,7 @@ fun DetailEditScreen(
                     .padding(start = 5.dp, end = 5.dp),
                 value = uiState.url,
                 onValueChange = {
-                    viewModel.event(DetailEditViewModel.Event.UrlChanged(it))
+                    viewModel.event(DetailViewModel.Event.UrlChanged(it))
                 },
                 label = { Text(stringResource(R.string.label_link)) }
             )
@@ -321,7 +319,7 @@ fun DetailEditScreen(
                     .padding(start = 5.dp, end = 5.dp),
                 value = uiState.memo,
                 onValueChange = {
-                    viewModel.event(DetailEditViewModel.Event.MemoChanged(it))
+                    viewModel.event(DetailViewModel.Event.MemoChanged(it))
                 },
                 label = { Text(stringResource(R.string.label_memo)) }
             )

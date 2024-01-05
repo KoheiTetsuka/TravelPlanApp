@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PropertyViewModel @Inject constructor(private val propertyDao: PropertyDao): ViewModel() {
+class PropertyViewModel @Inject constructor(private val propertyDao: PropertyDao) : ViewModel() {
 
     data class UiState(
         val title: String = "",
@@ -25,9 +25,10 @@ class PropertyViewModel @Inject constructor(private val propertyDao: PropertyDao
     )
 
     sealed class Event {
-        data class Init(val planId: Int): Event()
-        data class CreateInit(val planId: Int): Event()
-        data class TitleChanged(val title: String): Event()
+        data class Init(val planId: Int) : Event()
+        data class CreateInit(val planId: Int) : Event()
+        data class EditInit(val id: Int) : Event()
+        data class TitleChanged(val title: String) : Event()
     }
 
     private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState())
@@ -37,7 +38,8 @@ class PropertyViewModel @Inject constructor(private val propertyDao: PropertyDao
         viewModelScope.launch {
             when (event) {
                 is Event.Init -> {
-                    val properties = propertyDao.getAllByPlanId(event.planId).distinctUntilChanged().first()
+                    val properties =
+                        propertyDao.getAllByPlanId(event.planId).distinctUntilChanged().first()
                     _uiState.update {
                         it.copy(
                             properties = properties,
@@ -53,9 +55,20 @@ class PropertyViewModel @Inject constructor(private val propertyDao: PropertyDao
                     }
                 }
 
+                is Event.EditInit -> {
+                    val property = propertyDao.getAllById(event.id).first()
+                    _uiState.update {
+                        it.copy(
+                            title = property.title,
+                            planId = property.planId,
+
+                            )
+                    }
+                }
+
                 is Event.TitleChanged -> {
                     _uiState.update {
-                        it.copy(title = event.title)
+                        it.copy(title = event.title, titleErrorMessage = "")
                     }
                 }
             }
@@ -77,6 +90,26 @@ class PropertyViewModel @Inject constructor(private val propertyDao: PropertyDao
             propertyDao.insertProperty(newProperty)
         }
     }
+    
+    fun updatePlan(propertyId: Int) {
+        viewModelScope.launch {
+            if (_uiState.value.title.isEmpty()) {
+                _uiState.update {
+                    it.copy(titleErrorMessage = "タイトルは必須です。")
+                }
+                return@launch
+            }
+
+            val newProperty = Property(
+                id = propertyId,
+                title = _uiState.value.title,
+                planId = _uiState.value.planId!!,
+                deleteFlag = _uiState.value.deleteFlag
+            )
+            propertyDao.updateProperty(newProperty)
+        }
+    }
+
 
     fun softDeleteProperty(property: Property) {
         viewModelScope.launch {

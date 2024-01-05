@@ -25,26 +25,25 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.android.exemple.planapp.R
-import com.android.exemple.planapp.ui.viewModel.PropertyEditViewModel
+import com.android.exemple.planapp.ui.viewModel.PropertyViewModel
 
 @Composable
 fun PropertyEditScreen(
     navController: NavController,
-    viewModel: PropertyEditViewModel,
+    viewModel: PropertyViewModel,
     propertyId: Int
 ) {
-    val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
+    var hasTitleError: Boolean = uiState.titleErrorMessage.isNotEmpty()
 
     var launched by rememberSaveable { mutableStateOf(false) }
     if (launched.not()) {
         LaunchedEffect(Unit) {
-            viewModel.event(PropertyEditViewModel.Event.Init(id = propertyId))
+            viewModel.event(PropertyViewModel.Event.EditInit(id = propertyId))
             launched = true
         }
     }
@@ -62,8 +61,10 @@ fun PropertyEditScreen(
                 },
                 actions = {
                     IconButton(onClick = {
-                        viewModel.updatePlan(propertyId)
-                        navController.popBackStack()
+                        if (!hasTitleError) {
+                            viewModel.updatePlan(propertyId)
+                            navController.popBackStack()
+                        }
                     }) {
                         Icon(Icons.Filled.Add, stringResource(R.string.desc_update))
                     }
@@ -96,7 +97,7 @@ fun PropertyEditScreen(
                     .padding(start = 5.dp, end = 5.dp),
                 value = uiState.title,
                 onValueChange = {
-                    viewModel.event(PropertyEditViewModel.Event.TitleChanged(it))
+                    viewModel.event(PropertyViewModel.Event.TitleChanged(it))
                 },
                 label = { Text(stringResource(R.string.label_bottle)) },
                 isError = uiState.titleErrorMessage.isNotEmpty(),

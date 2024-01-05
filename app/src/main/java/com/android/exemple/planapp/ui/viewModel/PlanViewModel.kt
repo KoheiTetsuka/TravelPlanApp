@@ -8,6 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -30,6 +31,8 @@ class PlanViewModel @Inject constructor(private val planDao: PlanDao) : ViewMode
     )
 
     sealed class Event {
+
+        data class EditInit(val planId: Int) : Event()
         data class TitleChanged(val title: String) : Event()
         data class DescriptionChanged(val description: String) : Event()
         data class StartDateChanged(val startDate: LocalDate) : Event()
@@ -42,6 +45,18 @@ class PlanViewModel @Inject constructor(private val planDao: PlanDao) : ViewMode
     fun event(event: Event) {
         viewModelScope.launch {
             when (event) {
+                is Event.EditInit -> {
+                    val plan = planDao.getById(event.planId).first()
+                    _uiState.update {
+                        it.copy(
+                            title = plan.title,
+                            description = plan.description,
+                            startDate = plan.startDate,
+                            endDate = plan.endDate
+                        )
+                    }
+                }
+
                 is Event.TitleChanged -> {
                     _uiState.update {
                         it.copy(title = event.title, titleErrorMessage = "")
@@ -94,6 +109,32 @@ class PlanViewModel @Inject constructor(private val planDao: PlanDao) : ViewMode
             checkFlag = true
         }
         return checkFlag
+    }
+
+    fun updatePlan(planId: Int) {
+        viewModelScope.launch {
+            if (_uiState.value.title.isEmpty()) {
+                _uiState.update {
+                    it.copy(titleErrorMessage = "タイトルは必須です。")
+                }
+                return@launch
+            }
+
+            if (!checkDateValidate()) {
+                _uiState.update {
+                    it.copy(dateErrorMessage = "終了日は開始日より後の日付を入力してください。")
+                }
+                return@launch
+            }
+            val newPlan = Plan(
+                id = planId,
+                title = _uiState.value.title,
+                description = _uiState.value.description,
+                startDate = _uiState.value.startDate,
+                endDate = _uiState.value.endDate
+            )
+            planDao.updatePlan(newPlan)
+        }
     }
 
     fun deletePlan(plan: Plan) {

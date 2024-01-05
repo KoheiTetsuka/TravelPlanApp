@@ -23,10 +23,8 @@ import com.android.exemple.planapp.ui.screen.PropertyCreateScreen
 import com.android.exemple.planapp.ui.screen.PropertyEditScreen
 import com.android.exemple.planapp.ui.screen.PropertyScreen
 import com.android.exemple.planapp.ui.theme.PlanAppTheme
-import com.android.exemple.planapp.ui.viewModel.DetailEditViewModel
 import com.android.exemple.planapp.ui.viewModel.DetailViewModel
-import com.android.exemple.planapp.ui.viewModel.PlanEditViewModel
-import com.android.exemple.planapp.ui.viewModel.PropertyEditViewModel
+import com.android.exemple.planapp.ui.viewModel.PlanViewModel
 import com.android.exemple.planapp.ui.viewModel.PropertyViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -77,7 +75,7 @@ class MainActivity : ComponentActivity() {
                             route = "planEdit/{planId}",
                             arguments = listOf(navArgument("planId") { type = NavType.IntType })
                         ) { backStackEntry ->
-                            val viewModel = hiltViewModel<PlanEditViewModel>()
+                            val viewModel = hiltViewModel<PlanViewModel>()
                             val planId = backStackEntry.arguments?.getInt("planId") ?: 0
                             PlanEditScreen(
                                 navController = navController,
@@ -89,7 +87,7 @@ class MainActivity : ComponentActivity() {
                             route = "detailEdit/{detailId}",
                             arguments = listOf(navArgument("detailId") { type = NavType.IntType })
                         ) { backStackEntry ->
-                            val viewModel = hiltViewModel<DetailEditViewModel>()
+                            val viewModel = hiltViewModel<DetailViewModel>()
                             val detailId = backStackEntry.arguments?.getInt("detailId") ?: 0
                             DetailEditScreen(
                                 navController = navController,
@@ -126,7 +124,7 @@ class MainActivity : ComponentActivity() {
                             route = "propertyEdit/{propertyId}",
                             arguments = listOf(navArgument("propertyId") { type = NavType.IntType })
                         ) { backStackEntry ->
-                            val viewModel = hiltViewModel<PropertyEditViewModel>()
+                            val viewModel = hiltViewModel<PropertyViewModel>()
                             val propertyId = backStackEntry.arguments?.getInt("propertyId") ?: 0
                             PropertyEditScreen(
                                 navController = navController,
