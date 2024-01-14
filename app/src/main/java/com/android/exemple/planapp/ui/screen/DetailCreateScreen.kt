@@ -31,7 +31,10 @@ import androidx.compose.material.icons.filled.Timer
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -43,7 +46,9 @@ import com.android.exemple.planapp.R
 import com.android.exemple.planapp.ui.viewModel.DetailViewModel
 import java.time.LocalDate
 import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import java.util.Date
+import java.util.Locale
 
 @Composable
 fun DetailCreateScreen(
@@ -53,6 +58,11 @@ fun DetailCreateScreen(
 ) {
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
+    val dateFormat =
+        DateTimeFormatter.ofPattern(stringResource(R.string.format_yyyy_mm_dd_e), Locale.JAPAN)
+    val focusRequesterDate = remember { FocusRequester() }
+    val focusRequesterStartTime = remember { FocusRequester() }
+    val focusRequesterEndTime = remember { FocusRequester() }
     viewModel.event(DetailViewModel.Event.CreateInit(planId = planId))
 
     var hasTitleError: Boolean = uiState.titleErrorMessage.isNotEmpty()
@@ -141,12 +151,15 @@ fun DetailCreateScreen(
                 horizontalArrangement = Arrangement.Center
             ) {
                 OutlinedTextField(
-                    modifier = Modifier.weight(1f),
-                    value = uiState.date?.toString() ?: stringResource(R.string.empty),
+                    modifier = Modifier
+                        .weight(1f)
+                        .focusRequester(focusRequesterDate),
+                    value = if (uiState.date == null) stringResource(R.string.empty) else dateFormat.format(
+                        uiState.date
+                    ),
                     onValueChange = {},
                     readOnly = true,
-
-                    )
+                )
                 Spacer(modifier = Modifier.width(15.dp))
                 IconButton(
                     modifier = Modifier.width(30.dp),
@@ -157,6 +170,7 @@ fun DetailCreateScreen(
                                 viewModel.event(DetailViewModel.Event.DateChanged(date))
                             },
                         )
+                        focusRequesterDate.requestFocus()
                     }) {
                     Icon(
                         imageVector = Icons.Default.DateRange,
@@ -179,7 +193,9 @@ fun DetailCreateScreen(
                 horizontalArrangement = Arrangement.Center
             ) {
                 OutlinedTextField(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier
+                        .weight(1f)
+                        .focusRequester(focusRequesterStartTime),
                     value = uiState.startTime?.toString() ?: stringResource(R.string.empty),
                     onValueChange = {},
                     readOnly = true,
@@ -203,6 +219,7 @@ fun DetailCreateScreen(
                                 viewModel.event(DetailViewModel.Event.StartTimeChanged(time))
                             }
                         )
+                        focusRequesterStartTime.requestFocus()
                     }) {
                     Icon(
                         imageVector = Icons.Default.Timer,
@@ -225,7 +242,9 @@ fun DetailCreateScreen(
                 horizontalArrangement = Arrangement.Center
             ) {
                 OutlinedTextField(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier
+                        .weight(1f)
+                        .focusRequester(focusRequesterEndTime),
                     value = uiState.endTime?.toString() ?: stringResource(R.string.empty),
                     onValueChange = {},
                     readOnly = true,
@@ -249,6 +268,7 @@ fun DetailCreateScreen(
                                 viewModel.event(DetailViewModel.Event.EndTimeChanged(time))
                             }
                         )
+                        focusRequesterEndTime.requestFocus()
                     }) {
                     Icon(
                         imageVector = Icons.Default.Timer,

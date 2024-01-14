@@ -29,9 +29,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -55,6 +58,8 @@ fun PlanEditScreen(
     val uiState by viewModel.uiState.collectAsState()
     val dateFormat =
         DateTimeFormatter.ofPattern(stringResource(R.string.format_yyyy_mm_dd_e), Locale.JAPAN)
+    val focusRequesterStartDate = remember { FocusRequester() }
+    val focusRequesterEndDate = remember { FocusRequester() }
 
     var launched by rememberSaveable { mutableStateOf(false) }
     if (launched.not()) {
@@ -168,7 +173,9 @@ fun PlanEditScreen(
                 horizontalArrangement = Arrangement.Center
             ) {
                 OutlinedTextField(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier
+                        .weight(1f)
+                        .focusRequester(focusRequesterStartDate),
                     value = if (uiState.startDate == null) stringResource(R.string.empty) else dateFormat.format(
                         uiState.startDate
                     ),
@@ -194,6 +201,7 @@ fun PlanEditScreen(
                                 viewModel.event(PlanViewModel.Event.StartDateChanged(date))
                             }
                         )
+                        focusRequesterStartDate.requestFocus()
                     }) {
                     Icon(
                         imageVector = Icons.Default.DateRange,
@@ -217,7 +225,8 @@ fun PlanEditScreen(
             ) {
                 OutlinedTextField(
                     modifier = Modifier
-                        .weight(1f),
+                        .weight(1f)
+                        .focusRequester(focusRequesterEndDate),
                     value = if (uiState.endDate == null) stringResource(R.string.empty) else dateFormat.format(
                         uiState.endDate
                     ),
@@ -243,6 +252,7 @@ fun PlanEditScreen(
                                 viewModel.event(PlanViewModel.Event.EndDateChanged(date))
                             }
                         )
+                        focusRequesterEndDate.requestFocus()
                     }) {
                     Icon(
                         imageVector = Icons.Default.DateRange,
