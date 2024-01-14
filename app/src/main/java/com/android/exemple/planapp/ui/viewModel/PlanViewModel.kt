@@ -28,6 +28,7 @@ class PlanViewModel @Inject constructor(private val planDao: PlanDao) : ViewMode
         val dateErrorMessage: String = "",
         val startDateErrorMessage: String = "",
         val endDateErrorMessage: String = "",
+        val popBackStackFlag: Boolean = false,
     )
 
     sealed class Event {
@@ -84,8 +85,7 @@ class PlanViewModel @Inject constructor(private val planDao: PlanDao) : ViewMode
         }
     }
 
-    fun createPlan(): Boolean {
-        var checkFlag = false
+    fun createPlan() {
         viewModelScope.launch {
             if (_uiState.value.title.isEmpty()) {
                 _uiState.update {
@@ -106,9 +106,10 @@ class PlanViewModel @Inject constructor(private val planDao: PlanDao) : ViewMode
                 endDate = _uiState.value.endDate
             )
             planDao.insertPlan(newPlan)
-            checkFlag = true
+            _uiState.update {
+                it.copy(popBackStackFlag = true)
+            }
         }
-        return checkFlag
     }
 
     fun updatePlan(planId: Int) {
@@ -152,5 +153,14 @@ class PlanViewModel @Inject constructor(private val planDao: PlanDao) : ViewMode
 
         // 開始日と終了日が同日でないかつ開始日が終了日より遅かった場合エラー
         return !(startDate?.isEqual(endDate) == false && !startDate.isBefore(endDate))
+    }
+
+    /**
+     * popBackStackFlagを初期化する
+     */
+    fun initializePopBackStackFlag() {
+        _uiState.update {
+            it.copy(popBackStackFlag = false)
+        }
     }
 }

@@ -69,15 +69,18 @@ fun PlanCreateScreen(
                 actions = {
                     IconButton(onClick = {
                         if (!hasTitleError && !hasDateError) {
-                            if (viewModel.createPlan()) {
-                                navController.popBackStack()
-                            }
+                            viewModel.createPlan()
                         }
                     }) {
                         Icon(Icons.Filled.Add, stringResource(R.string.desc_create))
                     }
                 },
             )
+            // 登録が完了すれば、前画面に遷移する
+            if (uiState.popBackStackFlag) {
+                navController.popBackStack()
+                viewModel.initializePopBackStackFlag()
+            }
         }
     ) {
         Column {
