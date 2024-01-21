@@ -5,7 +5,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import com.android.exemple.planapp.db.entities.Detail
-import com.android.exemple.planapp.ui.viewmodel.DetailViewModel
+import com.android.exemple.planapp.ui.viewmodels.DetailViewModel
 
 @Composable
 fun DetailList(

@@ -5,7 +5,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import com.android.exemple.planapp.db.entities.Property
-import com.android.exemple.planapp.ui.viewmodel.PropertyViewModel
+import com.android.exemple.planapp.ui.viewmodels.PropertyViewModel
 
 @Composable
 fun PropertyList(

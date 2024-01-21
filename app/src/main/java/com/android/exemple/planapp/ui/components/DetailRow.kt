@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.android.exemple.planapp.R
 import com.android.exemple.planapp.db.entities.Detail
-import com.android.exemple.planapp.ui.viewmodel.DetailViewModel
+import com.android.exemple.planapp.ui.viewmodels.DetailViewModel
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 

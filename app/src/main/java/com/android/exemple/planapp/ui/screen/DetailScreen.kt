@@ -23,7 +23,7 @@ import androidx.navigation.NavController
 import com.android.exemple.planapp.R
 import com.android.exemple.planapp.ui.components.BottomBar
 import com.android.exemple.planapp.ui.components.DetailList
-import com.android.exemple.planapp.ui.viewmodel.DetailViewModel
+import com.android.exemple.planapp.ui.viewmodels.DetailViewModel
 
 @Composable
 fun DetailScreen(

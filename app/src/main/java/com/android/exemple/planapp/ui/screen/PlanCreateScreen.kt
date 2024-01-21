@@ -39,7 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.android.exemple.planapp.R
-import com.android.exemple.planapp.ui.viewmodel.PlanViewModel
+import com.android.exemple.planapp.ui.viewmodels.PlanViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Date

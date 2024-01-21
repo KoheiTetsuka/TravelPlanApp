@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.android.exemple.planapp.R
 import com.android.exemple.planapp.db.entities.Plan
-import com.android.exemple.planapp.ui.viewmodel.PlanViewModel
+import com.android.exemple.planapp.ui.viewmodels.PlanViewModel
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
