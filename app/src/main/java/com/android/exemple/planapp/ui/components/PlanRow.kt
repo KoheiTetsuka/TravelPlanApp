@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.android.exemple.planapp.R
 import com.android.exemple.planapp.db.entities.Plan
-import com.android.exemple.planapp.ui.viewModel.PlanViewModel
+import com.android.exemple.planapp.ui.viewmodel.PlanViewModel
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
@@ -41,7 +41,8 @@ fun PlanRow(
     viewModel: PlanViewModel,
     navController: NavController,
 ) {
-    val dateFormat = DateTimeFormatter.ofPattern(stringResource(R.string.format_yyyy_mm_dd_e), Locale.JAPAN)
+    val dateFormat =
+        DateTimeFormatter.ofPattern(stringResource(R.string.format_yyyy_mm_dd_e), Locale.JAPAN)
     val imageModifier = Modifier
         .size(50.dp)
         .border(BorderStroke(1.dp, Color.Black))
@@ -76,7 +77,9 @@ fun PlanRow(
                 Spacer(modifier = Modifier.height(10.dp))
                 Row {
                     Text(
-                        text = if (plan.startDate == null) stringResource(R.string.label_pending) else dateFormat.format(plan.startDate),
+                        text = if (plan.startDate == null) stringResource(R.string.label_pending) else dateFormat.format(
+                            plan.startDate
+                        ),
                         fontSize = 11.sp
                     )
                     Text(
@@ -84,7 +87,9 @@ fun PlanRow(
                         fontSize = 11.sp
                     )
                     Text(
-                        text = if (plan.endDate == null) stringResource(R.string.label_pending) else dateFormat.format(plan.endDate),
+                        text = if (plan.endDate == null) stringResource(R.string.label_pending) else dateFormat.format(
+                            plan.endDate
+                        ),
                         fontSize = 11.sp
                     )
                 }
@@ -95,14 +100,21 @@ fun PlanRow(
                     navController.navigate("planEdit/${plan.id}")
                 }
             ) {
-                Icon(imageVector = Icons.Default.Edit, contentDescription = stringResource(R.string.desc_edit))
+                Icon(
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = stringResource(R.string.desc_edit)
+                )
             }
             IconButton(
                 onClick = {
-                    viewModel.deletePlan(plan)
+                    // TODO:
+                    viewModel.event(PlanViewModel.Event.OnDeletePlanClicked(plan))
                 }
             ) {
-                Icon(imageVector = Icons.Default.Delete, contentDescription = stringResource(R.string.desc_delete))
+                Icon(
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = stringResource(R.string.desc_delete)
+                )
             }
         }
     }

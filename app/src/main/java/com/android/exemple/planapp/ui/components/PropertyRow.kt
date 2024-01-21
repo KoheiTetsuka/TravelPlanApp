@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.android.exemple.planapp.R
 import com.android.exemple.planapp.db.entities.Property
-import com.android.exemple.planapp.ui.viewModel.PropertyViewModel
+import com.android.exemple.planapp.ui.viewmodel.PropertyViewModel
 
 @Composable
 fun PropertyRow(
@@ -69,14 +69,20 @@ fun PropertyRow(
                     navController.navigate("propertyEdit/${property.id}")
                 }
             ) {
-                Icon(imageVector = Icons.Default.Edit, contentDescription = stringResource(R.string.desc_edit))
+                Icon(
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = stringResource(R.string.desc_edit)
+                )
             }
             IconButton(
                 onClick = {
                     viewModel.deleteProperty(property)
                 }
             ) {
-                Icon(imageVector = Icons.Default.Delete, contentDescription = stringResource(R.string.desc_delete))
+                Icon(
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = stringResource(R.string.desc_delete)
+                )
             }
         }
     }

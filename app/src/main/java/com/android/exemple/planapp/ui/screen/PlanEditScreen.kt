@@ -41,7 +41,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.android.exemple.planapp.R
-import com.android.exemple.planapp.ui.viewModel.PlanViewModel
+import com.android.exemple.planapp.ui.viewmodel.PlanViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
@@ -85,7 +85,12 @@ fun PlanEditScreen(
                 actions = {
                     IconButton(onClick = {
                         if (!hasError) {
-                            viewModel.updatePlan(planId)
+                            viewModel.event(
+                                PlanViewModel.Event.OnUpdatePlanClicked(
+                                    uiState,
+                                    planId
+                                )
+                            )
                         }
                     }) {
                         Icon(Icons.Filled.Add, stringResource(R.string.desc_update))

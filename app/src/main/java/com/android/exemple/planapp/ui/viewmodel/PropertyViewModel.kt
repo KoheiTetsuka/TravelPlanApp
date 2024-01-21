@@ -1,4 +1,4 @@
-package com.android.exemple.planapp.ui.viewModel
+package com.android.exemple.planapp.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -90,7 +90,7 @@ class PropertyViewModel @Inject constructor(private val propertyDao: PropertyDao
             propertyDao.insertProperty(newProperty)
         }
     }
-    
+
     fun updatePlan(propertyId: Int) {
         viewModelScope.launch {
             if (_uiState.value.title.isEmpty()) {

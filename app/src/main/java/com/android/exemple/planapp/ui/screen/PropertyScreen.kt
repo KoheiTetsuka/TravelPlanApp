@@ -23,10 +23,10 @@ import androidx.navigation.NavController
 import com.android.exemple.planapp.R
 import com.android.exemple.planapp.ui.components.BottomBar
 import com.android.exemple.planapp.ui.components.PropertyList
-import com.android.exemple.planapp.ui.viewModel.PropertyViewModel
+import com.android.exemple.planapp.ui.viewmodel.PropertyViewModel
 
 @Composable
-fun PropertyScreen (
+fun PropertyScreen(
     viewModel: PropertyViewModel = hiltViewModel(),
     navController: NavController,
     planId: Int
@@ -51,7 +51,10 @@ fun PropertyScreen (
             FloatingActionButton(
                 onClick = { navController.navigate("propertyCreate/${planId}") }
             ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = stringResource(R.string.desc_create))
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(R.string.desc_create)
+                )
             }
         },
         bottomBar = {

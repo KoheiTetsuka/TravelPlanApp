@@ -23,7 +23,7 @@ import androidx.navigation.NavController
 import com.android.exemple.planapp.R
 import com.android.exemple.planapp.ui.components.BottomBar
 import com.android.exemple.planapp.ui.components.DetailList
-import com.android.exemple.planapp.ui.viewModel.DetailViewModel
+import com.android.exemple.planapp.ui.viewmodel.DetailViewModel
 
 @Composable
 fun DetailScreen(
@@ -50,7 +50,10 @@ fun DetailScreen(
             FloatingActionButton(
                 onClick = { navController.navigate("detailCreate/${planId}") }
             ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = stringResource(R.string.desc_create))
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(R.string.desc_create)
+                )
             }
         },
         bottomBar = {

@@ -15,7 +15,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.android.exemple.planapp.R
 import com.android.exemple.planapp.ui.components.PlanList
-import com.android.exemple.planapp.ui.viewModel.PlanViewModel
+import com.android.exemple.planapp.ui.viewmodel.PlanViewModel
 
 @Composable
 fun PlanScreen(
@@ -32,7 +32,10 @@ fun PlanScreen(
             FloatingActionButton(
                 onClick = { navController.navigate("planCreate") }
             ) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = stringResource(R.string.desc_create))
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(R.string.desc_create)
+                )
             }
         },
     ) {

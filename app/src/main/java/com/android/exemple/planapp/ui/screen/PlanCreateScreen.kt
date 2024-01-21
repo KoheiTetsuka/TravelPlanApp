@@ -39,7 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.android.exemple.planapp.R
-import com.android.exemple.planapp.ui.viewModel.PlanViewModel
+import com.android.exemple.planapp.ui.viewmodel.PlanViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Date
@@ -74,7 +74,7 @@ fun PlanCreateScreen(
                 actions = {
                     IconButton(onClick = {
                         if (!hasTitleError && !hasDateError) {
-                            viewModel.createPlan()
+                            viewModel.event(PlanViewModel.Event.OnCreatePlanClicked(uiState))
                         }
                     }) {
                         Icon(Icons.Filled.Add, stringResource(R.string.desc_create))

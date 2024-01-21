@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.android.exemple.planapp.R
 import com.android.exemple.planapp.db.entities.Detail
-import com.android.exemple.planapp.ui.viewModel.DetailViewModel
+import com.android.exemple.planapp.ui.viewmodel.DetailViewModel
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
@@ -36,7 +36,8 @@ fun DetailRow(
     navController: NavController,
     viewModel: DetailViewModel
 ) {
-    val dateFormat = DateTimeFormatter.ofPattern(stringResource(R.string.format_mm_dd), Locale.JAPAN)
+    val dateFormat =
+        DateTimeFormatter.ofPattern(stringResource(R.string.format_mm_dd), Locale.JAPAN)
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -51,7 +52,9 @@ fun DetailRow(
             Column {
                 Text(
                     modifier = Modifier.background(Color.Yellow),
-                    text = if (detail.date == null) stringResource(R.string.label_pending) else dateFormat.format(detail.date),
+                    text = if (detail.date == null) stringResource(R.string.label_pending) else dateFormat.format(
+                        detail.date
+                    ),
                     fontSize = 12.sp,
                 )
                 Spacer(modifier = Modifier.height(3.dp))
@@ -83,12 +86,18 @@ fun DetailRow(
                     navController.navigate("DetailEdit/${detail.id}")
                 }
             ) {
-                Icon(imageVector = Icons.Default.Edit, contentDescription = stringResource(R.string.desc_edit))
+                Icon(
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = stringResource(R.string.desc_edit)
+                )
             }
             IconButton(
                 onClick = { viewModel.deleteDetail(detail) }
             ) {
-                Icon(imageVector = Icons.Default.Delete, contentDescription = stringResource(R.string.desc_delete))
+                Icon(
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = stringResource(R.string.desc_delete)
+                )
             }
         }
     }

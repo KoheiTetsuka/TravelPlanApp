@@ -1,4 +1,4 @@
-package com.android.exemple.planapp.ui.viewModel
+package com.android.exemple.planapp.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

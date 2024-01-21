@@ -29,7 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.android.exemple.planapp.R
-import com.android.exemple.planapp.ui.viewModel.PropertyViewModel
+import com.android.exemple.planapp.ui.viewmodel.PropertyViewModel
 
 @Composable
 fun PropertyEditScreen(

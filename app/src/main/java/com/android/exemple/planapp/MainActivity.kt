@@ -23,9 +23,9 @@ import com.android.exemple.planapp.ui.screen.PropertyCreateScreen
 import com.android.exemple.planapp.ui.screen.PropertyEditScreen
 import com.android.exemple.planapp.ui.screen.PropertyScreen
 import com.android.exemple.planapp.ui.theme.PlanAppTheme
-import com.android.exemple.planapp.ui.viewModel.DetailViewModel
-import com.android.exemple.planapp.ui.viewModel.PlanViewModel
-import com.android.exemple.planapp.ui.viewModel.PropertyViewModel
+import com.android.exemple.planapp.ui.viewmodel.DetailViewModel
+import com.android.exemple.planapp.ui.viewmodel.PlanViewModel
+import com.android.exemple.planapp.ui.viewmodel.PropertyViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
