@@ -92,7 +92,9 @@ fun DetailRow(
                 )
             }
             IconButton(
-                onClick = { viewModel.deleteDetail(detail) }
+                onClick = {
+                    viewModel.event(DetailViewModel.Event.OnDeleteDetailClicked(detail))
+                }
             ) {
                 Icon(
                     imageVector = Icons.Default.Delete,

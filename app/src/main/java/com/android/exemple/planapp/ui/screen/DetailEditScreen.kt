@@ -88,7 +88,12 @@ fun DetailEditScreen(
                 },
                 actions = {
                     IconButton(onClick = {
-                        viewModel.updateDetail(detailId)
+                        viewModel.event(
+                            DetailViewModel.Event.OnUpdateDetailClicked(
+                                uiState,
+                                detailId
+                            )
+                        )
                     }) {
                         Icon(Icons.Filled.Add, stringResource(R.string.desc_update))
                     }

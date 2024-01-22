@@ -107,7 +107,6 @@ fun PlanRow(
             }
             IconButton(
                 onClick = {
-                    // TODO:
                     viewModel.event(PlanViewModel.Event.OnDeletePlanClicked(plan))
                 }
             ) {
@@ -119,13 +118,3 @@ fun PlanRow(
         }
     }
 }
-
-//@Preview
-//@Composable
-//fun PlanRowPreview() {
-//    PlanRow(
-//        plan = Plan(title = "プレビュー", description = "", startDate = "", endDate = ""),
-//        onClickRow = {},
-//        onClickDelete = {},
-//    )
-//}
