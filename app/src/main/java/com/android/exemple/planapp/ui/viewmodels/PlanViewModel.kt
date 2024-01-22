@@ -85,119 +85,67 @@ class PlanViewModel @Inject constructor(
                 }
 
                 is Event.OnCreatePlanClicked -> {
-                    if (_uiState.value.title.isEmpty()) {
-                        _uiState.update {
-                            it.copy(titleErrorMessage = "タイトルは必須です。")
+                    viewModelScope.launch {
+                        if (_uiState.value.title.isEmpty()) {
+                            _uiState.update {
+                                it.copy(titleErrorMessage = "タイトルは必須です。")
+                            }
+                            return@launch
                         }
-                        return@launch
-                    }
-                    if (!checkDateValidate()) {
-                        _uiState.update {
-                            it.copy(dateErrorMessage = "終了日は開始日より後の日付を入力してください。")
+                        if (!checkDateValidate()) {
+                            _uiState.update {
+                                it.copy(dateErrorMessage = "終了日は開始日より後の日付を入力してください。")
+                            }
+                            return@launch
                         }
-                        return@launch
-                    }
-                    val newPlan = Plan(
-                        title = _uiState.value.title,
-                        description = _uiState.value.description,
-                        startDate = _uiState.value.startDate,
-                        endDate = _uiState.value.endDate
-                    )
-                    planRepository.insertPlan(newPlan)
-                    _uiState.update {
-                        it.copy(popBackStackFlag = true)
+                        val newPlan = Plan(
+                            title = _uiState.value.title,
+                            description = _uiState.value.description,
+                            startDate = _uiState.value.startDate,
+                            endDate = _uiState.value.endDate
+                        )
+
+                        planRepository.insertPlan(newPlan)
+                        _uiState.update {
+                            it.copy(popBackStackFlag = true)
+                        }
                     }
                 }
 
                 is Event.OnUpdatePlanClicked -> {
-                    if (_uiState.value.title.isEmpty()) {
-                        _uiState.update {
-                            it.copy(titleErrorMessage = "タイトルは必須です。")
+                    viewModelScope.launch {
+                        if (_uiState.value.title.isEmpty()) {
+                            _uiState.update {
+                                it.copy(titleErrorMessage = "タイトルは必須です。")
+                            }
+                            return@launch
                         }
-                        return@launch
-                    }
 
-                    if (!checkDateValidate()) {
-                        _uiState.update {
-                            it.copy(dateErrorMessage = "終了日は開始日より後の日付を入力してください。")
+                        if (!checkDateValidate()) {
+                            _uiState.update {
+                                it.copy(dateErrorMessage = "終了日は開始日より後の日付を入力してください。")
+                            }
+                            return@launch
                         }
-                        return@launch
+                        val newPlan = Plan(
+                            id = event.planId,
+                            title = _uiState.value.title,
+                            description = _uiState.value.description,
+                            startDate = _uiState.value.startDate,
+                            endDate = _uiState.value.endDate
+                        )
+                        planRepository.updatePlan(newPlan)
                     }
-                    val newPlan = Plan(
-                        id = event.planId,
-                        title = _uiState.value.title,
-                        description = _uiState.value.description,
-                        startDate = _uiState.value.startDate,
-                        endDate = _uiState.value.endDate
-                    )
-                    planRepository.updatePlan(newPlan)
                 }
 
                 is Event.OnDeletePlanClicked -> {
-                    planRepository.deletePlan(event.plan)
+                    viewModelScope.launch {
+                        planRepository.deletePlan(event.plan)
+                    }
                 }
             }
         }
     }
-
-//    fun createPlan() {
-//        viewModelScope.launch {
-//            if (_uiState.value.title.isEmpty()) {
-//                _uiState.update {
-//                    it.copy(titleErrorMessage = "タイトルは必須です。")
-//                }
-//                return@launch
-//            }
-//            if (!checkDateValidate()) {
-//                _uiState.update {
-//                    it.copy(dateErrorMessage = "終了日は開始日より後の日付を入力してください。")
-//                }
-//                return@launch
-//            }
-//            val newPlan = Plan(
-//                title = _uiState.value.title,
-//                description = _uiState.value.description,
-//                startDate = _uiState.value.startDate,
-//                endDate = _uiState.value.endDate
-//            )
-//            planDao.insertPlan(newPlan)
-//            _uiState.update {
-//                it.copy(popBackStackFlag = true)
-//            }
-//        }
-//    }
-//
-//    fun updatePlan(planId: Int) {
-//        viewModelScope.launch {
-//            if (_uiState.value.title.isEmpty()) {
-//                _uiState.update {
-//                    it.copy(titleErrorMessage = "タイトルは必須です。")
-//                }
-//                return@launch
-//            }
-//
-//            if (!checkDateValidate()) {
-//                _uiState.update {
-//                    it.copy(dateErrorMessage = "終了日は開始日より後の日付を入力してください。")
-//                }
-//                return@launch
-//            }
-//            val newPlan = Plan(
-//                id = planId,
-//                title = _uiState.value.title,
-//                description = _uiState.value.description,
-//                startDate = _uiState.value.startDate,
-//                endDate = _uiState.value.endDate
-//            )
-//            planDao.updatePlan(newPlan)
-//        }
-//    }
-//
-//    fun deletePlan(plan: Plan) {
-//        viewModelScope.launch {
-//            planDao.deletePlan(plan)
-//        }
-//    }
 
     /**
      * 開始日と終了日を比較する。
