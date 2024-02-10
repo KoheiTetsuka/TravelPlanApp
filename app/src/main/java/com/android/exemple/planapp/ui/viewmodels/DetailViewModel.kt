@@ -19,8 +19,6 @@ class DetailViewModel @Inject constructor(
     private val detailRepository: DetailRepository
 ) : ViewModel() {
 
-    val details = detailRepository.getAll()
-
     data class UiState(
         val title: String = "",
         val cost: String = "",
@@ -228,7 +226,7 @@ class DetailViewModel @Inject constructor(
         // 開始時間と終了時間が同時刻でないかつ開始時間が終了時間より遅かった場合エラー
         return !(startTime?.equals(endTime) == false && !startTime.isBefore(endTime))
     }
-    
+
     /**
      * popBackStackFlagを初期化する
      */

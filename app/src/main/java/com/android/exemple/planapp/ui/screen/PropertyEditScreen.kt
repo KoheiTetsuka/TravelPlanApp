@@ -62,8 +62,10 @@ fun PropertyEditScreen(
                 actions = {
                     IconButton(onClick = {
                         if (!hasTitleError) {
-                            viewModel.updatePlan(propertyId)
-                            navController.popBackStack()
+                            viewModel.event(PropertyViewModel.Event.OnUpdatePropertyClicked(
+                                uiState,
+                                propertyId
+                            ))
                         }
                     }) {
                         Icon(Icons.Filled.Add, stringResource(R.string.desc_update))

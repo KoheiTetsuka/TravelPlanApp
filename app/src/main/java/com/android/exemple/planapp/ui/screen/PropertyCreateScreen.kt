@@ -53,7 +53,9 @@ fun PropertyCreateScreen(
                 actions = {
                     IconButton(onClick = {
                         if (!hasTitleError) {
-                            viewModel.createProperty()
+                            viewModel.event(
+                                PropertyViewModel.Event.OnCreatePropertyClicked(uiState)
+                            )
                         }
                     }) {
                         Icon(Icons.Filled.Add, stringResource(R.string.desc_create))

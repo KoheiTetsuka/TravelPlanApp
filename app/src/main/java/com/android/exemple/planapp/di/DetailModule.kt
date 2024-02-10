@@ -21,7 +21,6 @@ object DetailModule {
     fun provideDatabase(
         @ApplicationContext context: Context
     ) = Room.databaseBuilder(context, DetailDatabase::class.java, "detail_database").build()
-
     @Provides
     fun provideDao(
         db: DetailDatabase

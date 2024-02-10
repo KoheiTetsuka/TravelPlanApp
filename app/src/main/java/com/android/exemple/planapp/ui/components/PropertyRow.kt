@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,6 +33,7 @@ fun PropertyRow(
     viewModel: PropertyViewModel,
     navController: NavController
 ) {
+    val uiState by viewModel.uiState.collectAsState()
     var checkedState by remember { mutableStateOf(false) }
 
     val deleteFlag = property.deleteFlag
@@ -54,7 +56,11 @@ fun PropertyRow(
                 checked = checkedState,
                 onCheckedChange = {
                     checkedState = it
-                    viewModel.softDeleteProperty(property)
+                    viewModel.event(
+                        PropertyViewModel.Event.OnSoftDeletePropertyClicked(
+                            property
+                        )
+                    )
                     viewModel.event(PropertyViewModel.Event.Init(planId = property.planId))
                 },
             )
@@ -76,7 +82,9 @@ fun PropertyRow(
             }
             IconButton(
                 onClick = {
-                    viewModel.deleteProperty(property)
+                    viewModel.event(
+                        PropertyViewModel.Event.OnDeletePropertyClicked(property)
+                    )
                 }
             ) {
                 Icon(
@@ -86,5 +94,4 @@ fun PropertyRow(
             }
         }
     }
-
 }

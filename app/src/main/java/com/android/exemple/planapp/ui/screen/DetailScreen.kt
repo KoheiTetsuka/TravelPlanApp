@@ -13,8 +13,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -31,7 +35,14 @@ fun DetailScreen(
     navController: NavController,
     planId: Int
 ) {
-    viewModel.event(DetailViewModel.Event.Init(planId = planId))
+    val uiState by viewModel.uiState.collectAsState()
+    var launched by rememberSaveable { mutableStateOf(false) }
+    if (launched.not()) {
+        LaunchedEffect(Unit) {
+            viewModel.event(DetailViewModel.Event.Init(planId = planId))
+            launched = true
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -60,7 +71,6 @@ fun DetailScreen(
             BottomBar(navController = navController, planId = planId)
         }
     ) {
-        val details by viewModel.details.collectAsState(initial = emptyList())
         Column {
             Text(
                 modifier = Modifier
@@ -70,12 +80,14 @@ fun DetailScreen(
                     ),
                 text = stringResource(R.string.label_plan_list),
             )
-
-            DetailList(
-                details = details,
-                navController = navController,
-                viewModel = viewModel
-            )
+            val details = uiState.details
+            if (details != null) {
+                DetailList(
+                    details = details,
+                    navController = navController,
+                    viewModel = viewModel
+                )
+            }
         }
     }
 }
