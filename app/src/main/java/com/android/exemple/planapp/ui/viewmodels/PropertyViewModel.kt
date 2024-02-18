@@ -116,7 +116,7 @@ class PropertyViewModel @Inject constructor(
 
                 is Event.OnSoftDeletePropertyClicked -> {
                     viewModelScope.launch {
-                        var newProperty: Property = if (_uiState.value.deleteFlag == "1") {
+                        var newProperty: Property = if (event.property.deleteFlag == "1") {
                             Property(
                                 id = event.property.id,
                                 title = event.property.title,

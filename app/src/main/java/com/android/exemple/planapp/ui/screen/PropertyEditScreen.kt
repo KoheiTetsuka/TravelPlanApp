@@ -54,7 +54,7 @@ fun PropertyEditScreen(
                 title = { Text(text = stringResource(R.string.screen_property_edit)) },
                 navigationIcon = {
                     IconButton(onClick = {
-                        navController.popBackStack()
+                        navController.navigate("property/${uiState.planId}")
                     }) {
                         Icon(Icons.Filled.ArrowBack, stringResource(R.string.desc_back))
                     }
@@ -62,10 +62,12 @@ fun PropertyEditScreen(
                 actions = {
                     IconButton(onClick = {
                         if (!hasTitleError) {
-                            viewModel.event(PropertyViewModel.Event.OnUpdatePropertyClicked(
-                                uiState,
-                                propertyId
-                            ))
+                            viewModel.event(
+                                PropertyViewModel.Event.OnUpdatePropertyClicked(
+                                    uiState,
+                                    propertyId
+                                )
+                            )
                         }
                     }) {
                         Icon(Icons.Filled.Add, stringResource(R.string.desc_update))

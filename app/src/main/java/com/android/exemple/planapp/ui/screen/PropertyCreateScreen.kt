@@ -45,7 +45,7 @@ fun PropertyCreateScreen(
                 title = { Text(text = stringResource(R.string.screen_property_create)) },
                 navigationIcon = {
                     IconButton(onClick = {
-                        navController.popBackStack()
+                        navController.navigate("property/${planId}")
                     }) {
                         Icon(Icons.Filled.ArrowBack, stringResource(R.string.desc_back))
                     }

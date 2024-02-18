@@ -89,6 +89,5 @@ fun PropertyScreen(
                 )
             }
         }
-
     }
 }
