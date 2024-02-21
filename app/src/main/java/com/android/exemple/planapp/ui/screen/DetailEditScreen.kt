@@ -99,6 +99,11 @@ fun DetailEditScreen(
                     }
                 }
             )
+            // 登録が完了すれば、前画面に遷移する
+            if (uiState.popBackStackFlag) {
+                navController.navigate("detail/${uiState.planId}")
+                viewModel.initializePopBackStackFlag()
+            }
         },
     ) {
         Column {

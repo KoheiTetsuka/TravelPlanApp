@@ -11,4 +11,5 @@ interface DetailRepository {
     suspend fun insertDetail(detail: Detail)
     suspend fun updateDetail(detail: Detail)
     suspend fun deleteDetail(detail: Detail)
+    suspend fun deleteDetailByPlanId(planId: Int)
 }

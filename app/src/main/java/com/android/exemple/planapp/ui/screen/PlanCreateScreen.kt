@@ -66,7 +66,7 @@ fun PlanCreateScreen(
                 title = { Text(text = stringResource(R.string.screen_travel_plan_create)) },
                 navigationIcon = {
                     IconButton(onClick = {
-                        navController.popBackStack()
+                        viewModel.event(PlanViewModel.Event.Init)
                     }) {
                         Icon(Icons.Filled.ArrowBack, stringResource(R.string.desc_back))
                     }
@@ -83,7 +83,7 @@ fun PlanCreateScreen(
             )
             // 登録が完了すれば、前画面に遷移する
             if (uiState.popBackStackFlag) {
-                navController.popBackStack()
+                navController.navigate("home")
                 viewModel.initializePopBackStackFlag()
             }
         }

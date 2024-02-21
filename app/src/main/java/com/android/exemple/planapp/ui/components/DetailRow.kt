@@ -94,6 +94,7 @@ fun DetailRow(
             IconButton(
                 onClick = {
                     viewModel.event(DetailViewModel.Event.OnDeleteDetailClicked(detail))
+                    viewModel.event(DetailViewModel.Event.Init(planId = detail.planId))
                 }
             ) {
                 Icon(

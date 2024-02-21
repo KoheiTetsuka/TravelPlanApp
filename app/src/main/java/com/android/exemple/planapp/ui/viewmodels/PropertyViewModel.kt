@@ -17,14 +17,13 @@ class PropertyViewModel @Inject constructor(
     private val propertyRepository: PropertyRepository
 ) : ViewModel() {
 
-    val properties = propertyRepository.getAll()
-
     data class UiState(
         val title: String = "",
         val planId: Int? = null,
         val deleteFlag: String = "",
         val titleErrorMessage: String = "",
-        val properties: List<Property>? = null
+        val properties: List<Property>? = null,
+        val popBackStackFlag: Boolean = false,
     )
 
     sealed class Event {
@@ -92,6 +91,9 @@ class PropertyViewModel @Inject constructor(
                             planId = _uiState.value.planId!!
                         )
                         propertyRepository.insertProperty(newProperty)
+                        _uiState.update {
+                            it.copy(popBackStackFlag = true)
+                        }
                     }
                 }
 
@@ -111,6 +113,9 @@ class PropertyViewModel @Inject constructor(
                             deleteFlag = _uiState.value.deleteFlag
                         )
                         propertyRepository.updateProperty(newProperty)
+                        _uiState.update {
+                            it.copy(popBackStackFlag = true)
+                        }
                     }
                 }
 
@@ -141,6 +146,15 @@ class PropertyViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * popBackStackFlagを初期化する
+     */
+    fun initializePopBackStackFlag() {
+        _uiState.update {
+            it.copy(popBackStackFlag = false)
         }
     }
 }

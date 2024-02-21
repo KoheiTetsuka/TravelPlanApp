@@ -24,4 +24,7 @@ interface DetailDao {
 
     @Delete
     suspend fun deleteDetail(detail: Detail)
+
+    @Query("DELETE FROM 'detail' where plan_id=:planId")
+    suspend fun deleteDetailByPlanId(planId: Int)
 }

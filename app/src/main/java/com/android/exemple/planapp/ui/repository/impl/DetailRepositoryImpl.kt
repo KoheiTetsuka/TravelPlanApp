@@ -35,4 +35,8 @@ class DetailRepositoryImpl @Inject constructor(
         return detailDao.deleteDetail(detail)
     }
 
+    override suspend fun deleteDetailByPlanId(planId: Int) {
+        return detailDao.deleteDetailByPlanId(planId)
+    }
+
 }

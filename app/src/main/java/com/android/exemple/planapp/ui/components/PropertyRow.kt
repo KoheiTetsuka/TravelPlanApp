@@ -82,9 +82,8 @@ fun PropertyRow(
             }
             IconButton(
                 onClick = {
-                    viewModel.event(
-                        PropertyViewModel.Event.OnDeletePropertyClicked(property)
-                    )
+                    viewModel.event(PropertyViewModel.Event.OnDeletePropertyClicked(property))
+                    viewModel.event(PropertyViewModel.Event.Init(planId = property.planId))
                 }
             ) {
                 Icon(

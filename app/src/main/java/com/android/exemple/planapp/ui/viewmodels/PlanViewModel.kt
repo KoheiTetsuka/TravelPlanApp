@@ -3,6 +3,7 @@ package com.android.exemple.planapp.ui.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.exemple.planapp.db.entities.Plan
+import com.android.exemple.planapp.ui.repository.DetailRepository
 import com.android.exemple.planapp.ui.repository.PlanRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PlanViewModel @Inject constructor(
-    private val planRepository: PlanRepository
+    private val planRepository: PlanRepository,
+    private val detailRepository: DetailRepository,
 ) : ViewModel() {
 
     data class UiState(
@@ -145,12 +147,16 @@ class PlanViewModel @Inject constructor(
                             endDate = _uiState.value.endDate
                         )
                         planRepository.updatePlan(newPlan)
+                        _uiState.update {
+                            it.copy(popBackStackFlag = true)
+                        }
                     }
                 }
 
                 is Event.OnDeletePlanClicked -> {
                     viewModelScope.launch {
                         planRepository.deletePlan(event.plan)
+                        detailRepository.deleteDetailByPlanId(event.plan.id)
                     }
                 }
             }
