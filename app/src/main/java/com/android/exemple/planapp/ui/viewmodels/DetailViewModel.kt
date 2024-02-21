@@ -156,8 +156,10 @@ class DetailViewModel @Inject constructor(
                             date = _uiState.value.date,
                             planId = _uiState.value.planId!!
                         )
-
                         detailRepository.insertDetail(newDetail)
+                        _uiState.update {
+                            it.copy(popBackStackFlag = true)
+                        }
                     }
                 }
 
@@ -189,6 +191,9 @@ class DetailViewModel @Inject constructor(
                             planId = _uiState.value.planId!!
                         )
                         detailRepository.updateDetail(newDetail)
+                        _uiState.update {
+                            it.copy(popBackStackFlag = true)
+                        }
                     }
                 }
 

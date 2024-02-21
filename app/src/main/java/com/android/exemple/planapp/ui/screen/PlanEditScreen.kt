@@ -87,8 +87,7 @@ fun PlanEditScreen(
                         if (!hasError) {
                             viewModel.event(
                                 PlanViewModel.Event.OnUpdatePlanClicked(
-                                    uiState,
-                                    planId
+                                    uiState, planId
                                 )
                             )
                         }
@@ -97,6 +96,11 @@ fun PlanEditScreen(
                     }
                 },
             )
+            // 登録が完了すれば、前画面に遷移する
+            if (uiState.popBackStackFlag) {
+                navController.navigate("home")
+                viewModel.initializePopBackStackFlag()
+            }
         }
     ) {
         Column {

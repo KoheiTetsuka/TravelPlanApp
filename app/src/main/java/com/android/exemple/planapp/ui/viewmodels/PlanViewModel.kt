@@ -145,6 +145,9 @@ class PlanViewModel @Inject constructor(
                             endDate = _uiState.value.endDate
                         )
                         planRepository.updatePlan(newPlan)
+                        _uiState.update {
+                            it.copy(popBackStackFlag = true)
+                        }
                     }
                 }
 
