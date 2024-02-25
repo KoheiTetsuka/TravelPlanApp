@@ -8,31 +8,28 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.List
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavController
 
-sealed class Item(var dist: String, var icon: ImageVector) {
-    object Plan: Item("プラン", Icons.Filled.Edit)
-    object Property: Item("持ち物", Icons.Filled.List)
+sealed class Item(var dist: String, var displayName: String, var icon: ImageVector) {
+    object Plan : Item("Plan", "プラン", Icons.Filled.Edit)
+    object Property : Item("Property", "持ち物", Icons.Filled.List)
 }
 
 @Composable
 fun BottomBar(navController: NavController, planId: Int) {
-    var selectedItem = remember { mutableStateOf(0) }
     val items = listOf(Item.Plan, Item.Property)
 
     BottomNavigation {
-        items.forEachIndexed { index, item ->
+        items.forEachIndexed { _, item ->
             BottomNavigationItem(
                 icon = { Icon(item.icon, contentDescription = item.dist) },
-                label = { Text(item.dist) },
-                selected = selectedItem.value == index,
+                label = { Text(item.displayName) },
+                selected = true,
                 onClick = {
-                    if (item.dist == "プラン") {
+                    if (item.dist == "Plan") {
                         navController.navigate("detail/${planId}")
-                    } else if (item.dist == "持ち物") {
+                    } else if (item.dist == "Property") {
                         navController.navigate("property/${planId}")
                     }
                 }
@@ -40,9 +37,3 @@ fun BottomBar(navController: NavController, planId: Int) {
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun BottomNavigationPreview() {
-//    BottomBar(navController: NavController)
-//}
