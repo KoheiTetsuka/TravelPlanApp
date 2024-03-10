@@ -2,26 +2,28 @@ package com.android.exemple.planapp.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.android.exemple.planapp.db.dao.PropertyDao
 import com.android.exemple.planapp.db.entities.Property
+import com.android.exemple.planapp.ui.repository.PropertyRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PropertyViewModel @Inject constructor(private val propertyDao: PropertyDao) : ViewModel() {
+class PropertyViewModel @Inject constructor(
+    private val propertyRepository: PropertyRepository
+) : ViewModel() {
 
     data class UiState(
         val title: String = "",
         val planId: Int? = null,
         val deleteFlag: String = "",
         val titleErrorMessage: String = "",
-        val properties: List<Property>? = null
+        val properties: List<Property>? = null,
+        val popBackStackFlag: Boolean = false,
     )
 
     sealed class Event {
@@ -29,6 +31,10 @@ class PropertyViewModel @Inject constructor(private val propertyDao: PropertyDao
         data class CreateInit(val planId: Int) : Event()
         data class EditInit(val id: Int) : Event()
         data class TitleChanged(val title: String) : Event()
+        data class OnCreatePropertyClicked(val uiState: UiState) : Event()
+        data class OnUpdatePropertyClicked(val uiState: UiState, val propertyId: Int) : Event()
+        data class OnSoftDeletePropertyClicked(val property: Property) : Event()
+        data class OnDeletePropertyClicked(val property: Property) : Event()
     }
 
     private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState())
@@ -39,7 +45,7 @@ class PropertyViewModel @Inject constructor(private val propertyDao: PropertyDao
             when (event) {
                 is Event.Init -> {
                     val properties =
-                        propertyDao.getAllByPlanId(event.planId).distinctUntilChanged().first()
+                        propertyRepository.getAllByPlanId(event.planId).first()
                     _uiState.update {
                         it.copy(
                             properties = properties,
@@ -56,7 +62,7 @@ class PropertyViewModel @Inject constructor(private val propertyDao: PropertyDao
                 }
 
                 is Event.EditInit -> {
-                    val property = propertyDao.getAllById(event.id).first()
+                    val property = propertyRepository.getAllById(event.id).first()
                     _uiState.update {
                         it.copy(
                             title = property.title,
@@ -71,70 +77,84 @@ class PropertyViewModel @Inject constructor(private val propertyDao: PropertyDao
                         it.copy(title = event.title, titleErrorMessage = "")
                     }
                 }
-            }
-        }
-    }
 
-    fun createProperty() {
-        viewModelScope.launch {
-            if (_uiState.value.title.isEmpty()) {
-                _uiState.update {
-                    it.copy(titleErrorMessage = "タイトルは必須です。")
+                is Event.OnCreatePropertyClicked -> {
+                    viewModelScope.launch {
+                        if (_uiState.value.title.isEmpty()) {
+                            _uiState.update {
+                                it.copy(titleErrorMessage = "タイトルは必須です。")
+                            }
+                            return@launch
+                        }
+                        val newProperty = Property(
+                            title = _uiState.value.title,
+                            planId = _uiState.value.planId!!
+                        )
+                        propertyRepository.insertProperty(newProperty)
+                        _uiState.update {
+                            it.copy(popBackStackFlag = true)
+                        }
+                    }
                 }
-                return@launch
-            }
-            val newProperty = Property(
-                title = _uiState.value.title,
-                planId = _uiState.value.planId!!
-            )
-            propertyDao.insertProperty(newProperty)
-        }
-    }
 
-    fun updatePlan(propertyId: Int) {
-        viewModelScope.launch {
-            if (_uiState.value.title.isEmpty()) {
-                _uiState.update {
-                    it.copy(titleErrorMessage = "タイトルは必須です。")
+                is Event.OnUpdatePropertyClicked -> {
+                    viewModelScope.launch {
+                        if (_uiState.value.title.isEmpty()) {
+                            _uiState.update {
+                                it.copy(titleErrorMessage = "タイトルは必須です。")
+                            }
+                            return@launch
+                        }
+
+                        val newProperty = Property(
+                            id = event.propertyId,
+                            title = _uiState.value.title,
+                            planId = _uiState.value.planId!!,
+                            deleteFlag = _uiState.value.deleteFlag
+                        )
+                        propertyRepository.updateProperty(newProperty)
+                        _uiState.update {
+                            it.copy(popBackStackFlag = true)
+                        }
+                    }
                 }
-                return@launch
-            }
 
-            val newProperty = Property(
-                id = propertyId,
-                title = _uiState.value.title,
-                planId = _uiState.value.planId!!,
-                deleteFlag = _uiState.value.deleteFlag
-            )
-            propertyDao.updateProperty(newProperty)
+                is Event.OnSoftDeletePropertyClicked -> {
+                    viewModelScope.launch {
+                        var newProperty: Property = if (event.property.deleteFlag == "1") {
+                            Property(
+                                id = event.property.id,
+                                title = event.property.title,
+                                planId = event.property.planId!!,
+                                deleteFlag = "0",
+                            )
+                        } else {
+                            Property(
+                                id = event.property.id,
+                                title = event.property.title,
+                                planId = event.property.planId!!,
+                                deleteFlag = "1",
+                            )
+                        }
+                        propertyRepository.softDeleteProperty(newProperty)
+                    }
+                }
+
+                is Event.OnDeletePropertyClicked -> {
+                    viewModelScope.launch {
+                        propertyRepository.deleteProperty(event.property)
+                    }
+                }
+            }
         }
     }
 
-
-    fun softDeleteProperty(property: Property) {
-        viewModelScope.launch {
-            var newProperty: Property = if (property.deleteFlag == "1") {
-                Property(
-                    id = property.id,
-                    title = property.title,
-                    planId = property.planId,
-                    deleteFlag = "0",
-                )
-            } else {
-                Property(
-                    id = property.id,
-                    title = property.title,
-                    planId = property.planId,
-                    deleteFlag = "1",
-                )
-            }
-            propertyDao.softDeleteProperty(newProperty)
-        }
-    }
-
-    fun deleteProperty(property: Property) {
-        viewModelScope.launch {
-            propertyDao.deleteProperty(property)
+    /**
+     * popBackStackFlagを初期化する
+     */
+    fun initializePopBackStackFlag() {
+        _uiState.update {
+            it.copy(popBackStackFlag = false)
         }
     }
 }

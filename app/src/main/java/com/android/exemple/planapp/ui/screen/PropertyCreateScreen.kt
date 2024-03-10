@@ -46,7 +46,7 @@ fun PropertyCreateScreen(
                 title = { Text(text = stringResource(R.string.screen_property_create)) },
                 navigationIcon = {
                     IconButton(onClick = {
-                        navController.popBackStack()
+                        navController.navigate("property/${planId}")
                     }) {
                         Icon(Icons.Filled.ArrowBack, stringResource(R.string.desc_back))
                     }
@@ -54,13 +54,20 @@ fun PropertyCreateScreen(
                 actions = {
                     IconButton(onClick = {
                         if (!hasTitleError) {
-                            viewModel.createProperty()
+                            viewModel.event(
+                                PropertyViewModel.Event.OnCreatePropertyClicked(uiState)
+                            )
                         }
                     }) {
                         Icon(Icons.Filled.Add, stringResource(R.string.desc_create))
                     }
                 }
             )
+            // 登録が完了すれば、前画面に遷移する
+            if (uiState.popBackStackFlag) {
+                navController.navigate("property/${planId}")
+                viewModel.initializePopBackStackFlag()
+            }
         }
     ) {
         Column(modifier = modifier) {

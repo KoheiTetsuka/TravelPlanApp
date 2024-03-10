@@ -29,8 +29,7 @@ import com.android.exemple.planapp.ui.viewmodels.DetailViewModel
 fun DetailScreen(
     viewModel: DetailViewModel = hiltViewModel(),
     navController: NavController,
-    planId: Int,
-    modifier: Modifier = Modifier,
+    planId: Int
 ) {
     viewModel.event(DetailViewModel.Event.Init(planId = planId))
 
@@ -62,7 +61,7 @@ fun DetailScreen(
         }
     ) {
         val details by viewModel.details.collectAsState(initial = emptyList())
-        Column(modifier = modifier) {
+        Column {
             Text(
                 modifier = Modifier
                     .fillMaxWidth(1f)

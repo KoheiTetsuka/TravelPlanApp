@@ -13,8 +13,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -33,7 +37,13 @@ fun PropertyScreen(
     planId: Int
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    viewModel.event(PropertyViewModel.Event.Init(planId = planId))
+    var launched by rememberSaveable { mutableStateOf(false) }
+    if (launched.not()) {
+        LaunchedEffect(Unit) {
+            viewModel.event(PropertyViewModel.Event.Init(planId = planId))
+            launched = true
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -80,6 +90,5 @@ fun PropertyScreen(
                 )
             }
         }
-
     }
 }

@@ -2,12 +2,11 @@ package com.android.exemple.planapp.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.android.exemple.planapp.db.dao.DetailDao
 import com.android.exemple.planapp.db.entities.Detail
+import com.android.exemple.planapp.ui.repository.DetailRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -16,9 +15,9 @@ import java.time.LocalTime
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : ViewModel() {
-
-    val details = detailDao.getAll().distinctUntilChanged()
+class DetailViewModel @Inject constructor(
+    private val detailRepository: DetailRepository
+) : ViewModel() {
 
     data class UiState(
         val title: String = "",
@@ -31,6 +30,7 @@ class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : Vi
         val planId: Int? = null,
         val titleErrorMessage: String = "",
         val timeErrorMessage: String = "",
+        val popBackStackFlag: Boolean = false,
         val details: List<Detail>? = null
     )
 
@@ -45,6 +45,9 @@ class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : Vi
         data class StartTimeChanged(val startTime: LocalTime) : Event()
         data class EndTimeChanged(val endTime: LocalTime) : Event()
         data class DateChanged(val date: LocalDate) : Event()
+        data class OnCreateDetailClicked(val uiState: UiState) : Event()
+        data class OnUpdateDetailClicked(val uiState: UiState, val detailId: Int) : Event()
+        data class OnDeleteDetailClicked(val detail: Detail) : Event()
     }
 
     private val _uiState: MutableStateFlow<UiState> = MutableStateFlow(UiState())
@@ -54,7 +57,7 @@ class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : Vi
         viewModelScope.launch {
             when (event) {
                 is Event.Init -> {
-                    val details = detailDao.getAllById(event.planId).first()
+                    val details = detailRepository.getAllById(event.planId).first()
                     _uiState.update {
                         it.copy(
                             details = details,
@@ -70,7 +73,7 @@ class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : Vi
                 }
 
                 is Event.EditInit -> {
-                    val detail = detailDao.getById(event.detailId).first()
+                    val detail = detailRepository.getById(event.detailId).first()
                     _uiState.update {
                         it.copy(
                             title = detail.title,
@@ -126,77 +129,96 @@ class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : Vi
                         it.copy(date = event.date)
                     }
                 }
+
+                is Event.OnCreateDetailClicked -> {
+                    viewModelScope.launch {
+                        if (_uiState.value.title.isEmpty()) {
+                            _uiState.update {
+                                it.copy(titleErrorMessage = "タイトルは必須です。")
+                            }
+                            return@launch
+                        }
+
+                        if (!checkTimeValidate()) {
+                            _uiState.update {
+                                it.copy(timeErrorMessage = "終了時間は開始時間より後の時刻を入力してください。")
+                            }
+                            return@launch
+                        }
+
+                        val newDetail = Detail(
+                            title = _uiState.value.title,
+                            cost = _uiState.value.cost,
+                            url = _uiState.value.url,
+                            memo = _uiState.value.memo,
+                            startTime = _uiState.value.startTime,
+                            endTime = _uiState.value.endTime,
+                            date = _uiState.value.date,
+                            planId = _uiState.value.planId!!
+                        )
+                        detailRepository.insertDetail(newDetail)
+                        _uiState.update {
+                            it.copy(popBackStackFlag = true)
+                        }
+                    }
+                }
+
+                is Event.OnUpdateDetailClicked -> {
+                    viewModelScope.launch {
+                        if (_uiState.value.title.isEmpty()) {
+                            _uiState.update {
+                                it.copy(titleErrorMessage = "タイトルは必須です。")
+                            }
+                            return@launch
+                        }
+
+                        if (!checkTimeValidate()) {
+                            _uiState.update {
+                                it.copy(timeErrorMessage = "終了時間は開始時間より後の時刻を入力してください。")
+                            }
+                            return@launch
+                        }
+
+                        val newDetail = Detail(
+                            id = event.detailId,
+                            title = _uiState.value.title,
+                            cost = _uiState.value.cost,
+                            url = _uiState.value.url,
+                            memo = _uiState.value.memo,
+                            startTime = _uiState.value.startTime,
+                            endTime = _uiState.value.endTime,
+                            date = _uiState.value.date,
+                            planId = _uiState.value.planId!!
+                        )
+                        detailRepository.updateDetail(newDetail)
+                        _uiState.update {
+                            it.copy(popBackStackFlag = true)
+                        }
+                    }
+                }
+
+                is Event.OnDeleteDetailClicked -> {
+                    viewModelScope.launch {
+                        detailRepository.deleteDetail(event.detail)
+                    }
+                }
             }
         }
     }
 
-    fun createDetail() {
-        viewModelScope.launch {
-            if (_uiState.value.title.isEmpty()) {
-                _uiState.update {
-                    it.copy(titleErrorMessage = "タイトルは必須です。")
-                }
-                return@launch
-            }
-
-            if (!checkTimeValidate()) {
-                _uiState.update {
-                    it.copy(timeErrorMessage = "終了時間は開始時間より後の時刻を入力してください。")
-                }
-                return@launch
-            }
-
-            val newDetail = Detail(
-                title = _uiState.value.title,
-                cost = _uiState.value.cost,
-                url = _uiState.value.url,
-                memo = _uiState.value.memo,
-                startTime = _uiState.value.startTime,
-                endTime = _uiState.value.endTime,
-                date = _uiState.value.date,
-                planId = _uiState.value.planId!!
-            )
-
-            detailDao.insertDetail(newDetail)
-        }
-    }
-
-    fun updateDetail(detailId: Int) {
-        viewModelScope.launch {
-            if (_uiState.value.title.isEmpty()) {
-                _uiState.update {
-                    it.copy(titleErrorMessage = "タイトルは必須です。")
-                }
-                return@launch
-            }
-
-            if (!checkTimeValidate()) {
-                _uiState.update {
-                    it.copy(timeErrorMessage = "終了時間は開始時間より後の時刻を入力してください。")
-                }
-                return@launch
-            }
-
-            val newDetail = Detail(
-                id = detailId,
-                title = _uiState.value.title,
-                cost = _uiState.value.cost,
-                url = _uiState.value.url,
-                memo = _uiState.value.memo,
-                startTime = _uiState.value.startTime,
-                endTime = _uiState.value.endTime,
-                date = _uiState.value.date,
-                planId = _uiState.value.planId!!
-            )
-            detailDao.updateDetail(newDetail)
-        }
-    }
-
-    fun deleteDetail(detail: Detail) {
-        viewModelScope.launch {
-            detailDao.deleteDetail(detail)
-        }
-    }
+//    fun createDetail() {
+//
+//    }
+//
+//    fun updateDetail(detailId: Int) {
+//
+//    }
+//
+//    fun deleteDetail(detail: Detail) {
+//        viewModelScope.launch {
+//            detailRepository.deleteDetail(detail)
+//        }
+//    }
 
     /**
      * 開始時間と終了時間を比較する。
@@ -208,5 +230,14 @@ class DetailViewModel @Inject constructor(private val detailDao: DetailDao) : Vi
 
         // 開始時間と終了時間が同時刻でないかつ開始時間が終了時間より遅かった場合エラー
         return !(startTime?.equals(endTime) == false && !startTime.isBefore(endTime))
+    }
+
+    /**
+     * popBackStackFlagを初期化する
+     */
+    fun initializePopBackStackFlag() {
+        _uiState.update {
+            it.copy(popBackStackFlag = false)
+        }
     }
 }

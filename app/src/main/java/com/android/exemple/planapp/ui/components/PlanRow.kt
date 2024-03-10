@@ -110,6 +110,7 @@ fun PlanRow(
             IconButton(
                 onClick = {
                     viewModel.event(PlanViewModel.Event.OnDeletePlanClicked(plan))
+                    viewModel.event(PlanViewModel.Event.Init)
                 }
             ) {
                 Icon(

@@ -3,10 +3,12 @@ package com.android.exemple.planapp.ui.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.exemple.planapp.db.entities.Plan
+import com.android.exemple.planapp.ui.repository.DetailRepository
 import com.android.exemple.planapp.ui.repository.PlanRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -14,16 +16,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PlanViewModel @Inject constructor(
-    private val planRepository: PlanRepository
+    private val planRepository: PlanRepository,
+    private val detailRepository: DetailRepository,
 ) : ViewModel() {
-
-    val plans = planRepository.getAll()
 
     data class UiState(
         val title: String = "",
         val description: String = "",
         val startDate: LocalDate? = null,
         val endDate: LocalDate? = null,
+        val plans: List<Plan>? = null,
         val titleErrorMessage: String = "",
         val dateErrorMessage: String = "",
         val startDateErrorMessage: String = "",
@@ -32,6 +34,7 @@ class PlanViewModel @Inject constructor(
     )
 
     sealed class Event {
+        object Init : Event()
         data class EditInit(val planId: Int) : Event()
         data class TitleChanged(val title: String) : Event()
         data class DescriptionChanged(val description: String) : Event()
@@ -48,6 +51,15 @@ class PlanViewModel @Inject constructor(
     fun event(event: Event) {
         viewModelScope.launch {
             when (event) {
+                is Event.Init -> {
+                    val plans = planRepository.getAll().first()
+                    _uiState.update {
+                        it.copy(
+                            plans = plans
+                        )
+                    }
+                }
+
                 is Event.EditInit -> {
                     val plan = planRepository.getById(event.planId)
                     _uiState.update {
@@ -135,12 +147,16 @@ class PlanViewModel @Inject constructor(
                             endDate = _uiState.value.endDate
                         )
                         planRepository.updatePlan(newPlan)
+                        _uiState.update {
+                            it.copy(popBackStackFlag = true)
+                        }
                     }
                 }
 
                 is Event.OnDeletePlanClicked -> {
                     viewModelScope.launch {
                         planRepository.deletePlan(event.plan)
+                        detailRepository.deleteDetailByPlanId(event.plan.id)
                     }
                 }
             }

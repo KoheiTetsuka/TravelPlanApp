@@ -38,7 +38,6 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -83,13 +82,18 @@ fun DetailCreateScreen(
                 actions = {
                     IconButton(onClick = {
                         if (!hasTitleError && !hasTimeError) {
-                            viewModel.createDetail()
+                            viewModel.event(DetailViewModel.Event.OnCreateDetailClicked(uiState))
                         }
                     }) {
                         Icon(Icons.Filled.Add, stringResource(R.string.desc_create))
                     }
                 }
             )
+            // 登録が完了すれば、前画面に遷移する
+            if (uiState.popBackStackFlag) {
+                navController.navigate("detail/${uiState.planId}")
+                viewModel.initializePopBackStackFlag()
+            }
         },
     ) {
         Column(modifier = modifier) {

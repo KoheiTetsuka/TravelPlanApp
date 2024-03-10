@@ -8,8 +8,12 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -22,6 +26,14 @@ fun PlanScreen(
     viewModel: PlanViewModel = hiltViewModel(),
     navController: NavController
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+    var launched by rememberSaveable { mutableStateOf(false) }
+    if (launched.not()) {
+        LaunchedEffect(Unit) {
+            viewModel.event(PlanViewModel.Event.Init)
+            launched = true
+        }
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -39,11 +51,13 @@ fun PlanScreen(
             }
         },
     ) {
-        val plans by viewModel.plans.collectAsState(initial = emptyList())
-        PlanList(
-            plans = plans,
-            navController = navController,
-            viewModel = viewModel
-        )
+        val plans = uiState.plans
+        if (plans != null) {
+            PlanList(
+                plans = plans,
+                navController = navController,
+                viewModel = viewModel
+            )
+        }
     }
 }

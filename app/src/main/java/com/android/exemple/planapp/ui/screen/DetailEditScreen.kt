@@ -88,12 +88,22 @@ fun DetailEditScreen(
                 },
                 actions = {
                     IconButton(onClick = {
-                        viewModel.updateDetail(detailId)
+                        viewModel.event(
+                            DetailViewModel.Event.OnUpdateDetailClicked(
+                                uiState,
+                                detailId
+                            )
+                        )
                     }) {
                         Icon(Icons.Filled.Add, stringResource(R.string.desc_update))
                     }
                 }
             )
+            // 登録が完了すれば、前画面に遷移する
+            if (uiState.popBackStackFlag) {
+                navController.navigate("detail/${uiState.planId}")
+                viewModel.initializePopBackStackFlag()
+            }
         },
     ) {
         Column(modifier = modifier) {
