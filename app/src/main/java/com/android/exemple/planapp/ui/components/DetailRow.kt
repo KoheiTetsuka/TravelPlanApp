@@ -34,7 +34,8 @@ import java.util.Locale
 fun DetailRow(
     detail: Detail,
     navController: NavController,
-    viewModel: DetailViewModel
+    viewModel: DetailViewModel,
+    modifier: Modifier = Modifier
 ) {
     val dateFormat =
         DateTimeFormatter.ofPattern(stringResource(R.string.format_mm_dd), Locale.JAPAN)
@@ -49,7 +50,7 @@ fun DetailRow(
                 .padding(5.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column {
+            Column(modifier = modifier) {
                 Text(
                     modifier = Modifier.background(Color.Yellow),
                     text = if (detail.date == null) stringResource(R.string.label_pending) else dateFormat.format(
@@ -101,14 +102,4 @@ fun DetailRow(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun DetailRowPreview() {
-//    DetailRow(
-//        detail = Detail(title = "タイトル", cost = "費用", url = "URL", memo = "メモ"),
-//        onClickRow = {},
-//        onClickDelete = {},
-//    )
 }

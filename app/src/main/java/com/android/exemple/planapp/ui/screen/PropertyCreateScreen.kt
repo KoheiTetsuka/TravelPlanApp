@@ -32,7 +32,8 @@ import com.android.exemple.planapp.ui.viewmodels.PropertyViewModel
 fun PropertyCreateScreen(
     viewModel: PropertyViewModel = hiltViewModel(),
     navController: NavController,
-    planId: Int
+    planId: Int,
+    modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
     viewModel.event(PropertyViewModel.Event.CreateInit(planId = planId))
@@ -62,22 +63,18 @@ fun PropertyCreateScreen(
             )
         }
     ) {
-        Column {
-            Row {
+        Column(modifier = modifier) {
+            Row(
+                modifier = Modifier.background(
+                    color = Color(0xffcccccc)
+                )
+            ) {
                 Text(
-                    modifier = Modifier
-                        .background(
-                            color = Color(0xffcccccc)
-                        ),
                     text = stringResource(R.string.label_property),
                 )
-
                 Text(
                     modifier = Modifier
-                        .fillMaxWidth(1f)
-                        .background(
-                            color = Color(0xffcccccc)
-                        ),
+                        .fillMaxWidth(1f),
                     text = stringResource(R.string.label_required),
                     color = Color.Red
                 )

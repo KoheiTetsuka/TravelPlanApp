@@ -40,9 +40,3 @@ fun BottomBar(navController: NavController, planId: Int) {
         }
     }
 }
-
-//@Preview(showBackground = true)
-//@Composable
-//fun BottomNavigationPreview() {
-//    BottomBar(navController: NavController)
-//}

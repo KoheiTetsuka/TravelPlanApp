@@ -29,6 +29,7 @@ import com.android.exemple.planapp.ui.viewmodels.PropertyViewModel
 fun PropertyScreen(
     viewModel: PropertyViewModel = hiltViewModel(),
     navController: NavController,
+    modifier: Modifier = Modifier,
     planId: Int
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -61,7 +62,7 @@ fun PropertyScreen(
             BottomBar(navController = navController, planId = planId)
         },
     ) {
-        Column {
+        Column(modifier = modifier) {
             Text(
                 modifier = Modifier
                     .fillMaxWidth(1f)

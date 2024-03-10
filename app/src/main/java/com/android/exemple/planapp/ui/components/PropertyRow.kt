@@ -33,7 +33,6 @@ fun PropertyRow(
     navController: NavController
 ) {
     var checkedState by remember { mutableStateOf(false) }
-
     val deleteFlag = property.deleteFlag
     if (deleteFlag == stringResource(R.string.deleteFlag)) {
         checkedState = true

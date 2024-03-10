@@ -35,7 +35,8 @@ import com.android.exemple.planapp.ui.viewmodels.PropertyViewModel
 fun PropertyEditScreen(
     navController: NavController,
     viewModel: PropertyViewModel,
-    propertyId: Int
+    propertyId: Int,
+    modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
     var hasTitleError: Boolean = uiState.titleErrorMessage.isNotEmpty()
@@ -72,21 +73,18 @@ fun PropertyEditScreen(
             )
         }
     ) {
-        Column {
-            Row {
+        Column(modifier = modifier) {
+            Row(
+                modifier = Modifier.background(
+                    color = Color(0xffcccccc)
+                )
+            ) {
                 Text(
-                    modifier = Modifier
-                        .background(
-                            color = Color(0xffcccccc)
-                        ),
                     text = stringResource(R.string.label_property),
                 )
                 Text(
                     modifier = Modifier
-                        .fillMaxWidth(1f)
-                        .background(
-                            color = Color(0xffcccccc)
-                        ),
+                        .fillMaxWidth(1f),
                     text = stringResource(R.string.label_required),
                     color = Color.Red
                 )

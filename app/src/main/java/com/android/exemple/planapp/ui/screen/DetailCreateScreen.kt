@@ -54,7 +54,8 @@ import java.util.Locale
 fun DetailCreateScreen(
     navController: NavController,
     viewModel: DetailViewModel = hiltViewModel(),
-    planId: Int
+    planId: Int,
+    modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
@@ -91,21 +92,17 @@ fun DetailCreateScreen(
             )
         },
     ) {
-        Column {
-            Row {
+        Column(modifier = modifier) {
+            Row(
+                modifier = modifier
+                    .background(color = Color(0xffcccccc))
+            ) {
                 Text(
-                    modifier = Modifier
-                        .background(
-                            color = Color(0xffcccccc)
-                        ),
                     text = stringResource(R.string.label_title),
                 )
                 Text(
                     modifier = Modifier
-                        .fillMaxWidth(1f)
-                        .background(
-                            color = Color(0xffcccccc)
-                        ),
+                        .fillMaxWidth(1f),
                     text = stringResource(R.string.label_required),
                     color = Color.Red
                 )
@@ -382,10 +379,3 @@ private fun showTimePicker(
         }, hour, minute, false
     ).show()
 }
-
-@Preview
-@Composable
-fun PreviewCreateScreen() {
-//    DetailCreateScreen()
-}
-

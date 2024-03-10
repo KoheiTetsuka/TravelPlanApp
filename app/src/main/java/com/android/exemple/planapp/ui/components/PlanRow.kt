@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -53,6 +54,7 @@ fun PlanRow(
             .fillMaxWidth()
             .padding(5.dp),
         elevation = 5.dp,
+
     ) {
         Row(
             modifier = Modifier
@@ -72,7 +74,7 @@ fun PlanRow(
             Column {
                 Text(
                     text = plan.title,
-                    fontSize = 20.sp
+                    fontSize = 25.sp
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 Row {
@@ -80,17 +82,17 @@ fun PlanRow(
                         text = if (plan.startDate == null) stringResource(R.string.label_pending) else dateFormat.format(
                             plan.startDate
                         ),
-                        fontSize = 11.sp
+                        fontSize = 15.sp
                     )
                     Text(
                         text = stringResource(R.string.label_tilde),
-                        fontSize = 11.sp
+                        fontSize = 15.sp
                     )
                     Text(
                         text = if (plan.endDate == null) stringResource(R.string.label_pending) else dateFormat.format(
                             plan.endDate
                         ),
-                        fontSize = 11.sp
+                        fontSize = 15.sp
                     )
                 }
             }

@@ -49,6 +49,7 @@ import java.util.Locale
 fun PlanCreateScreen(
     viewModel: PlanViewModel = hiltViewModel(),
     navController: NavController,
+    modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
@@ -88,21 +89,18 @@ fun PlanCreateScreen(
             }
         }
     ) {
-        Column {
-            Row {
+        Column(modifier = modifier) {
+            Row(
+                modifier = Modifier.background(
+                    color = Color(0xffcccccc)
+                ),
+            ) {
                 Text(
-                    modifier = Modifier
-                        .background(
-                            color = Color(0xffcccccc)
-                        ),
                     text = stringResource(R.string.label_title),
                 )
                 Text(
                     modifier = Modifier
-                        .fillMaxWidth(1f)
-                        .background(
-                            color = Color(0xffcccccc)
-                        ),
+                        .fillMaxWidth(1f),
                     text = stringResource(R.string.label_required),
                     color = Color.Red
                 )

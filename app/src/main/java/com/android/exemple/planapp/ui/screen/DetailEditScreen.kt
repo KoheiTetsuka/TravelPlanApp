@@ -57,9 +57,9 @@ import java.util.Locale
 fun DetailEditScreen(
     navController: NavController,
     viewModel: DetailViewModel = hiltViewModel(),
-    detailId: Int
+    detailId: Int,
+    modifier: Modifier = Modifier,
 ) {
-
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
     val dateFormat =
@@ -96,21 +96,18 @@ fun DetailEditScreen(
             )
         },
     ) {
-        Column {
-            Row {
+        Column(modifier = modifier) {
+            Row(
+                modifier = Modifier.background(
+                    color = Color(0xffcccccc)
+                )
+            ) {
                 Text(
-                    modifier = Modifier
-                        .background(
-                            color = Color(0xffcccccc)
-                        ),
                     text = stringResource(R.string.label_title),
                 )
                 Text(
                     modifier = Modifier
-                        .fillMaxWidth(1f)
-                        .background(
-                            color = Color(0xffcccccc)
-                        ),
+                        .fillMaxWidth(1f),
                     text = stringResource(R.string.label_required),
                     color = Color.Red
                 )
