@@ -30,6 +30,7 @@
     <string name="label_property">持ち物</string>
     <string name="label_pending">未定</string>
     <string name="label_tilde">〜</string>
+    <string name="label_schedule">スケジュール</string>
 
     <string name="format_yyyy_mm_dd_e">yyyy年MM月dd日 (E)</string>
     <string name="format_mm_dd">MM月dd日</string>
@@ -48,6 +49,9 @@
     <string name="desc_end_time">終了時間</string>
     <string name="desc_delete">削除</string>
     <string name="desc_edit">編集</string>
+    <string name="desc_schedule">スケジュール</string>
+
+    <string name="desc_property">持ち物</string>
 
     <string name="empty" />
     <string name="deleteFlag">1</string>
