@@ -2,6 +2,7 @@ package com.android.exemple.planapp.ui.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -33,7 +34,8 @@ import com.android.exemple.planapp.ui.viewmodels.DetailViewModel
 fun DetailScreen(
     viewModel: DetailViewModel = hiltViewModel(),
     navController: NavController,
-    planId: Int
+    planId: Int,
+    modifier: Modifier = Modifier
 ) {
     viewModel.event(DetailViewModel.Event.Init(planId = planId))
     val uiState by viewModel.uiState.collectAsState()
@@ -72,7 +74,7 @@ fun DetailScreen(
             BottomBar(navController = navController, planId = planId)
         }
     ) {
-        Column {
+        Column(modifier = modifier) {
             Text(
                 modifier = Modifier
                     .fillMaxWidth(1f)

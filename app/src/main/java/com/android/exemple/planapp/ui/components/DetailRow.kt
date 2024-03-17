@@ -60,7 +60,7 @@ fun DetailRow(
                 )
                 Spacer(modifier = Modifier.height(3.dp))
                 Text(
-                    text = detail.startTime.toString(),
+                    text = if (detail.startTime == null) stringResource(R.string.label_pending) else detail.startTime.toString(),
                     fontSize = 11.sp
                 )
                 Text(
@@ -68,17 +68,25 @@ fun DetailRow(
                     fontSize = 11.sp
                 )
                 Text(
-                    text = detail.endTime.toString(),
+                    text = if (detail.endTime == null) stringResource(R.string.label_pending) else detail.endTime.toString(),
                     fontSize = 11.sp
                 )
             }
             if (detail.date == null) {
                 Spacer(modifier = Modifier.width(22.dp))
             }
-            Column {
+            Spacer(modifier = Modifier.width(10.dp))
+            Column(modifier = modifier) {
                 Text(
                     fontSize = 20.sp,
                     text = detail.title
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    fontSize = 15.sp,
+                    text = if (detail.cost == "") stringResource(R.string.label_yen)
+                            + stringResource(R.string.label_hyphen)
+                    else stringResource(R.string.label_yen) + detail.cost
                 )
             }
             Spacer(modifier = Modifier.weight(1f))

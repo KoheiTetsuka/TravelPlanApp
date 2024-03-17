@@ -31,6 +31,8 @@
     <string name="label_pending">未定</string>
     <string name="label_tilde">〜</string>
     <string name="label_schedule">スケジュール</string>
+    <string name="label_yen">¥</string>
+    <string name="label_hyphen">-</string>
 
     <string name="format_yyyy_mm_dd_e">yyyy年MM月dd日 (E)</string>
     <string name="format_mm_dd">MM月dd日</string>
