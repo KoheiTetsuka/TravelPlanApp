@@ -10,10 +10,10 @@ interface DetailDao {
     @Query("SELECT * FROM 'detail' ORDER BY start_time ASC")
     fun getAll(): Flow<MutableList<Detail>>
 
-    @Query("SELECT * FROM 'detail' where plan_id=:planId ORDER BY date ASC ,start_time ASC")
+    @Query("SELECT * FROM 'detail' WHERE plan_id=:planId ORDER BY date IS NULL ASC ,start_time IS NULL ASC")
     fun getAllById(planId: Int): Flow<MutableList<Detail>>
 
-    @Query("SELECT * FROM 'detail' where id=:detailId limit 1")
+    @Query("SELECT * FROM 'detail' WHERE id=:detailId LIMIT 1")
     fun getById(detailId: Int): Flow<Detail>
 
     @Insert
@@ -25,6 +25,6 @@ interface DetailDao {
     @Delete
     suspend fun deleteDetail(detail: Detail)
 
-    @Query("DELETE FROM 'detail' where plan_id=:planId")
+    @Query("DELETE FROM 'detail' WHERE plan_id=:planId")
     suspend fun deleteDetailByPlanId(planId: Int)
 }
