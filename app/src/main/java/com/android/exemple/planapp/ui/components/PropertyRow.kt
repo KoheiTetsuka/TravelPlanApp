@@ -13,7 +13,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.android.exemple.planapp.R
 import com.android.exemple.planapp.db.entities.Property
@@ -33,7 +33,6 @@ fun PropertyRow(
     viewModel: PropertyViewModel,
     navController: NavController
 ) {
-    val uiState by viewModel.uiState.collectAsState()
     var checkedState by remember { mutableStateOf(false) }
     val deleteFlag = property.deleteFlag
     if (deleteFlag == stringResource(R.string.deleteFlag)) {
@@ -66,6 +65,7 @@ fun PropertyRow(
             Text(
                 modifier = Modifier
                     .padding(start = 10.dp),
+                fontSize = 23.sp,
                 text = property.title
             )
             Spacer(modifier = Modifier.weight(1f))

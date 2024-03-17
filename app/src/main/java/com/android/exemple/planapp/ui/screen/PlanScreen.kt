@@ -34,6 +34,7 @@ fun PlanScreen(
             launched = true
         }
     }
+
     Scaffold(
         topBar = {
             TopAppBar(

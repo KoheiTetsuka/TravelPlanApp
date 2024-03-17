@@ -20,7 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -39,6 +38,7 @@ fun DetailRow(
 ) {
     val dateFormat =
         DateTimeFormatter.ofPattern(stringResource(R.string.format_mm_dd), Locale.JAPAN)
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -56,20 +56,20 @@ fun DetailRow(
                     text = if (detail.date == null) stringResource(R.string.label_pending) else dateFormat.format(
                         detail.date
                     ),
-                    fontSize = 12.sp,
+                    fontSize = 15.sp,
                 )
                 Spacer(modifier = Modifier.height(3.dp))
                 Text(
                     text = if (detail.startTime == null) stringResource(R.string.label_pending) else detail.startTime.toString(),
-                    fontSize = 11.sp
+                    fontSize = 13.sp
                 )
                 Text(
                     text = stringResource(R.string.label_tilde),
-                    fontSize = 11.sp
+                    fontSize = 13.sp
                 )
                 Text(
                     text = if (detail.endTime == null) stringResource(R.string.label_pending) else detail.endTime.toString(),
-                    fontSize = 11.sp
+                    fontSize = 13.sp
                 )
             }
             if (detail.date == null) {
@@ -78,12 +78,12 @@ fun DetailRow(
             Spacer(modifier = Modifier.width(10.dp))
             Column(modifier = modifier) {
                 Text(
-                    fontSize = 20.sp,
+                    fontSize = 23.sp,
                     text = detail.title
                 )
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(19.dp))
                 Text(
-                    fontSize = 15.sp,
+                    fontSize = 13.sp,
                     text = if (detail.cost == "") stringResource(R.string.label_yen)
                             + stringResource(R.string.label_hyphen)
                     else stringResource(R.string.label_yen) + detail.cost
