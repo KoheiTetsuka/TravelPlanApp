@@ -1,6 +1,8 @@
 package com.android.exemple.planapp.ui.components
 
+import android.graphics.Color.rgb
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -52,28 +55,34 @@ fun DetailRow(
         ) {
             Column(modifier = modifier) {
                 Text(
-                    modifier = Modifier.background(Color.Yellow),
+                    modifier = Modifier
+                        .background(Color(255, 245, 157))
+                        .width(60.dp),
                     text = if (detail.date == null) stringResource(R.string.label_pending) else dateFormat.format(
                         detail.date
                     ),
                     fontSize = 15.sp,
+                    textAlign = TextAlign.Center
                 )
                 Spacer(modifier = Modifier.height(3.dp))
                 Text(
+                    modifier = Modifier.width(30.dp),
                     text = if (detail.startTime == null) stringResource(R.string.label_pending) else detail.startTime.toString(),
-                    fontSize = 13.sp
+                    fontSize = 13.sp,
+                    textAlign = TextAlign.Center
                 )
                 Text(
+                    modifier = Modifier.width(30.dp),
                     text = stringResource(R.string.label_tilde),
-                    fontSize = 13.sp
+                    fontSize = 13.sp,
+                    textAlign = TextAlign.Center
                 )
                 Text(
+                    modifier = Modifier.width(30.dp),
                     text = if (detail.endTime == null) stringResource(R.string.label_pending) else detail.endTime.toString(),
-                    fontSize = 13.sp
+                    fontSize = 13.sp,
+                    textAlign = TextAlign.Center
                 )
-            }
-            if (detail.date == null) {
-                Spacer(modifier = Modifier.width(22.dp))
             }
             Spacer(modifier = Modifier.width(10.dp))
             Column(modifier = modifier) {

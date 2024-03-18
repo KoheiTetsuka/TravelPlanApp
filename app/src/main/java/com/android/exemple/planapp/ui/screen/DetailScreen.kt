@@ -2,7 +2,6 @@ package com.android.exemple.planapp.ui.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
@@ -23,6 +22,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.android.exemple.planapp.R
@@ -78,9 +79,9 @@ fun DetailScreen(
             Text(
                 modifier = Modifier
                     .fillMaxWidth(1f)
-                    .background(
-                        color = Color(0xffcccccc)
-                    ),
+                    .background(Color(245,245,245)),
+                fontSize = 23.sp,
+                color = Color(0xff444444),
                 text = stringResource(R.string.label_plan_list),
             )
             val details = uiState.details
