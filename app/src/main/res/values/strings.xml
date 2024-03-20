@@ -40,6 +40,7 @@
 
     <string name="error_required">入力は必須です。</string>
     <string name="error_length_15">15字以内で入力してください。</string>
+    <string name="error_length_20">20字以内で入力してください。</string>
     <string name="error_date_validate">終了日は開始日より後の日付を入力してください。</string>
     <string name="error_time_validate">終了時間は開始時間より後の時間を入力してください。</string>
 

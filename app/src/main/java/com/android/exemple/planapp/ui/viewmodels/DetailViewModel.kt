@@ -30,6 +30,7 @@ class DetailViewModel @Inject constructor(
         val planId: Int? = null,
         val titleErrorMessage: String = "",
         val timeErrorMessage: String = "",
+        val costErrorMessage: String = "",
         val popBackStackFlag: Boolean = false,
         val details: List<Detail>? = null
     )
@@ -96,7 +97,7 @@ class DetailViewModel @Inject constructor(
 
                 is Event.CostChanged -> {
                     _uiState.update {
-                        it.copy(cost = event.cost)
+                        it.copy(cost = event.cost, costErrorMessage = "")
                     }
                 }
 
@@ -146,6 +147,13 @@ class DetailViewModel @Inject constructor(
                             return@launch
                         }
 
+                        if (_uiState.value.cost.length > 20) {
+                            _uiState.update {
+                                it.copy(costErrorMessage = "20字以内で入力してください。")
+                            }
+                            return@launch
+                        }
+
                         if (!checkTimeValidate()) {
                             _uiState.update {
                                 it.copy(timeErrorMessage = "終了時間は開始時間より後の時刻を入力してください。")
@@ -178,12 +186,21 @@ class DetailViewModel @Inject constructor(
                             }
                             return@launch
                         }
+
                         if (_uiState.value.title.length > 15) {
                             _uiState.update {
                                 it.copy(titleErrorMessage = "15字以内で入力してください。")
                             }
                             return@launch
                         }
+
+                        if (_uiState.value.cost.length > 20) {
+                            _uiState.update {
+                                it.copy(costErrorMessage = "20字以内で入力してください。")
+                            }
+                            return@launch
+                        }
+
                         if (!checkTimeValidate()) {
                             _uiState.update {
                                 it.copy(timeErrorMessage = "終了時間は開始時間より後の時刻を入力してください。")

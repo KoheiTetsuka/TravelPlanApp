@@ -338,7 +338,23 @@ fun DetailEditScreen(
                     imeAction = ImeAction.Next
                 ),
                 singleLine = true,
+                isError = uiState.costErrorMessage.isNotEmpty(),
+                trailingIcon = {
+                    if (uiState.costErrorMessage.isEmpty()) return@OutlinedTextField
+                    Icon(
+                        Icons.Filled.Error,
+                        stringResource(R.string.desc_error),
+                        tint = MaterialTheme.colors.error
+                    )
+                },
             )
+            if (uiState.costErrorMessage.isNotEmpty()) {
+                Text(
+                    modifier = Modifier.padding(start = 5.dp),
+                    text = stringResource(R.string.error_length_20),
+                    color = MaterialTheme.colors.error
+                )
+            }
             Spacer(modifier = Modifier.height(10.dp))
             Text(
                 modifier = Modifier
