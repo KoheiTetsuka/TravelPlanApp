@@ -74,7 +74,7 @@ fun PlanRow(
             Column {
                 Text(
                     text = plan.title,
-                    fontSize = 25.sp
+                    fontSize = 24.sp
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 Row {

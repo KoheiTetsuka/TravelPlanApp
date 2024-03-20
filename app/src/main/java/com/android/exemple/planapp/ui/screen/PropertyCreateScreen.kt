@@ -114,9 +114,16 @@ fun PropertyCreateScreen(
                     )
                 },
             )
-            if (uiState.titleErrorMessage.isNotEmpty()) {
+            if (uiState.titleErrorMessage == stringResource(R.string.error_required)) {
                 Text(
-                    text = stringResource(R.string.error_title),
+                    modifier = Modifier.padding(start = 5.dp),
+                    text = stringResource(R.string.error_required),
+                    color = MaterialTheme.colors.error
+                )
+            } else if (uiState.titleErrorMessage == stringResource(R.string.error_length_15)) {
+                Text(
+                    modifier = Modifier.padding(start = 5.dp),
+                    text = stringResource(R.string.error_length_15),
                     color = MaterialTheme.colors.error
                 )
             }

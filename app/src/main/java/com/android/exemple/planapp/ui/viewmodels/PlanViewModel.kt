@@ -100,7 +100,13 @@ class PlanViewModel @Inject constructor(
                     viewModelScope.launch {
                         if (_uiState.value.title.isEmpty()) {
                             _uiState.update {
-                                it.copy(titleErrorMessage = "タイトルは必須です。")
+                                it.copy(titleErrorMessage = "入力は必須です。")
+                            }
+                            return@launch
+                        }
+                        if (_uiState.value.title.length > 15) {
+                            _uiState.update {
+                                it.copy(titleErrorMessage = "15字以内で入力してください。")
                             }
                             return@launch
                         }
@@ -128,11 +134,16 @@ class PlanViewModel @Inject constructor(
                     viewModelScope.launch {
                         if (_uiState.value.title.isEmpty()) {
                             _uiState.update {
-                                it.copy(titleErrorMessage = "タイトルは必須です。")
+                                it.copy(titleErrorMessage = "入力は必須です。")
                             }
                             return@launch
                         }
-
+                        if (_uiState.value.title.length > 15) {
+                            _uiState.update {
+                                it.copy(titleErrorMessage = "15字以内で入力してください。")
+                            }
+                            return@launch
+                        }
                         if (!checkDateValidate()) {
                             _uiState.update {
                                 it.copy(dateErrorMessage = "終了日は開始日より後の日付を入力してください。")
