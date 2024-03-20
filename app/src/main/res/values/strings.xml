@@ -12,6 +12,7 @@
     <string name="screen_property_edit">持ち物リスト編集</string>
 
     <string name="label_title">タイトル</string>
+    <string name="label_contents">内容</string>
     <string name="label_okinawa">例：沖縄旅行</string>
     <string name="label_detail">詳細情報</string>
     <string name="label_graduation">例：卒業旅行</string>

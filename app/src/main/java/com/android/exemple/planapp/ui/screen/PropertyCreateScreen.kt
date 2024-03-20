@@ -78,7 +78,7 @@ fun PropertyCreateScreen(
                     .padding(7.dp),
             ) {
                 Text(
-                    text = stringResource(R.string.label_title),
+                    text = stringResource(R.string.label_property),
                     color = Color(0xff444444),
                     fontSize = 18.sp,
                 )
