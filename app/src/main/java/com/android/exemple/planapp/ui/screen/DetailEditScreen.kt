@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -42,7 +43,10 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.android.exemple.planapp.R
@@ -75,6 +79,7 @@ fun DetailEditScreen(
             launched = true
         }
     }
+    
     Scaffold(
         topBar = {
             TopAppBar(
@@ -108,18 +113,21 @@ fun DetailEditScreen(
     ) {
         Column(modifier = modifier) {
             Row(
-                modifier = Modifier.background(
-                    color = Color(0xffcccccc)
-                )
+                modifier = Modifier
+                    .background(Color(245, 245, 245))
+                    .padding(7.dp),
             ) {
                 Text(
                     text = stringResource(R.string.label_title),
+                    color = Color(0xff444444),
+                    fontSize = 18.sp,
                 )
                 Text(
                     modifier = Modifier
                         .fillMaxWidth(1f),
                     text = stringResource(R.string.label_required),
-                    color = Color.Red
+                    color = Color.Red,
+                    fontSize = 18.sp,
                 )
             }
             OutlinedTextField(
@@ -131,6 +139,10 @@ fun DetailEditScreen(
                     viewModel.event(DetailViewModel.Event.TitleChanged(it))
                 },
                 label = { Text(stringResource(R.string.label_detail_title)) },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
+                ),
                 singleLine = true,
                 isError = uiState.titleErrorMessage.isNotEmpty(),
                 trailingIcon = {
@@ -151,16 +163,16 @@ fun DetailEditScreen(
             Spacer(modifier = Modifier.height(10.dp))
             Text(
                 modifier = Modifier
-                    .fillMaxWidth(1f)
-                    .background(
-                        color = Color(0xffcccccc)
-                    ),
+                    .background(Color(245, 245, 245))
+                    .padding(7.dp)
+                    .fillMaxWidth(1f),
+                color = Color(0xff444444),
+                fontSize = 18.sp,
                 text = stringResource(R.string.label_date),
             )
             Row(
                 modifier = Modifier
-                    .padding(8.dp)
-                    .focusRequester(focusRequesterDate),
+                    .padding(start = 5.dp, end = 5.dp, top = 7.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
                 OutlinedTextField(
@@ -191,15 +203,16 @@ fun DetailEditScreen(
             Spacer(modifier = Modifier.height(10.dp))
             Text(
                 modifier = Modifier
-                    .fillMaxWidth(1f)
-                    .background(
-                        color = Color(0xffcccccc)
-                    ),
+                    .background(Color(245, 245, 245))
+                    .padding(5.dp)
+                    .fillMaxWidth(1f),
+                color = Color(0xff444444),
+                fontSize = 18.sp,
                 text = stringResource(R.string.label_start_time),
             )
             Row(
                 modifier = Modifier
-                    .padding(8.dp),
+                    .padding(start = 5.dp, end = 5.dp, top = 7.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
                 OutlinedTextField(
@@ -240,15 +253,16 @@ fun DetailEditScreen(
             Spacer(modifier = Modifier.height(10.dp))
             Text(
                 modifier = Modifier
-                    .fillMaxWidth(1f)
-                    .background(
-                        color = Color(0xffcccccc)
-                    ),
+                    .background(Color(245, 245, 245))
+                    .padding(5.dp)
+                    .fillMaxWidth(1f),
+                color = Color(0xff444444),
+                fontSize = 18.sp,
                 text = stringResource(R.string.label_end_time),
             )
             Row(
                 modifier = Modifier
-                    .padding(8.dp),
+                    .padding(start = 5.dp, end = 5.dp, top = 7.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
                 OutlinedTextField(
@@ -295,10 +309,11 @@ fun DetailEditScreen(
             Spacer(modifier = Modifier.height(10.dp))
             Text(
                 modifier = Modifier
-                    .fillMaxWidth(1f)
-                    .background(
-                        color = Color(0xffcccccc)
-                    ),
+                    .background(Color(245, 245, 245))
+                    .padding(5.dp)
+                    .fillMaxWidth(1f),
+                color = Color(0xff444444),
+                fontSize = 18.sp,
                 text = stringResource(R.string.label_cost),
             )
             OutlinedTextField(
@@ -309,15 +324,21 @@ fun DetailEditScreen(
                 onValueChange = {
                     viewModel.event(DetailViewModel.Event.CostChanged(it))
                 },
-                label = { Text(stringResource(R.string.label_cost)) }
+                label = { Text(stringResource(R.string.label_cost)) },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next
+                ),
+                singleLine = true,
             )
             Spacer(modifier = Modifier.height(10.dp))
             Text(
                 modifier = Modifier
-                    .fillMaxWidth(1f)
-                    .background(
-                        color = Color(0xffcccccc)
-                    ),
+                    .background(Color(245, 245, 245))
+                    .padding(5.dp)
+                    .fillMaxWidth(1f),
+                color = Color(0xff444444),
+                fontSize = 18.sp,
                 text = stringResource(R.string.label_url),
             )
             OutlinedTextField(
@@ -328,15 +349,21 @@ fun DetailEditScreen(
                 onValueChange = {
                     viewModel.event(DetailViewModel.Event.UrlChanged(it))
                 },
-                label = { Text(stringResource(R.string.label_link)) }
+                label = { Text(stringResource(R.string.label_link)) },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Uri,
+                    imeAction = ImeAction.Next
+                ),
+                singleLine = true,
             )
             Spacer(modifier = Modifier.height(10.dp))
             Text(
                 modifier = Modifier
-                    .fillMaxWidth(1f)
-                    .background(
-                        color = Color(0xffcccccc)
-                    ),
+                    .background(Color(245, 245, 245))
+                    .padding(5.dp)
+                    .fillMaxWidth(1f),
+                color = Color(0xff444444),
+                fontSize = 18.sp,
                 text = stringResource(R.string.label_memo),
             )
             OutlinedTextField(
@@ -348,7 +375,11 @@ fun DetailEditScreen(
                 onValueChange = {
                     viewModel.event(DetailViewModel.Event.MemoChanged(it))
                 },
-                label = { Text(stringResource(R.string.label_memo)) }
+                label = { Text(stringResource(R.string.label_memo)) },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Done
+                )
             )
         }
     }

@@ -90,9 +90,9 @@ fun DetailRow(
                     fontSize = 23.sp,
                     text = detail.title
                 )
-                Spacer(modifier = Modifier.height(19.dp))
+                Spacer(modifier = Modifier.height(17.dp))
                 Text(
-                    fontSize = 13.sp,
+                    fontSize = 14.sp,
                     text = if (detail.cost == "") stringResource(R.string.label_yen)
                             + stringResource(R.string.label_hyphen)
                     else stringResource(R.string.label_yen) + detail.cost

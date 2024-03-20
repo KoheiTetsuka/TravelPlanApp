@@ -30,6 +30,7 @@ import com.android.exemple.planapp.R
 import com.android.exemple.planapp.ui.components.BottomBar
 import com.android.exemple.planapp.ui.components.DetailList
 import com.android.exemple.planapp.ui.viewmodels.DetailViewModel
+import com.android.exemple.planapp.ui.viewmodels.PlanViewModel
 
 @Composable
 fun DetailScreen(
@@ -54,7 +55,7 @@ fun DetailScreen(
                 title = { Text(text = stringResource(R.string.screen_detail_plan)) },
                 navigationIcon = {
                     IconButton(onClick = {
-                        navController.popBackStack()
+                        navController.navigate("home")
                     }) {
                         Icon(Icons.Filled.ArrowBack, stringResource(R.string.desc_back))
                     }
@@ -80,7 +81,7 @@ fun DetailScreen(
                 modifier = Modifier
                     .fillMaxWidth(1f)
                     .background(Color(245,245,245)),
-                fontSize = 23.sp,
+                fontSize = 22.sp,
                 color = Color(0xff444444),
                 text = stringResource(R.string.label_plan_list),
             )

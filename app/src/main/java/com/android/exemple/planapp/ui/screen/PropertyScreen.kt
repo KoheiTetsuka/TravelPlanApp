@@ -52,7 +52,7 @@ fun PropertyScreen(
                 title = { Text(text = stringResource(R.string.screen_property_title)) },
                 navigationIcon = {
                     IconButton(onClick = {
-                        navController.popBackStack()
+                        navController.navigate("detail/${planId}")
                     }) {
                         Icon(Icons.Filled.ArrowBack, stringResource(R.string.desc_back))
                     }
@@ -78,7 +78,7 @@ fun PropertyScreen(
                 modifier = Modifier
                     .fillMaxWidth(1f)
                     .background(Color(245,245,245)),
-                fontSize = 23.sp,
+                fontSize = 22.sp,
                 color = Color(0xff444444),
                 text = stringResource(R.string.label_property_title),
             )

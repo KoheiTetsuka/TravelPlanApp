@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -26,7 +27,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.android.exemple.planapp.R
 import com.android.exemple.planapp.ui.viewmodels.PropertyViewModel
@@ -39,7 +43,6 @@ fun PropertyEditScreen(
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    var hasTitleError: Boolean = uiState.titleErrorMessage.isNotEmpty()
 
     var launched by rememberSaveable { mutableStateOf(false) }
     if (launched.not()) {
@@ -62,14 +65,12 @@ fun PropertyEditScreen(
                 },
                 actions = {
                     IconButton(onClick = {
-                        if (!hasTitleError) {
-                            viewModel.event(
-                                PropertyViewModel.Event.OnUpdatePropertyClicked(
-                                    uiState,
-                                    propertyId
-                                )
+                        viewModel.event(
+                            PropertyViewModel.Event.OnUpdatePropertyClicked(
+                                uiState,
+                                propertyId
                             )
-                        }
+                        )
                     }) {
                         Icon(Icons.Filled.Add, stringResource(R.string.desc_update))
                     }
@@ -84,18 +85,21 @@ fun PropertyEditScreen(
     ) {
         Column(modifier = modifier) {
             Row(
-                modifier = Modifier.background(
-                    color = Color(0xffcccccc)
-                )
+                modifier = modifier
+                    .background(Color(245, 245, 245))
+                    .padding(7.dp),
             ) {
                 Text(
-                    text = stringResource(R.string.label_property),
+                    text = stringResource(R.string.label_title),
+                    color = Color(0xff444444),
+                    fontSize = 18.sp,
                 )
                 Text(
                     modifier = Modifier
                         .fillMaxWidth(1f),
                     text = stringResource(R.string.label_required),
-                    color = Color.Red
+                    color = Color.Red,
+                    fontSize = 18.sp,
                 )
             }
             OutlinedTextField(
@@ -107,6 +111,11 @@ fun PropertyEditScreen(
                     viewModel.event(PropertyViewModel.Event.TitleChanged(it))
                 },
                 label = { Text(stringResource(R.string.label_bottle)) },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Done
+                ),
+                singleLine = true,
                 isError = uiState.titleErrorMessage.isNotEmpty(),
                 trailingIcon = {
                     if (uiState.titleErrorMessage.isEmpty()) return@OutlinedTextField

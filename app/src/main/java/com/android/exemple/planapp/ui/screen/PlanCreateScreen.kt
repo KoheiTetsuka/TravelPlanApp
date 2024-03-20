@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -35,7 +36,10 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.android.exemple.planapp.R
@@ -58,9 +62,6 @@ fun PlanCreateScreen(
     val focusRequesterStartDate = remember { FocusRequester() }
     val focusRequesterEndDate = remember { FocusRequester() }
 
-    var hasTitleError: Boolean = uiState.titleErrorMessage.isNotEmpty()
-    var hasDateError: Boolean = uiState.dateErrorMessage.isNotEmpty()
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -68,15 +69,14 @@ fun PlanCreateScreen(
                 navigationIcon = {
                     IconButton(onClick = {
                         viewModel.event(PlanViewModel.Event.Init)
+                        navController.navigate("home")
                     }) {
                         Icon(Icons.Filled.ArrowBack, stringResource(R.string.desc_back))
                     }
                 },
                 actions = {
                     IconButton(onClick = {
-                        if (!hasTitleError && !hasDateError) {
-                            viewModel.event(PlanViewModel.Event.OnCreatePlanClicked(uiState))
-                        }
+                        viewModel.event(PlanViewModel.Event.OnCreatePlanClicked(uiState))
                     }) {
                         Icon(Icons.Filled.Add, stringResource(R.string.desc_create))
                     }
@@ -91,18 +91,21 @@ fun PlanCreateScreen(
     ) {
         Column(modifier = modifier) {
             Row(
-                modifier = Modifier.background(
-                    color = Color(0xffcccccc)
-                ),
+                modifier = modifier
+                    .background(Color(245, 245, 245))
+                    .padding(7.dp),
             ) {
                 Text(
                     text = stringResource(R.string.label_title),
+                    color = Color(0xff444444),
+                    fontSize = 18.sp,
                 )
                 Text(
                     modifier = Modifier
                         .fillMaxWidth(1f),
                     text = stringResource(R.string.label_required),
-                    color = Color.Red
+                    color = Color.Red,
+                    fontSize = 18.sp,
                 )
             }
             OutlinedTextField(
@@ -114,6 +117,10 @@ fun PlanCreateScreen(
                     viewModel.event(PlanViewModel.Event.TitleChanged(it))
                 },
                 label = { Text(stringResource(R.string.label_okinawa)) },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
+                ),
                 singleLine = true,
                 isError = uiState.titleErrorMessage.isNotEmpty(),
                 trailingIcon = {
@@ -134,10 +141,11 @@ fun PlanCreateScreen(
             Spacer(modifier = Modifier.height(20.dp))
             Text(
                 modifier = Modifier
-                    .fillMaxWidth(1f)
-                    .background(
-                        color = Color(0xffcccccc)
-                    ),
+                    .background(Color(245, 245, 245))
+                    .padding(7.dp)
+                    .fillMaxWidth(1f),
+                color = Color(0xff444444),
+                fontSize = 18.sp,
                 text = stringResource(R.string.label_detail),
             )
             OutlinedTextField(
@@ -148,20 +156,26 @@ fun PlanCreateScreen(
                 onValueChange = {
                     viewModel.event(PlanViewModel.Event.DescriptionChanged(it))
                 },
-                label = { Text(stringResource(R.string.label_graduation)) }
+                label = { Text(stringResource(R.string.label_graduation)) },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
+                ),
+                singleLine = true,
             )
             Spacer(modifier = Modifier.height(20.dp))
             Text(
                 modifier = Modifier
-                    .fillMaxWidth(1f)
-                    .background(
-                        color = Color(0xffcccccc)
-                    ),
+                    .background(Color(245, 245, 245))
+                    .padding(7.dp)
+                    .fillMaxWidth(1f),
+                color = Color(0xff444444),
+                fontSize = 18.sp,
                 text = stringResource(R.string.label_start_day),
             )
             Row(
                 modifier = Modifier
-                    .padding(8.dp),
+                    .padding(start = 5.dp, end = 5.dp, top = 7.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
                 OutlinedTextField(
@@ -204,15 +218,16 @@ fun PlanCreateScreen(
             Spacer(modifier = Modifier.height(20.dp))
             Text(
                 modifier = Modifier
-                    .fillMaxWidth(1f)
-                    .background(
-                        color = Color(0xffcccccc)
-                    ),
+                    .background(Color(245, 245, 245))
+                    .padding(5.dp)
+                    .fillMaxWidth(1f),
+                color = Color(0xff444444),
+                fontSize = 18.sp,
                 text = stringResource(R.string.label_end_day),
             )
             Row(
                 modifier = Modifier
-                    .padding(8.dp),
+                    .padding(start = 5.dp, end = 5.dp, top = 7.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
                 OutlinedTextField(
