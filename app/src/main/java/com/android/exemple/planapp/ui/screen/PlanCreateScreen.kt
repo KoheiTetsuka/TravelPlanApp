@@ -27,6 +27,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -59,8 +60,14 @@ fun PlanCreateScreen(
     val uiState by viewModel.uiState.collectAsState()
     val dateFormat =
         DateTimeFormatter.ofPattern(stringResource(R.string.format_yyyy_mm_dd_e), Locale.JAPAN)
+
+    val focusRequester = remember { FocusRequester() }
     val focusRequesterStartDate = remember { FocusRequester() }
     val focusRequesterEndDate = remember { FocusRequester() }
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
 
     Scaffold(
         topBar = {
@@ -111,7 +118,8 @@ fun PlanCreateScreen(
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth(1f)
-                    .padding(start = 5.dp, end = 5.dp),
+                    .padding(start = 5.dp, end = 5.dp)
+                    .focusRequester(focusRequester),
                 value = uiState.title,
                 onValueChange = {
                     viewModel.event(PlanViewModel.Event.TitleChanged(it))

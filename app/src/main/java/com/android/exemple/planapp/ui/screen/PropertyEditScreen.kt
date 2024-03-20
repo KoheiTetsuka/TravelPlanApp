@@ -22,9 +22,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -44,11 +47,14 @@ fun PropertyEditScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
+    val focusRequester = remember { FocusRequester() }
+
     var launched by rememberSaveable { mutableStateOf(false) }
     if (launched.not()) {
         LaunchedEffect(Unit) {
             viewModel.event(PropertyViewModel.Event.EditInit(id = propertyId))
             launched = true
+            focusRequester.requestFocus()
         }
     }
 
@@ -105,7 +111,8 @@ fun PropertyEditScreen(
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth(1f)
-                    .padding(start = 5.dp, end = 5.dp),
+                    .padding(start = 5.dp, end = 5.dp)
+                    .focusRequester(focusRequester),
                 value = uiState.title,
                 onValueChange = {
                     viewModel.event(PropertyViewModel.Event.TitleChanged(it))

@@ -68,6 +68,8 @@ fun DetailEditScreen(
     val context = LocalContext.current
     val dateFormat =
         DateTimeFormatter.ofPattern(stringResource(R.string.format_yyyy_mm_dd_e), Locale.JAPAN)
+
+    val focusRequester = remember { FocusRequester() }
     val focusRequesterDate = remember { FocusRequester() }
     val focusRequesterStartTime = remember { FocusRequester() }
     val focusRequesterEndTime = remember { FocusRequester() }
@@ -77,6 +79,7 @@ fun DetailEditScreen(
         LaunchedEffect(Unit) {
             viewModel.event(DetailViewModel.Event.EditInit(detailId = detailId))
             launched = true
+            focusRequester.requestFocus()
         }
     }
 
@@ -133,7 +136,8 @@ fun DetailEditScreen(
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth(1f)
-                    .padding(start = 5.dp, end = 5.dp),
+                    .padding(start = 5.dp, end = 5.dp)
+                    .focusRequester(focusRequester),
                 value = uiState.title,
                 onValueChange = {
                     viewModel.event(DetailViewModel.Event.TitleChanged(it))

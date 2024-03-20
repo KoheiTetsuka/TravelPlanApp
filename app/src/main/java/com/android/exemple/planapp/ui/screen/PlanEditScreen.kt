@@ -63,6 +63,8 @@ fun PlanEditScreen(
     val uiState by viewModel.uiState.collectAsState()
     val dateFormat =
         DateTimeFormatter.ofPattern(stringResource(R.string.format_yyyy_mm_dd_e), Locale.JAPAN)
+
+    val focusRequester = remember { FocusRequester() }
     val focusRequesterStartDate = remember { FocusRequester() }
     val focusRequesterEndDate = remember { FocusRequester() }
 
@@ -71,6 +73,7 @@ fun PlanEditScreen(
         LaunchedEffect(Unit) {
             viewModel.event(PlanViewModel.Event.EditInit(planId = planId))
             launched = true
+            focusRequester.requestFocus()
         }
     }
 
@@ -129,7 +132,8 @@ fun PlanEditScreen(
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth(1f)
-                    .padding(start = 5.dp, end = 5.dp),
+                    .padding(start = 5.dp, end = 5.dp)
+                    .focusRequester(focusRequester),
                 value = uiState.title,
                 onValueChange = {
                     viewModel.event(PlanViewModel.Event.TitleChanged(it))

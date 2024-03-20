@@ -69,6 +69,8 @@ fun DetailCreateScreen(
     val uiState by viewModel.uiState.collectAsState()
     val dateFormat =
         DateTimeFormatter.ofPattern(stringResource(R.string.format_yyyy_mm_dd_e), Locale.JAPAN)
+
+    val focusRequester = remember { FocusRequester() }
     val focusRequesterDate = remember { FocusRequester() }
     val focusRequesterStartTime = remember { FocusRequester() }
     val focusRequesterEndTime = remember { FocusRequester() }
@@ -78,6 +80,7 @@ fun DetailCreateScreen(
         LaunchedEffect(Unit) {
             viewModel.event(DetailViewModel.Event.CreateInit(planId = planId))
             launched = true
+            focusRequester.requestFocus()
         }
     }
 
@@ -129,7 +132,8 @@ fun DetailCreateScreen(
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth(1f)
-                    .padding(start = 5.dp, end = 5.dp),
+                    .padding(start = 5.dp, end = 5.dp)
+                    .focusRequester(focusRequester),
                 value = uiState.title,
                 onValueChange = {
                     viewModel.event(DetailViewModel.Event.TitleChanged(it))
