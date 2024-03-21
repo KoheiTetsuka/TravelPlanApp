@@ -80,7 +80,7 @@ fun PropertyScreen(
                 modifier = Modifier
                     .fillMaxWidth(1f)
                     .background(Color(245,245,245))
-                    .padding(start = 5.dp),
+                    .padding(5.dp),
                 fontSize = 22.sp,
                 color = Color(0xff444444),
                 text = stringResource(R.string.label_property_title),
