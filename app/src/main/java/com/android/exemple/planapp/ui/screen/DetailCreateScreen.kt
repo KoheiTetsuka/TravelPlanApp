@@ -26,6 +26,7 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Timer
@@ -179,7 +180,7 @@ fun DetailCreateScreen(
             )
             Row(
                 modifier = Modifier
-                    .padding(start = 5.dp, end = 5.dp, top = 7.dp),
+                    .padding(start = 5.dp, end = 10.dp, top = 7.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
                 OutlinedTextField(
@@ -192,6 +193,17 @@ fun DetailCreateScreen(
                     onValueChange = {},
                     readOnly = true,
                 )
+                IconButton(
+                    modifier = Modifier.width(30.dp),
+                    onClick = {
+                        viewModel.event(DetailViewModel.Event.ClearDate)
+                        focusRequesterDate.requestFocus()
+                    }) {
+                    Icon(
+                        imageVector = Icons.Default.Clear,
+                        contentDescription = stringResource(R.string.desc_clear)
+                    )
+                }
                 Spacer(modifier = Modifier.width(15.dp))
                 IconButton(
                     modifier = Modifier.width(30.dp),
@@ -222,7 +234,7 @@ fun DetailCreateScreen(
             )
             Row(
                 modifier = Modifier
-                    .padding(start = 5.dp, end = 5.dp, top = 7.dp),
+                    .padding(start = 5.dp, end = 10.dp, top = 7.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
                 OutlinedTextField(
@@ -242,6 +254,17 @@ fun DetailCreateScreen(
                         )
                     },
                 )
+                IconButton(
+                    modifier = Modifier.width(30.dp),
+                    onClick = {
+                        viewModel.event(DetailViewModel.Event.ClearStartTime)
+                        focusRequesterStartTime.requestFocus()
+                    }) {
+                    Icon(
+                        imageVector = Icons.Default.Clear,
+                        contentDescription = stringResource(R.string.desc_clear)
+                    )
+                }
                 Spacer(modifier = Modifier.width(15.dp))
                 IconButton(
                     modifier = Modifier.width(30.dp),
@@ -272,7 +295,7 @@ fun DetailCreateScreen(
             )
             Row(
                 modifier = Modifier
-                    .padding(start = 5.dp, end = 5.dp, top = 7.dp),
+                    .padding(start = 5.dp, end = 10.dp, top = 7.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
                 OutlinedTextField(
@@ -292,6 +315,17 @@ fun DetailCreateScreen(
                         )
                     },
                 )
+                IconButton(
+                    modifier = Modifier.width(30.dp),
+                    onClick = {
+                        viewModel.event(DetailViewModel.Event.ClearEndTime)
+                        focusRequesterEndTime.requestFocus()
+                    }) {
+                    Icon(
+                        imageVector = Icons.Default.Clear,
+                        contentDescription = stringResource(R.string.desc_clear)
+                    )
+                }
                 Spacer(modifier = Modifier.width(15.dp))
                 IconButton(
                     modifier = Modifier.width(30.dp),

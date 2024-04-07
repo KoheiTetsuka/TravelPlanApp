@@ -46,6 +46,9 @@ class DetailViewModel @Inject constructor(
         data class StartTimeChanged(val startTime: LocalTime) : Event()
         data class EndTimeChanged(val endTime: LocalTime) : Event()
         data class DateChanged(val date: LocalDate) : Event()
+        object ClearDate : Event()
+        object ClearStartTime : Event()
+        object ClearEndTime : Event()
         data class OnCreateDetailClicked(val uiState: UiState) : Event()
         data class OnUpdateDetailClicked(val uiState: UiState, val detailId: Int) : Event()
         data class OnDeleteDetailClicked(val detail: Detail) : Event()
@@ -128,6 +131,24 @@ class DetailViewModel @Inject constructor(
                 is Event.DateChanged -> {
                     _uiState.update {
                         it.copy(date = event.date)
+                    }
+                }
+
+                is Event.ClearDate -> {
+                    _uiState.update {
+                        it.copy(date = null)
+                    }
+                }
+
+                is Event.ClearStartTime -> {
+                    _uiState.update {
+                        it.copy(startTime = null)
+                    }
+                }
+
+                is Event.ClearEndTime -> {
+                    _uiState.update {
+                        it.copy(endTime = null)
                     }
                 }
 
