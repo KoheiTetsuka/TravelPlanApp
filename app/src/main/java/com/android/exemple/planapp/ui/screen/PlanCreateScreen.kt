@@ -192,7 +192,7 @@ fun PlanCreateScreen(
             )
             Row(
                 modifier = Modifier
-                    .padding(start = 5.dp, end = 5.dp, top = 7.dp),
+                    .padding(start = 5.dp, end = 10.dp, top = 7.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
                 OutlinedTextField(
@@ -255,7 +255,7 @@ fun PlanCreateScreen(
             )
             Row(
                 modifier = Modifier
-                    .padding(start = 5.dp, end = 5.dp, top = 7.dp),
+                    .padding(start = 5.dp, end = 10.dp, top = 7.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
                 OutlinedTextField(
