@@ -24,6 +24,7 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.runtime.Composable
@@ -213,6 +214,17 @@ fun PlanCreateScreen(
                         )
                     },
                 )
+                IconButton(
+                    modifier = Modifier.width(30.dp),
+                    onClick = {
+                        viewModel.event(PlanViewModel.Event.ClearStartDate)
+                        focusRequesterStartDate.requestFocus()
+                    }) {
+                    Icon(
+                        imageVector = Icons.Default.Clear,
+                        contentDescription = stringResource(R.string.desc_clear)
+                    )
+                }
                 Spacer(modifier = Modifier.width(15.dp))
                 IconButton(
                     modifier = Modifier.width(30.dp),
@@ -265,7 +277,18 @@ fun PlanCreateScreen(
                         )
                     },
                 )
-                Spacer(modifier = Modifier.width(20.dp))
+                IconButton(
+                    modifier = Modifier.width(30.dp),
+                    onClick = {
+                        viewModel.event(PlanViewModel.Event.ClearEndDate)
+                        focusRequesterEndDate.requestFocus()
+                    }) {
+                    Icon(
+                        imageVector = Icons.Default.Clear,
+                        contentDescription = stringResource(R.string.desc_clear)
+                    )
+                }
+                Spacer(modifier = Modifier.width(15.dp))
                 IconButton(
                     modifier = Modifier.width(30.dp),
                     onClick = {

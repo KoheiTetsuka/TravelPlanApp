@@ -40,6 +40,8 @@ class PlanViewModel @Inject constructor(
         data class DescriptionChanged(val description: String) : Event()
         data class StartDateChanged(val startDate: LocalDate) : Event()
         data class EndDateChanged(val endDate: LocalDate) : Event()
+        object ClearStartDate : Event()
+        object ClearEndDate : Event()
         data class OnCreatePlanClicked(val uiState: UiState) : Event()
         data class OnUpdatePlanClicked(val uiState: UiState, val planId: Int) : Event()
         data class OnDeletePlanClicked(val plan: Plan) : Event()
@@ -93,6 +95,18 @@ class PlanViewModel @Inject constructor(
                 is Event.EndDateChanged -> {
                     _uiState.update {
                         it.copy(endDate = event.endDate, dateErrorMessage = "")
+                    }
+                }
+
+                is Event.ClearStartDate -> {
+                    _uiState.update {
+                        it.copy(startDate = null)
+                    }
+                }
+
+                is Event.ClearEndDate -> {
+                    _uiState.update {
+                        it.copy(endDate = null)
                     }
                 }
 

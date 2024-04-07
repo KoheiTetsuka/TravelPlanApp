@@ -55,6 +55,7 @@
     <string name="desc_delete">削除</string>
     <string name="desc_edit">編集</string>
     <string name="desc_schedule">スケジュール</string>
+    <string name="desc_clear">クリア</string>
 
     <string name="desc_property">持ち物</string>
 
