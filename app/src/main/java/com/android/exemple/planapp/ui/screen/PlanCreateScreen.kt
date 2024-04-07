@@ -227,7 +227,7 @@ fun PlanCreateScreen(
                     }) {
                     Icon(
                         imageVector = Icons.Default.DateRange,
-                        contentDescription = stringResource(R.string.desc_error)
+                        contentDescription = stringResource(R.string.desc_start_day)
                     )
                 }
             }
