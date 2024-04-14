@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -66,7 +67,13 @@ fun PropertyRow(
                 modifier = Modifier
                     .padding(start = 10.dp),
                 fontSize = 23.sp,
-                text = property.title
+                text = property.title,
+                textDecoration =
+                if (property.deleteFlag == "1") {
+                    TextDecoration.LineThrough
+                } else {
+                    TextDecoration.None
+                }
             )
             Spacer(modifier = Modifier.weight(1f))
             IconButton(
