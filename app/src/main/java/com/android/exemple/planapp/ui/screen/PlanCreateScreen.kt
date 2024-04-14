@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.android.exemple.planapp.R
+import com.android.exemple.planapp.ui.util.DatePickerUtil
 import com.android.exemple.planapp.ui.viewmodels.PlanViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -229,7 +230,7 @@ fun PlanCreateScreen(
                 IconButton(
                     modifier = Modifier.width(30.dp),
                     onClick = {
-                        showDatePicker(
+                        DatePickerUtil.showDatePicker(
                             context,
                             onDecideDate = { date ->
                                 viewModel.event(PlanViewModel.Event.StartDateChanged(date))
@@ -292,7 +293,7 @@ fun PlanCreateScreen(
                 IconButton(
                     modifier = Modifier.width(30.dp),
                     onClick = {
-                        showDatePicker(
+                        DatePickerUtil.showDatePicker(
                             context,
                             onDecideDate = { date ->
                                 viewModel.event(PlanViewModel.Event.EndDateChanged(date))
@@ -315,25 +316,4 @@ fun PlanCreateScreen(
             }
         }
     }
-}
-
-private fun showDatePicker(
-    context: Context,
-    onDecideDate: (LocalDate) -> Unit,
-) {
-    val calendar = Calendar.getInstance()
-    val year = calendar.get(Calendar.YEAR)
-    val month = calendar.get(Calendar.MONTH)
-    val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-    calendar.time = Date()
-
-    DatePickerDialog(
-        context,
-        { _: DatePicker, pickedYear: Int, pickedMonth: Int, pickedDay: Int ->
-            onDecideDate(
-                LocalDate.of(pickedYear, pickedMonth + 1, pickedDay)
-            )
-        }, year, month, day
-    ).show()
 }
