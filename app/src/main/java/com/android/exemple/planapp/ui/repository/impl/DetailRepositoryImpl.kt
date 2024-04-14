@@ -11,10 +11,6 @@ class DetailRepositoryImpl @Inject constructor(
     private val detailDao: DetailDao
 ) : DetailRepository {
 
-    override fun getAll(): Flow<MutableList<Detail>> {
-        return detailDao.getAll().distinctUntilChanged()
-    }
-
     override fun getAllById(planId: Int): Flow<MutableList<Detail>> {
         return detailDao.getAllById(planId)
     }

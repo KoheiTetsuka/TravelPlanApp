@@ -7,10 +7,8 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface DetailDao {
 
-    @Query("SELECT * FROM 'detail' ORDER BY start_time ASC")
-    fun getAll(): Flow<MutableList<Detail>>
-
-    @Query("SELECT * FROM 'detail' WHERE plan_id=:planId ORDER BY date IS NULL ASC ,start_time IS NULL ASC")
+    @Query("SELECT * FROM 'detail' WHERE plan_id=:planId ORDER BY CASE WHEN date IS NULL THEN 1 ELSE 0 END ,date ASC " +
+            ",CASE WHEN start_time IS NULL THEN 1 ELSE 0 END ,start_time ASC ,CASE WHEN end_time IS NULL THEN 1 ELSE 0 END ,end_time ASC")
     fun getAllById(planId: Int): Flow<MutableList<Detail>>
 
     @Query("SELECT * FROM 'detail' WHERE id=:detailId LIMIT 1")
