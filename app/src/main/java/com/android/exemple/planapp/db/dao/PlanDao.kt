@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface PlanDao {
 
-    @Query("SELECT * FROM 'plan'")
+    @Query("SELECT * FROM 'plan' ORDER BY start_date ASC, end_date ASC")
     fun getAll(): Flow<MutableList<Plan>>
 
     @Query("SELECT * FROM 'plan' WHERE id=:planId LIMIT 1")
