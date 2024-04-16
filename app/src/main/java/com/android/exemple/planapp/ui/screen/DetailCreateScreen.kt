@@ -1,11 +1,5 @@
 package com.android.exemple.planapp.ui.screen
 
-import android.app.DatePickerDialog
-import android.app.TimePickerDialog
-import android.content.Context
-import android.icu.util.Calendar
-import android.widget.DatePicker
-import android.widget.TimePicker
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -51,12 +45,10 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.android.exemple.planapp.R
+import com.android.exemple.planapp.ui.util.DatePickerUtil
+import com.android.exemple.planapp.ui.util.TimePickerUtil
 import com.android.exemple.planapp.ui.viewmodels.DetailViewModel
-import com.android.exemple.planapp.ui.viewmodels.PlanViewModel
-import java.time.LocalDate
-import java.time.LocalTime
 import java.time.format.DateTimeFormatter
-import java.util.Date
 import java.util.Locale
 
 @Composable
@@ -208,7 +200,7 @@ fun DetailCreateScreen(
                 IconButton(
                     modifier = Modifier.width(30.dp),
                     onClick = {
-                        showDatePicker(
+                        DatePickerUtil.showDatePicker(
                             context,
                             onDecideDate = { date ->
                                 viewModel.event(DetailViewModel.Event.DateChanged(date))
@@ -269,7 +261,7 @@ fun DetailCreateScreen(
                 IconButton(
                     modifier = Modifier.width(30.dp),
                     onClick = {
-                        showTimePicker(
+                        TimePickerUtil.showTimePicker(
                             context,
                             onDecideTime = { time ->
                                 viewModel.event(DetailViewModel.Event.StartTimeChanged(time))
@@ -330,7 +322,7 @@ fun DetailCreateScreen(
                 IconButton(
                     modifier = Modifier.width(30.dp),
                     onClick = {
-                        showTimePicker(
+                        TimePickerUtil.showTimePicker(
                             context,
                             onDecideTime = { time ->
                                 viewModel.event(DetailViewModel.Event.EndTimeChanged(time))
@@ -444,43 +436,4 @@ fun DetailCreateScreen(
             )
         }
     }
-}
-
-private fun showDatePicker(
-    context: Context,
-    onDecideDate: (LocalDate) -> Unit,
-) {
-    val calendar = Calendar.getInstance()
-    val year = calendar.get(Calendar.YEAR)
-    val month = calendar.get(Calendar.MONTH)
-    val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-    calendar.time = Date()
-
-    DatePickerDialog(
-        context,
-        { _: DatePicker, pickedYear: Int, pickedMonth: Int, pickedDay: Int ->
-            onDecideDate(
-                LocalDate.of(pickedYear, pickedMonth + 1, pickedDay)
-            )
-        }, year, month, day
-    ).show()
-}
-
-private fun showTimePicker(
-    context: Context,
-    onDecideTime: (LocalTime) -> Unit,
-) {
-    val calendar = Calendar.getInstance()
-    val hour = calendar.get(Calendar.HOUR_OF_DAY)
-    val minute = calendar.get(Calendar.MINUTE)
-
-    TimePickerDialog(
-        context,
-        { _: TimePicker, pickedHour: Int, pickedMinute: Int ->
-            onDecideTime(
-                LocalTime.of(pickedHour, pickedMinute)
-            )
-        }, hour, minute, false
-    ).show()
 }

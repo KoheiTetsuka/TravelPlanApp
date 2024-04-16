@@ -1,8 +1,5 @@
 package com.android.exemple.planapp.ui.screen
 
-import android.app.DatePickerDialog
-import android.content.Context
-import android.widget.DatePicker
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -48,10 +45,7 @@ import androidx.navigation.NavController
 import com.android.exemple.planapp.R
 import com.android.exemple.planapp.ui.util.DatePickerUtil
 import com.android.exemple.planapp.ui.viewmodels.PlanViewModel
-import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.Calendar
-import java.util.Date
 import java.util.Locale
 
 @Composable
