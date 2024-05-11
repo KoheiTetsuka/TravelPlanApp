@@ -1,8 +1,5 @@
 package com.android.exemple.planapp.ui.components
 
-import android.graphics.Color.rgb
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,7 +19,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -56,13 +55,14 @@ fun DetailRow(
             Column(modifier = modifier) {
                 Text(
                     modifier = Modifier
-                        .background(Color(255, 245, 157))
-                        .width(60.dp),
+                        .width(65.dp),
                     text = if (detail.date == null) stringResource(R.string.label_pending) else dateFormat.format(
                         detail.date
                     ),
-                    fontSize = 15.sp,
-                    textAlign = TextAlign.Center
+                    fontSize = 17.sp,
+                    color = Color.Gray,
+                    textAlign = TextAlign.Start,
+                    style = TextStyle(textDecoration = TextDecoration.Underline)
                 )
                 Spacer(modifier = Modifier.height(3.dp))
                 Text(
