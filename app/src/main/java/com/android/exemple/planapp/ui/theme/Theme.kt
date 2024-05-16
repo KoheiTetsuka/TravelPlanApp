@@ -38,12 +38,12 @@ fun PlanAppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composabl
     val themeColors = remember(darkTheme) {
         if (darkTheme) {
             ThemeColors(
-                backgroundColor = Color.DarkGray,
+                backgroundColor = Color(61, 61, 61),
                 textColor = Color.White
             )
         } else {
             ThemeColors(
-                backgroundColor = Color(0xFF444444),
+                backgroundColor = Color(240, 240, 240),
                 textColor = Color.Black
             )
         }
