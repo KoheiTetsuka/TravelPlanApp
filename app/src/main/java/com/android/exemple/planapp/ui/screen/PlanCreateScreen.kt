@@ -1,6 +1,7 @@
 package com.android.exemple.planapp.ui.screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,6 +16,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
+import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
@@ -41,6 +43,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.android.exemple.planapp.R
+import com.android.exemple.planapp.ui.theme.LocalThemeColors
 import com.android.exemple.planapp.ui.util.DatePickerUtil
 import com.android.exemple.planapp.ui.viewmodels.PlanViewModel
 import java.time.format.DateTimeFormatter
@@ -53,6 +56,8 @@ fun PlanCreateScreen(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
+    val themeColors = LocalThemeColors.current
+
     val uiState by viewModel.uiState.collectAsState()
     val dateFormat =
         DateTimeFormatter.ofPattern(stringResource(R.string.format_yyyy_mm_dd_e), Locale.JAPAN)
@@ -95,12 +100,12 @@ fun PlanCreateScreen(
         Column(modifier = modifier) {
             Row(
                 modifier = modifier
-                    .background(Color(245, 245, 245))
+                    .background(themeColors.backgroundColor)
                     .padding(7.dp),
             ) {
                 Text(
                     text = stringResource(R.string.label_title),
-                    color = Color(0xff444444),
+                    color = themeColors.textColor,
                     fontSize = 18.sp,
                 )
                 Text(
@@ -153,10 +158,10 @@ fun PlanCreateScreen(
             Spacer(modifier = Modifier.height(20.dp))
             Text(
                 modifier = Modifier
-                    .background(Color(245, 245, 245))
+                    .background(themeColors.backgroundColor)
                     .padding(7.dp)
                     .fillMaxWidth(1f),
-                color = Color(0xff444444),
+                color = themeColors.textColor,
                 fontSize = 18.sp,
                 text = stringResource(R.string.label_detail),
             )
@@ -178,10 +183,10 @@ fun PlanCreateScreen(
             Spacer(modifier = Modifier.height(20.dp))
             Text(
                 modifier = Modifier
-                    .background(Color(245, 245, 245))
+                    .background(themeColors.backgroundColor)
                     .padding(7.dp)
                     .fillMaxWidth(1f),
-                color = Color(0xff444444),
+                color = themeColors.textColor,
                 fontSize = 18.sp,
                 text = stringResource(R.string.label_start_day),
             )
@@ -241,10 +246,10 @@ fun PlanCreateScreen(
             Spacer(modifier = Modifier.height(20.dp))
             Text(
                 modifier = Modifier
-                    .background(Color(245, 245, 245))
+                    .background(themeColors.backgroundColor)
                     .padding(5.dp)
                     .fillMaxWidth(1f),
-                color = Color(0xff444444),
+                color = themeColors.textColor,
                 fontSize = 18.sp,
                 text = stringResource(R.string.label_end_day),
             )

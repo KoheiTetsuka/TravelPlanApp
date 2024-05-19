@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.android.exemple.planapp.R
+import com.android.exemple.planapp.ui.theme.LocalThemeColors
 import com.android.exemple.planapp.ui.util.DatePickerUtil
 import com.android.exemple.planapp.ui.viewmodels.PlanViewModel
 import java.time.format.DateTimeFormatter
@@ -56,6 +57,8 @@ fun PlanEditScreen(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
+    val themeColors = LocalThemeColors.current
+
     val uiState by viewModel.uiState.collectAsState()
     val dateFormat =
         DateTimeFormatter.ofPattern(stringResource(R.string.format_yyyy_mm_dd_e), Locale.JAPAN)
@@ -109,12 +112,12 @@ fun PlanEditScreen(
         ) {
             Row(
                 modifier = modifier
-                    .background(Color(245, 245, 245))
+                    .background(themeColors.backgroundColor)
                     .padding(7.dp),
             ) {
                 Text(
                     text = stringResource(R.string.label_title),
-                    color = Color(0xff444444),
+                    color = themeColors.textColor,
                     fontSize = 18.sp,
                 )
                 Text(
@@ -168,10 +171,10 @@ fun PlanEditScreen(
             Spacer(modifier = Modifier.height(20.dp))
             Text(
                 modifier = Modifier
-                    .background(Color(245, 245, 245))
+                    .background(themeColors.backgroundColor)
                     .padding(7.dp)
                     .fillMaxWidth(1f),
-                color = Color(0xff444444),
+                color = themeColors.textColor,
                 fontSize = 18.sp,
                 text = stringResource(R.string.label_detail),
             )
@@ -193,10 +196,10 @@ fun PlanEditScreen(
             Spacer(modifier = Modifier.height(20.dp))
             Text(
                 modifier = Modifier
-                    .background(Color(245, 245, 245))
+                    .background(themeColors.backgroundColor)
                     .padding(7.dp)
                     .fillMaxWidth(1f),
-                color = Color(0xff444444),
+                color = themeColors.textColor,
                 fontSize = 18.sp,
                 text = stringResource(R.string.label_start_day),
             )
@@ -256,10 +259,10 @@ fun PlanEditScreen(
             Spacer(modifier = Modifier.height(20.dp))
             Text(
                 modifier = Modifier
-                    .background(Color(245, 245, 245))
+                    .background(themeColors.backgroundColor)
                     .padding(5.dp)
                     .fillMaxWidth(1f),
-                color = Color(0xff444444),
+                color = themeColors.textColor,
                 fontSize = 18.sp,
                 text = stringResource(R.string.label_end_day),
             )
