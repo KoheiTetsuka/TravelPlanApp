@@ -21,9 +21,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -31,6 +29,7 @@ import androidx.navigation.NavController
 import com.android.exemple.planapp.R
 import com.android.exemple.planapp.ui.components.BottomBar
 import com.android.exemple.planapp.ui.components.DetailList
+import com.android.exemple.planapp.ui.theme.LocalThemeColors
 import com.android.exemple.planapp.ui.viewmodels.DetailViewModel
 import com.android.exemple.planapp.ui.viewmodels.PlanViewModel
 
@@ -42,6 +41,8 @@ fun DetailScreen(
     modifier: Modifier = Modifier
 ) {
     viewModel.event(DetailViewModel.Event.Init(planId = planId))
+
+    val themeColors = LocalThemeColors.current
     val uiState by viewModel.uiState.collectAsState()
     var launched by rememberSaveable { mutableStateOf(false) }
     if (launched.not()) {
@@ -82,10 +83,10 @@ fun DetailScreen(
             Text(
                 modifier = Modifier
                     .fillMaxWidth(1f)
-                    .background(Color(245,245,245))
+                    .background(themeColors.backgroundColor)
                     .padding(5.dp),
                 fontSize = 22.sp,
-                color = Color(0xff444444),
+                color = themeColors.textColor,
                 text = stringResource(R.string.label_plan_list),
             )
             val details = uiState.details
