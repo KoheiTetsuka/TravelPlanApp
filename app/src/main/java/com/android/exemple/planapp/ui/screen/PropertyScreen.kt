@@ -30,6 +30,7 @@ import androidx.navigation.NavController
 import com.android.exemple.planapp.R
 import com.android.exemple.planapp.ui.components.BottomBar
 import com.android.exemple.planapp.ui.components.PropertyList
+import com.android.exemple.planapp.ui.theme.LocalThemeColors
 import com.android.exemple.planapp.ui.viewmodels.PropertyViewModel
 
 @Composable
@@ -39,6 +40,8 @@ fun PropertyScreen(
     modifier: Modifier = Modifier,
     planId: Int
 ) {
+    val themeColors = LocalThemeColors.current
+
     val uiState by viewModel.uiState.collectAsState()
     var launched by rememberSaveable { mutableStateOf(false) }
     if (launched.not()) {
@@ -79,10 +82,10 @@ fun PropertyScreen(
             Text(
                 modifier = Modifier
                     .fillMaxWidth(1f)
-                    .background(Color(245,245,245))
+                    .background(themeColors.backgroundColor)
                     .padding(5.dp),
                 fontSize = 22.sp,
-                color = Color(0xff444444),
+                color = themeColors.textColor,
                 text = stringResource(R.string.label_property_title),
             )
             val properties = uiState.properties

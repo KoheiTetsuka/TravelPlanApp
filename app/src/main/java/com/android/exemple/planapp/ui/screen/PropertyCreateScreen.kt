@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.android.exemple.planapp.R
+import com.android.exemple.planapp.ui.theme.LocalThemeColors
 import com.android.exemple.planapp.ui.viewmodels.PropertyViewModel
 
 @Composable
@@ -46,10 +47,11 @@ fun PropertyCreateScreen(
     planId: Int,
     modifier: Modifier = Modifier
 ) {
+    val themeColors = LocalThemeColors.current
+
     val uiState by viewModel.uiState.collectAsState()
 
     val focusRequester = remember { FocusRequester() }
-
     var launched by rememberSaveable { mutableStateOf(false) }
     if (launched.not()) {
         LaunchedEffect(Unit) {
@@ -90,12 +92,12 @@ fun PropertyCreateScreen(
         Column(modifier = modifier) {
             Row(
                 modifier = modifier
-                    .background(Color(245, 245, 245))
+                    .background(themeColors.backgroundColor)
                     .padding(7.dp),
             ) {
                 Text(
                     text = stringResource(R.string.label_property),
-                    color = Color(0xff444444),
+                    color = themeColors.textColor,
                     fontSize = 18.sp,
                 )
                 Text(
