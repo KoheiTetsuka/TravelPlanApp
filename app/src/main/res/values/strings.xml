@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PlanApp</string>
+    <string name="app_name">TravelPlanApp</string>
 
     <string name="screen_travel_plan">旅行プラン</string>
     <string name="screen_travel_plan_create">旅行プラン作成</string>
@@ -16,12 +16,12 @@
     <string name="label_okinawa">例：沖縄旅行</string>
     <string name="label_detail">詳細情報</string>
     <string name="label_graduation">例：卒業旅行</string>
-    <string name="label_start_day">開始日</string>
-    <string name="label_end_day">終了日</string>
+    <string name="label_start_date">開始日</string>
+    <string name="label_end_date">終了日</string>
     <string name="label_detail_title">例:成田空港から沖縄へ出発</string>
     <string name="label_date">日付</string>
     <string name="label_start_time">開始時間</string>
-    <string name="label_end_time">終了時間</string>
+    <string name="label_end_time">終了時間</string>1
     <string name="label_cost">費用</string>
     <string name="label_url">URL</string>
     <string name="label_link">リンク</string>
@@ -46,8 +46,8 @@
 
     <string name="desc_create">新規作成</string>
     <string name="desc_error">エラー</string>
-    <string name="desc_start_day">開始日</string>
-    <string name="desc_end_day">終了日</string>
+    <string name="desc_start_date">開始日</string>
+    <string name="desc_end_date">終了日</string>
     <string name="desc_update">更新</string>
     <string name="desc_back">戻る</string>
     <string name="desc_start_time">開始時間</string>
@@ -56,12 +56,10 @@
     <string name="desc_edit">編集</string>
     <string name="desc_schedule">スケジュール</string>
     <string name="desc_clear">クリア</string>
-
     <string name="desc_property">持ち物</string>
 
     <string name="empty" />
-    <string name="deleteFlag">1</string>
+    <string name="is_deleted">1</string>
     <string name="label_plan_list">予定一覧</string>
     <string name="label_required">※必須</string>
-
 </resources>

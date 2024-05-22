@@ -218,7 +218,7 @@ fun DetailEditScreen(
                     }) {
                     Icon(
                         imageVector = Icons.Default.DateRange,
-                        contentDescription = stringResource(R.string.desc_start_day)
+                        contentDescription = stringResource(R.string.desc_start_date)
                     )
                 }
             }

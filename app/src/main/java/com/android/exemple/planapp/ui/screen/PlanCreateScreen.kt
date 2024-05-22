@@ -1,7 +1,6 @@
 package com.android.exemple.planapp.ui.screen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,7 +15,6 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
-import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
@@ -188,7 +186,7 @@ fun PlanCreateScreen(
                     .fillMaxWidth(1f),
                 color = themeColors.textColor,
                 fontSize = 18.sp,
-                text = stringResource(R.string.label_start_day),
+                text = stringResource(R.string.label_start_date),
             )
             Row(
                 modifier = Modifier
@@ -239,7 +237,7 @@ fun PlanCreateScreen(
                     }) {
                     Icon(
                         imageVector = Icons.Default.DateRange,
-                        contentDescription = stringResource(R.string.desc_start_day)
+                        contentDescription = stringResource(R.string.desc_start_date)
                     )
                 }
             }
@@ -251,7 +249,7 @@ fun PlanCreateScreen(
                     .fillMaxWidth(1f),
                 color = themeColors.textColor,
                 fontSize = 18.sp,
-                text = stringResource(R.string.label_end_day),
+                text = stringResource(R.string.label_end_date),
             )
             Row(
                 modifier = Modifier
@@ -302,7 +300,7 @@ fun PlanCreateScreen(
                     }) {
                     Icon(
                         imageVector = Icons.Default.DateRange,
-                        contentDescription = stringResource(R.string.desc_end_day)
+                        contentDescription = stringResource(R.string.desc_end_date)
                     )
                 }
             }

@@ -201,7 +201,7 @@ fun PlanEditScreen(
                     .fillMaxWidth(1f),
                 color = themeColors.textColor,
                 fontSize = 18.sp,
-                text = stringResource(R.string.label_start_day),
+                text = stringResource(R.string.label_start_date),
             )
             Row(
                 modifier = Modifier
@@ -252,7 +252,7 @@ fun PlanEditScreen(
                     }) {
                     Icon(
                         imageVector = Icons.Default.DateRange,
-                        contentDescription = stringResource(R.string.desc_start_day)
+                        contentDescription = stringResource(R.string.desc_start_date)
                     )
                 }
             }
@@ -264,7 +264,7 @@ fun PlanEditScreen(
                     .fillMaxWidth(1f),
                 color = themeColors.textColor,
                 fontSize = 18.sp,
-                text = stringResource(R.string.label_end_day),
+                text = stringResource(R.string.label_end_date),
             )
             Row(
                 modifier = Modifier
@@ -315,7 +315,7 @@ fun PlanEditScreen(
                     }) {
                     Icon(
                         imageVector = Icons.Default.DateRange,
-                        contentDescription = stringResource(R.string.desc_end_day)
+                        contentDescription = stringResource(R.string.desc_end_date)
                     )
                 }
             }

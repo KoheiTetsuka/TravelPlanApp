@@ -36,7 +36,7 @@ fun PropertyRow(
 ) {
     var checkedState by remember { mutableStateOf(false) }
     val deleteFlag = property.deleteFlag
-    if (deleteFlag == stringResource(R.string.deleteFlag)) {
+    if (deleteFlag == stringResource(R.string.is_deleted)) {
         checkedState = true
     }
 
@@ -69,7 +69,7 @@ fun PropertyRow(
                 fontSize = 23.sp,
                 text = property.title,
                 textDecoration =
-                if (property.deleteFlag == "1") {
+                if (property.deleteFlag == stringResource(R.string.is_deleted)) {
                     TextDecoration.LineThrough
                 } else {
                     TextDecoration.None
