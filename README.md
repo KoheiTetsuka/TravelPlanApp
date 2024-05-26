@@ -7,6 +7,7 @@
 ## 機能一覧
 
 ## 使用技術
++ Jetpack compose
 
 ## ER図
 
