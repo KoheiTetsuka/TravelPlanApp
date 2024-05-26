@@ -7,7 +7,9 @@
 ## 機能一覧
 
 ## 使用技術
-+ Jetpack compose
++ Jetpack Compose
++ Kotlin Coroutine
++ Room
 
 ## ER図
 
