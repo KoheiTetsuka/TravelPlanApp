@@ -14,8 +14,6 @@
 + Kotlin Coroutine
 + Room
 
-## ER図
-
 ## 工夫点
 
 ## 改善点
