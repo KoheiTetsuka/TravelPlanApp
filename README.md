@@ -5,7 +5,8 @@
 ## DeployGate
 
 ## 機能一覧
-【旅行プラン一覧画面】
+【旅行プラン一覧画面】![旅行プラン一覧画面](https://github.com/KoheiTetsuka/TravelPlanApp/assets/58130056/061356d7-d60a-4c78-b61c-70ad639eb6e8)
+
 【旅行プラン作成画面】
 【旅行プラン編集画面】
 
