@@ -35,6 +35,10 @@
 + 登録画面、編集画面のエラーハンドリング
   + 必須項目が未入力の場合のエラー処理や、終了日が開始日より前の日付だった場合のエラー処理などを実装しました。
 
+|必須未入力エラー|終了日>開始日のエラー|
+|---|---|
+|<img src="https://github.com/KoheiTetsuka/TravelPlanApp/assets/58130056/d1be2e03-3c7e-49bf-8486-fda61b54a385" width="100%">|<img src="https://github.com/KoheiTetsuka/TravelPlanApp/assets/58130056/1236d8ab-2e62-4260-a510-ce6adc402ab5" width="100%">|
+
 ## 今後の展望
 + Google Maps API の導入
   + 本アプリ内からGoogle Mapを開き、目的地までのルート案内を表示できるようにします。
